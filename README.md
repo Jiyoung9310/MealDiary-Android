@@ -5,7 +5,7 @@
 [![Build Status](https://app.bitrise.io/app/b605c2554603859d/status.svg?token=Uq-TQOcMFbjsrRTYxpGdcg)](https://app.bitrise.io/app/b605c2554603859d)
 ## Languages
 
-- App : Kotilin
+- App : Kotlin
 - Build : Gradle with groovy
 
 ## Libraries
@@ -19,9 +19,8 @@
   - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
   - [Paging](https://developer.android.com/topic/libraries/architecture/paging)
   - [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/)
-  - [Firebase Messaging](https://firebase.google.com/docs/cloud-messaging)
   
-- DI
+- IoC
   - [Koin](https://github.com/InsertKoinIO/koin)
 
 - Reactive
