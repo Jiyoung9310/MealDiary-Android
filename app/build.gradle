@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'io.fabric'
 apply from: '../versioning.gradle'
 
 android {
@@ -86,6 +87,16 @@ android {
         variant.outputs.all {
             outputFileName = getApkName(variant.buildType.name)
         }
+
+        variant.outputs.each { output ->
+            tasks.findAll {
+                it.name.startsWith("crashlyticsUploadDistribution${variant.name.capitalize()}")
+            }.each {
+                it.doFirst {
+                    ext.betaDistributionApkFilePath = System.getenv('BITRISE_SIGNED_APK_PATH')
+                }
+            }
+        }
     }
 }
 
@@ -143,10 +154,30 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$rootProject.timber_version"
     implementation "com.facebook.stetho:stetho:$rootProject.stetho_version"
     implementation "com.facebook.stetho:stetho-okhttp3:$rootProject.stetho_version"
+    implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics_version@aar") {
+        transitive = true
+    }
 
     // Test
     testImplementation 'org.threeten:threetenbp:1.3.8'
     testImplementation "junit:junit:$rootProject.junit_version"
     androidTestImplementation "androidx.test:runner:$rootProject.runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso_version"
+}
+
+import com.crashlytics.tools.utils.PropertiesUtils
+
+File crashlyticsProperties = new File("${project.projectDir.absolutePath}/fabric.properties")
+android.applicationVariants.all { variant ->
+    def variantSuffix = variant.name.capitalize()
+    def generateResourcesTask = project.tasks.getByName("fabricGenerateResources${variantSuffix}")
+    def generatePropertiesTask = task("fabricGenerateProperties${variantSuffix}") << {
+        Properties properties = new Properties()
+        println "...copying apiSecret for ${variant.name}"
+        properties.put("apiSecret", variant.buildType.ext.crashlyticsApiSecret)
+        println "...copying apiKey for ${variant.name}"
+        properties.put("apiKey", variant.buildType.ext.crashlyticsApiKey)
+        PropertiesUtils.injectPropertyInFile(crashlyticsProperties, properties, "")
+    }
+    generateResourcesTask.dependsOn generatePropertiesTask
 }
