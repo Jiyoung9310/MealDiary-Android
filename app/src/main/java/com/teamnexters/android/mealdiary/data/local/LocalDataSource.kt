@@ -4,6 +4,7 @@ import com.teamnexters.android.mealdiary.data.DataSource
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 
 internal class LocalDataSource(
@@ -12,11 +13,11 @@ internal class LocalDataSource(
 
 ) : DataSource {
 
-    override fun diaries(): Observable<List<Diary>> {
+    override fun diaries(): Flowable<List<Diary>> {
         return roomDatabase.diaryDao().diaries()
     }
 
-    override fun diary(id: Int): Observable<Diary> {
+    override fun diary(id: Int): Flowable<Diary> {
         return roomDatabase.diaryDao().diary(id)
     }
 

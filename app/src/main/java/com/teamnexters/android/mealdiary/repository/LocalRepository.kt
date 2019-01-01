@@ -2,9 +2,9 @@ package com.teamnexters.android.mealdiary.repository
 
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Flowable
 
 internal interface LocalRepository {
-    fun diaries(): Observable<List<Diary>>
+    fun diaries(): Flowable<List<Diary>>
     fun upsertDiaries(diaries: List<Diary>): Completable
 }

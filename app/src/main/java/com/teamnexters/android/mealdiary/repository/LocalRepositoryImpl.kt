@@ -3,10 +3,10 @@ package com.teamnexters.android.mealdiary.repository
 import com.teamnexters.android.mealdiary.data.DataSource
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Flowable
 
 internal class LocalRepositoryImpl(private val dataSource: DataSource) : LocalRepository {
-    override fun diaries(): Observable<List<Diary>> {
+    override fun diaries(): Flowable<List<Diary>> {
         return dataSource.diaries()
     }
 
