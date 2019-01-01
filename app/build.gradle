@@ -42,6 +42,9 @@ android {
 
     buildTypes {
         debug {
+            ext.crashlyticsApiKey = System.getenv("MEALDIARY_DEBUG_FABRIC_API_KEY")
+            ext.crashlyticsApiSecret = System.getenv("MEALDIARY_DEBUG_FABRIC_API_SECRET")
+
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
 
@@ -52,6 +55,9 @@ android {
         }
 
         qa {
+            ext.crashlyticsApiKey = System.getenv("MEALDIARY_QA_FABRIC_API_KEY")
+            ext.crashlyticsApiSecret = System.getenv("MEALDIARY_QA_FABRIC_API_SECRET")
+
             signingConfig signingConfigs.debug
             applicationIdSuffix ".qa"
 
@@ -68,6 +74,9 @@ android {
         }
 
         release {
+            ext.crashlyticsApiKey = System.getenv("MEALDIARY_RELEASE_FABRIC_API_KEY")
+            ext.crashlyticsApiSecret = System.getenv("MEALDIARY_RELEASE_FABRIC_API_SECRET")
+
             signingConfig null
 
             debuggable false
