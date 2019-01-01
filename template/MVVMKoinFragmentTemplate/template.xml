@@ -7,7 +7,7 @@
     minApi="3"
     minBuildApi="3">
 
-    <category value="MVVMFragment" />
+    <category value="MVVM Koin Fragment Template" />
 
     <parameter
         id="className"

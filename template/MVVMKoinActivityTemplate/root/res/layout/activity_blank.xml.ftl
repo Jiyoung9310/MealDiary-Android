@@ -6,14 +6,13 @@
   <data>
     <variable
         name="viewModel"
-        type="${packageName}.${packName}.${Name}ViewModel"
-        />
+        type="${packageName}.${packName}.${Name}ViewModel"/>
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      tools:context="${packageName}.${packName}.${className}">
 
   </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

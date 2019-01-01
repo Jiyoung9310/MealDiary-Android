@@ -16,5 +16,4 @@
 
     <instantiate from="src/app_package/BlankActivity.kt.ftl"
                    to="${escapeXmlAttribute(srcOut)}/${packName}/${className}.kt" />
-
 </recipe>

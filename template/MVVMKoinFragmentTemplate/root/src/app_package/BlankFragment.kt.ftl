@@ -4,7 +4,6 @@ import android.os.Bundle
 import ${applicationPackage?replace('.debug|.qa|.release', '', 'r')}.R
 import ${applicationPackage?replace('.debug|.qa|.release', '', 'r')}.base.BaseFragment
 import ${applicationPackage?replace('.debug|.qa|.release', '', 'r')}.databinding.Fragment${Name}Binding
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class ${className}: BaseFragment<Fragment${Name}Binding>() {
