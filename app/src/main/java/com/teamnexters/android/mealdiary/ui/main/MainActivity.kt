@@ -5,16 +5,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.databinding.ActivityMainBinding
+import com.teamnexters.android.mealdiary.util.Navigator
 import com.teamnexters.android.mealdiary.util.extension.observe
+import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 internal class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
 
-    val diaryAdapter: DiaryAdapter by inject()
+    private val diaryAdapter: DiaryAdapter by inject()
 
     override val layoutResId: Int = R.layout.activity_main
 
@@ -24,6 +25,12 @@ internal class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.viewModel = viewModel
 
         initializeRecyclerView()
+
+        disposables.addAll(
+                viewModel.ofNavigateToWrite()
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = { Navigator.navigateToWrite(this) })
+        )
 
         observe(viewModel.diaryItems) { diaryAdapter.submitList(it) }
     }

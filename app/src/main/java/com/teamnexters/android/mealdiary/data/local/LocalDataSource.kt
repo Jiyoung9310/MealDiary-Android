@@ -5,7 +5,6 @@ import com.teamnexters.android.mealdiary.data.local.entity.Diary
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Observable
 
 internal class LocalDataSource(
         private val roomDatabase: MealDiaryRoomDatabase,
@@ -21,15 +20,15 @@ internal class LocalDataSource(
         return roomDatabase.diaryDao().diary(id)
     }
 
-    override fun upsertDiaries(diaries: List<Diary>): Completable {
+    override fun upsertDiaries(vararg diaries: Diary): Completable {
         return transaction {
-            roomDatabase.diaryDao().upsertDiaries(diaries)
+            roomDatabase.diaryDao().upsertDiaries(*diaries)
         }
     }
 
-    override fun deleteDiaries(diaries: List<Diary>): Completable {
+    override fun deleteDiaries(vararg diaries: Diary): Completable {
         return transaction {
-            roomDatabase.diaryDao().deleteDiaries(diaries)
+            roomDatabase.diaryDao().deleteDiaries(*diaries)
         }
     }
 

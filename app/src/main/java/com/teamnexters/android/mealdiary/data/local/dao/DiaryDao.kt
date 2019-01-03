@@ -13,10 +13,10 @@ internal interface DiaryDao {
     fun diary(id: Int): Flowable<Diary>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsertDiaries(diaries: List<Diary>)
+    fun upsertDiaries(vararg diaries: Diary)
 
     @Delete
-    fun deleteDiaries(diaries: List<Diary>)
+    fun deleteDiaries(vararg diaries: Diary)
 
     @Query("DELETE FROM diary")
     fun deleteAllDiaries()

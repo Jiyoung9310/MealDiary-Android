@@ -6,5 +6,5 @@ import io.reactivex.Flowable
 
 internal interface LocalRepository {
     fun diaries(): Flowable<List<Diary>>
-    fun upsertDiaries(diaries: List<Diary>): Completable
+    fun upsertDiaries(vararg diaries: Diary): Completable
 }

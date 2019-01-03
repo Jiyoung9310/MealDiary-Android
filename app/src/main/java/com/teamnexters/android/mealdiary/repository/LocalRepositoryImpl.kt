@@ -10,7 +10,7 @@ internal class LocalRepositoryImpl(private val dataSource: DataSource) : LocalRe
         return dataSource.diaries()
     }
 
-    override fun upsertDiaries(diaries: List<Diary>): Completable {
-        return dataSource.upsertDiaries(diaries)
+    override fun upsertDiaries(vararg diaries: Diary): Completable {
+        return dataSource.upsertDiaries(*diaries)
     }
 }
