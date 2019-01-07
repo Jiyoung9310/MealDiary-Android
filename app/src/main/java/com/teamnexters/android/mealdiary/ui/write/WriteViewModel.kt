@@ -11,7 +11,6 @@ import com.teamnexters.android.mealdiary.util.extension.throttleClick
 import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
 
 internal class WriteViewModel(
         schedulerProvider: SchedulerProvider,
@@ -29,16 +28,15 @@ internal class WriteViewModel(
     init {
         disposables.addAll(
                 ofContent()
-                        .subscribeOf(onNext = content::postValue),
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = content::setValue),
 
                 ofClickWrite()
                         .throttleClick()
                         .withLatestFromSecond(ofContent())
                         .map { Diary(content = it) }
                         .doOnNext { localRepository.upsertDiaries(it).subscribeOf() }
-                        .subscribeOf(onNext = {
-                            toNavigateToMain()
-                        })
+                        .subscribeOf(onComplete = { toNavigateToMain() })
         )
     }
 

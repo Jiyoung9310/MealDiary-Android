@@ -21,22 +21,22 @@ import com.teamnexters.android.mealdiary.util.extension.toPx
 import io.reactivex.functions.Action
 
 @BindingAdapter("android:visibility")
-fun setVisibility(view: View, isVisible: Boolean) {
+internal fun setVisibility(view: View, isVisible: Boolean) {
     view.visibility = if(isVisible) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter("android:minWidth")
-fun setMinWidth(view: TextView, dp: Int) {
+internal fun setMinWidth(view: TextView, dp: Int) {
     view.minimumWidth = dp.toPx
 }
 
 @BindingAdapter("android:text")
-fun setText(textView: TextView, @StringRes resId: Int) {
+internal fun setText(textView: TextView, @StringRes resId: Int) {
     textView.setText(resId)
 }
 
 @BindingAdapter("android:textColor")
-fun setTextColor(textView: TextView, colorOrResId: Int) {
+internal fun setTextColor(textView: TextView, colorOrResId: Int) {
     if(textView.context.hasResource(colorOrResId)) {
         val resId = if(colorOrResId == 0) {
             null
@@ -51,7 +51,7 @@ fun setTextColor(textView: TextView, colorOrResId: Int) {
 }
 
 @BindingAdapter("android:textAppearance")
-fun setTextAppearance(textView: TextView, @StyleRes resId: Int) {
+internal fun setTextAppearance(textView: TextView, @StyleRes resId: Int) {
     if(resId == 0) {
         return
     }
@@ -60,7 +60,7 @@ fun setTextAppearance(textView: TextView, @StyleRes resId: Int) {
 }
 
 @BindingAdapter("android:background")
-fun setBackground(view: View, colorOrResId: Int) {
+internal fun setBackground(view: View, colorOrResId: Int) {
     if(view.context.hasResource(colorOrResId)) {
         ViewCompat.setBackground(view, ContextCompat.getDrawable(view.context, colorOrResId))
     } else {
@@ -69,7 +69,7 @@ fun setBackground(view: View, colorOrResId: Int) {
 }
 
 @BindingAdapter("srcCompat")
-fun setSrcCompat(imageView: ImageView, colorOrResId: Int) {
+internal fun setSrcCompat(imageView: ImageView, colorOrResId: Int) {
     val drawable = if(imageView.context.hasResource(colorOrResId)) {
         ContextCompat.getDrawable(imageView.context, colorOrResId)
     } else {
@@ -80,7 +80,7 @@ fun setSrcCompat(imageView: ImageView, colorOrResId: Int) {
 }
 
 @BindingAdapter("srcCompat")
-fun setSrcCompat(imageView: ImageView, url: String) {
+internal fun setSrcCompat(imageView: ImageView, url: String) {
     Glide.with(imageView)
             .load(url)
             .into(imageView)
@@ -89,7 +89,7 @@ fun setSrcCompat(imageView: ImageView, url: String) {
 @BindingAdapter(value = [
     "srcCompat", "circle"
 ], requireAll = false)
-fun setSrcCompat(
+internal fun setSrcCompat(
         imageView: ImageView,
         url: String?,
         circle: Boolean
@@ -106,7 +106,7 @@ fun setSrcCompat(
 @BindingAdapter(value = [
     "srcCompat", "circle"
 ], requireAll = false)
-fun setSrcCompat(
+internal fun setSrcCompat(
         imageView: ImageView,
         @DrawableRes resId: Int,
         circle: Boolean
@@ -121,7 +121,7 @@ fun setSrcCompat(
 }
 
 @BindingAdapter("android:onEditorAction")
-fun setOnEditorAction(textView: TextView, onEditorAction: Action) {
+internal fun setOnEditorAction(textView: TextView, onEditorAction: Action) {
     textView.setOnEditorActionListener { _, _, event ->
         if(event?.action != KeyEvent.ACTION_DOWN) {
             return@setOnEditorActionListener false
@@ -134,6 +134,6 @@ fun setOnEditorAction(textView: TextView, onEditorAction: Action) {
 }
 
 @BindingAdapter("android:selected")
-fun setSelected(view: View, selected: Boolean) {
+internal fun setSelected(view: View, selected: Boolean) {
     view.isSelected = selected
 }

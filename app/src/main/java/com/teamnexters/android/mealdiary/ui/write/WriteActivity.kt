@@ -6,7 +6,6 @@ import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.databinding.ActivityWriteBinding
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 internal class WriteActivity : BaseActivity<ActivityWriteBinding>() {
 
@@ -21,7 +20,6 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding>() {
 
         disposables.addAll(
                 viewModel.ofNavigateToMain()
-                        .doOnNext { Timber.d("ofNavigateToMain") }
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = { finish() })
         )

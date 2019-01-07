@@ -1,6 +1,7 @@
 package com.teamnexters.android.mealdiary.ui.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -19,12 +20,28 @@ internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : Di
 
 }) {
 
+    interface Callbacks {
+        fun onClickDiary(item: ListItem.DiaryItem)
+    }
+
+    private var callbacks: Callbacks? = null
+
+    fun setCallbacks(callbacks: Callbacks) {
+        this.callbacks = callbacks
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
         val binding = ViewDiaryBinding.inflate(inflater, parent, false)
 
-        return DiaryViewHolder(binding)
+        val viewHolder =  DiaryViewHolder(binding)
+
+        binding.clickListener = View.OnClickListener {
+            callbacks?.onClickDiary(getItem(viewHolder.adapterPosition) as ListItem.DiaryItem)
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: DiaryViewHolder, position: Int) {

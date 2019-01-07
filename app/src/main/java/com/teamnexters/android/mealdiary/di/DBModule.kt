@@ -22,6 +22,7 @@ val dbModule = module {
 
 internal inline fun <reified T : RoomDatabase> createRoomDatabase(context: Context, clazz: Class<T>, dbName: String): T {
     return Room.databaseBuilder(context, clazz, dbName)
+            .fallbackToDestructiveMigration()
             .addMigrations(object : Migration(1, 2) {
                 override fun migrate(database: SupportSQLiteDatabase) {
 

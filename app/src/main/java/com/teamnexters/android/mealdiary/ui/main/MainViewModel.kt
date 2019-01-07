@@ -1,5 +1,6 @@
 package com.teamnexters.android.mealdiary.ui.main
 
+import androidx.lifecycle.LiveData
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.data.model.ListItem
@@ -15,25 +16,37 @@ internal class MainViewModel(
         localRepository: LocalRepository
 ) : BaseViewModel() {
 
-    val diaryItems = localRepository.diaries().map { diaries ->
+    val diaryItems: LiveData<List<ListItem.DiaryItem>> = localRepository.diaries().map { diaries ->
         diaries.map { ListItem.DiaryItem(id = it.id.toString(), content = it.content) }
     }.toLiveData()
 
     private val clickWriteRelay = PublishRelay.create<Unit>()
+    private val clickDiaryItemRelay = PublishRelay.create<ListItem.DiaryItem>()
+    private val showDiaryDialogRelay = PublishRelay.create<Unit>()
     private val navigateToWriteRelay = PublishRelay.create<Unit>()
 
     init {
         disposables.addAll(
                 ofClickWrite()
                         .throttleClick()
-                        .subscribeOf(onNext = { toNavigateToWrite() })
+                        .subscribeOf(onNext = { toNavigateToWrite() }),
+
+                ofClickDiaryItem()
+                        .throttleClick()
+                        .subscribeOf(onNext = { toShowDiaryDialog() })
         )
     }
 
     fun toClickWrite() = clickWriteRelay.accept(Unit)
     fun ofClickWrite(): Observable<Unit> = clickWriteRelay
 
+    fun toClickDiaryItem(diaryItem: ListItem.DiaryItem) = clickDiaryItemRelay.accept(diaryItem)
+    fun ofClickDiaryItem(): Observable<ListItem.DiaryItem> = clickDiaryItemRelay
+
     fun toNavigateToWrite() = navigateToWriteRelay.accept(Unit)
     fun ofNavigateToWrite(): Observable<Unit> = navigateToWriteRelay
+
+    fun toShowDiaryDialog() = showDiaryDialogRelay.accept(Unit)
+    fun ofShowDiaryDialog(): Observable<Unit> = showDiaryDialogRelay
 
 }

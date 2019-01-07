@@ -1,9 +1,11 @@
 package com.teamnexters.android.mealdiary.ui.main
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseActivity
+import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.databinding.ActivityMainBinding
 import com.teamnexters.android.mealdiary.util.Navigator
 import com.teamnexters.android.mealdiary.util.extension.observe
@@ -29,7 +31,16 @@ internal class MainActivity : BaseActivity<ActivityMainBinding>() {
         disposables.addAll(
                 viewModel.ofNavigateToWrite()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { Navigator.navigateToWrite(this) })
+                        .subscribeOf(onNext = { Navigator.navigateToWrite(this) }),
+
+                viewModel.ofShowDiaryDialog()
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = {
+                            AlertDialog.Builder(this)
+                                    .setTitle("이렇게")
+                                    .setMessage("써보세요")
+                                    .show()
+                        })
         )
 
         observe(viewModel.diaryItems) { diaryAdapter.submitList(it) }
@@ -40,5 +51,11 @@ internal class MainActivity : BaseActivity<ActivityMainBinding>() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = diaryAdapter
         }
+
+        diaryAdapter.setCallbacks(object : DiaryAdapter.Callbacks {
+            override fun onClickDiary(item: ListItem.DiaryItem) {
+                viewModel.toClickDiaryItem(item)
+            }
+        })
     }
 }

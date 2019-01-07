@@ -4,13 +4,17 @@
     <data>
         <variable
             name="item"
-            type="com.teamnexters.android.mealdiary.data.model.ListItem.DiaryItem"/>
+            type="com.teamnexters.android.mealdiary.data.model.ListItem.DiaryItem" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:onClick="@{clickListener}">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
@@ -20,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
