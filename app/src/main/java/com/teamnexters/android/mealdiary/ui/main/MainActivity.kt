@@ -37,8 +37,9 @@ internal class MainActivity : BaseActivity<ActivityMainBinding>() {
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
                             AlertDialog.Builder(this)
-                                    .setTitle("이렇게")
-                                    .setMessage("써보세요")
+                                    .setMessage(it)
+                                    .setNegativeButton("수정", null)
+                                    .setPositiveButton("삭제", null)
                                     .show()
                         })
         )

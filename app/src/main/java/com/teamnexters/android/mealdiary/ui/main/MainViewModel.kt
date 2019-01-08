@@ -22,7 +22,7 @@ internal class MainViewModel(
 
     private val clickWriteRelay = PublishRelay.create<Unit>()
     private val clickDiaryItemRelay = PublishRelay.create<ListItem.DiaryItem>()
-    private val showDiaryDialogRelay = PublishRelay.create<Unit>()
+    private val showDiaryDialogRelay = PublishRelay.create<String>()
     private val navigateToWriteRelay = PublishRelay.create<Unit>()
 
     init {
@@ -33,7 +33,7 @@ internal class MainViewModel(
 
                 ofClickDiaryItem()
                         .throttleClick()
-                        .subscribeOf(onNext = { toShowDiaryDialog() })
+                        .subscribeOf(onNext = { toShowDiaryDialog(it.content) })
         )
     }
 
@@ -46,7 +46,7 @@ internal class MainViewModel(
     fun toNavigateToWrite() = navigateToWriteRelay.accept(Unit)
     fun ofNavigateToWrite(): Observable<Unit> = navigateToWriteRelay
 
-    fun toShowDiaryDialog() = showDiaryDialogRelay.accept(Unit)
-    fun ofShowDiaryDialog(): Observable<Unit> = showDiaryDialogRelay
+    fun toShowDiaryDialog(item: String) = showDiaryDialogRelay.accept(item)
+    fun ofShowDiaryDialog(): Observable<String> = showDiaryDialogRelay
 
 }

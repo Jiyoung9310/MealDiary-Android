@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.databinding.ViewDiaryBinding
+import androidx.databinding.DataBindingUtil
+import com.teamnexters.android.mealdiary.R
+
 
 internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : DiffUtil.ItemCallback<ListItem>() {
     override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
@@ -33,7 +36,8 @@ internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : Di
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        val binding = ViewDiaryBinding.inflate(inflater, parent, false)
+        //val binding = ViewDiaryBinding.inflate(inflater, parent, false)
+        val binding = DataBindingUtil.inflate<ViewDiaryBinding>(inflater, R.layout.view_diary, parent, false)
 
         val viewHolder =  DiaryViewHolder(binding)
 
