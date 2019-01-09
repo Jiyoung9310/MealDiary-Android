@@ -6,11 +6,11 @@ import ${applicationPackage?replace('.debug|.qa|.release', '', 'r')}.base.BaseAc
 import ${applicationPackage?replace('.debug|.qa|.release', '', 'r')}.databinding.Activity${Name}Binding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class ${className}: BaseActivity<Activity${Name}Binding>() {
-
-    private val viewModel: ${Name}ViewModel by viewModel()
+internal class ${className}: BaseActivity<Activity${Name}Binding, ${Name}ViewModel.ViewModel>() {
 
     override val layoutResId: Int = R.layout.${activityName}
+
+    override val viewModel: ${Name}ViewModel.ViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

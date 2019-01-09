@@ -6,7 +6,7 @@
   <data>
     <variable
         name="viewModel"
-        type="${packageName}.${packName}.${Name}ViewModel" />
+        type="${packageName}.${packName}.${Name}ViewModel.ViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout

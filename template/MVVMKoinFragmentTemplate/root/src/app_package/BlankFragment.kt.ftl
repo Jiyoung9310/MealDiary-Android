@@ -6,11 +6,11 @@ import ${applicationPackage?replace('.debug|.qa|.release', '', 'r')}.base.BaseFr
 import ${applicationPackage?replace('.debug|.qa|.release', '', 'r')}.databinding.Fragment${Name}Binding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class ${className}: BaseFragment<Fragment${Name}Binding>() {
-
-    private val viewModel: ${Name}ViewModel by viewModel()
+internal class ${className}: BaseFragment<Fragment${Name}Binding, ${Name}ViewModel.ViewModel>() {
 
     override val layoutResId: Int = R.layout.${fragmentName}
+
+    override val viewModel: ${Name}ViewModel.ViewModel by viewModel()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
