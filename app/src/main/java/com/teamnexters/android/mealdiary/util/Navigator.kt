@@ -11,8 +11,7 @@ internal class Navigator {
         @JvmStatic
         fun navigateToWrite(context: Context?, screen: Screen) {
             context?.startActivity(
-                    Intent(context, WriteActivity::class.java)
-                            .screen(screen)
+                    Intent(context, WriteActivity::class.java).screen(screen)
             )
         }
     }

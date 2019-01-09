@@ -10,7 +10,19 @@ internal class LocalRepositoryImpl(private val dataSource: DataSource) : LocalRe
         return dataSource.diaries()
     }
 
+    override fun diary(id: Long): Flowable<Diary> {
+        return dataSource.diary(id)
+    }
+
     override fun upsertDiaries(vararg diaries: Diary): Completable {
         return dataSource.upsertDiaries(*diaries)
+    }
+
+    override fun deleteDiaries(vararg diaries: Diary): Completable {
+        return dataSource.deleteDiaries(*diaries)
+    }
+
+    override fun deleteDiary(id: Long): Completable {
+        return dataSource.deleteDiary(id)
     }
 }

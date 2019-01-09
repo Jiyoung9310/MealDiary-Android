@@ -7,7 +7,6 @@ import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.databinding.ActivityMainBinding
-import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.Navigator
 import com.teamnexters.android.mealdiary.util.extension.observe
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
@@ -32,14 +31,15 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
         disposables.addAll(
                 viewModel.outputs.ofNavigateToWrite()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { Navigator.navigateToWrite(this, Screen.Write()) }),
+                        .subscribeOf(onNext = { Navigator.navigateToWrite(this, it) }),
 
                 viewModel.outputs.ofShowDiaryDialog()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
                             AlertDialog.Builder(this)
-                                    .setTitle("이렇게")
-                                    .setMessage("써보세요")
+                                    .setMessage(it.content)
+                                    .setNegativeButton("수정") { _, _ -> viewModel.inputs.toClickModify(it.id) }
+                                    .setPositiveButton("삭제") { _, _ -> viewModel.inputs.toClickDelete(it.id) }
                                     .show()
                         })
         )

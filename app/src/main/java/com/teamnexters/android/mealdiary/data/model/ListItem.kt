@@ -1,7 +1,7 @@
 package com.teamnexters.android.mealdiary.data.model
 
-internal sealed class ListItem(val id: String) {
+internal sealed class ListItem(val listItemId: String) {
 
-    class DiaryItem(id: String, val content: String) : ListItem(id)
+    class DiaryItem(val id: Long, val content: String) : ListItem("$id$content")
 
 }

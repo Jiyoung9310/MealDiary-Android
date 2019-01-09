@@ -2,11 +2,13 @@ package com.teamnexters.android.mealdiary.base
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.teamnexters.android.mealdiary.MealDiaryConst
+import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.android.ext.android.inject
@@ -30,8 +32,6 @@ internal abstract class BaseActivity<VB : ViewDataBinding, VM: BaseViewModel> : 
         super.onCreate(savedInstanceState, persistentState)
 
         binding.setLifecycleOwner(this)
-
-        intent.extras?.let { viewModel.toArguments(it) }
     }
 
     @CallSuper
@@ -39,5 +39,9 @@ internal abstract class BaseActivity<VB : ViewDataBinding, VM: BaseViewModel> : 
         super.onDestroy()
 
         disposables.clear()
+    }
+
+    protected fun getScreen(): Screen {
+        return intent.getBundleExtra(MealDiaryConst.KEY_ARGS).getSerializable(MealDiaryConst.KEY_ARGS) as Screen
     }
 }

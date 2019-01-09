@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "diary")
 internal data class Diary(
         @PrimaryKey(autoGenerate = true)
-        val id: Int = 0,
+        val id: Long = 0,
         val content: String
 )

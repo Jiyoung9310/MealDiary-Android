@@ -6,7 +6,8 @@ import io.reactivex.Flowable
 
 internal interface DataSource {
     fun diaries(): Flowable<List<Diary>>
-    fun diary(id: Int): Flowable<Diary>
+    fun diary(id: Long): Flowable<Diary>
+    fun deleteDiary(id: Long): Completable
     fun upsertDiaries(vararg diaries: Diary): Completable
     fun deleteDiaries(vararg diaries: Diary): Completable
     fun deleteAllDiaries(): Completable

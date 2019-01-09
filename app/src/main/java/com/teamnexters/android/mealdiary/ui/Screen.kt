@@ -6,5 +6,9 @@ import java.io.Serializable
 internal sealed class Screen : Serializable {
     object Main : Screen()
 
-    class Write(val id: String? = null) : Screen()
+    sealed class Write : Screen() {
+        object Write : Screen.Write()
+
+        class Modify(val id: Long) : Screen.Write()
+    }
 }

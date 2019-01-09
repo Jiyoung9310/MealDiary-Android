@@ -10,10 +10,13 @@ internal interface DiaryDao {
     fun diaries(): Flowable<List<Diary>>
 
     @Query("SELECT * FROM diary WHERE id = :id")
-    fun diary(id: Int): Flowable<Diary>
+    fun diary(id: Long): Flowable<Diary>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertDiaries(vararg diaries: Diary)
+
+    @Query("DELETE FROM diary WHERE id = :id")
+    fun deleteDiary(id: Long)
 
     @Delete
     fun deleteDiaries(vararg diaries: Diary)

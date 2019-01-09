@@ -8,6 +8,8 @@ import androidx.annotation.CallSuper
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.teamnexters.android.mealdiary.MealDiaryConst
+import com.teamnexters.android.mealdiary.ui.Screen
 import io.reactivex.disposables.CompositeDisposable
 
 internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
@@ -24,9 +26,7 @@ internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> :
         binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         binding.setLifecycleOwner(this)
 
-        arguments?.let {
-            viewModel.toArguments(it)
-        }
+        viewModel.toLifecycleState(LifecycleState.OnCreate(arguments?.getSerializable(MealDiaryConst.KEY_ARGS) as Screen))
 
         return binding.root
     }

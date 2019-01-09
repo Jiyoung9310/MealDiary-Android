@@ -16,8 +16,14 @@ internal class LocalDataSource(
         return roomDatabase.diaryDao().diaries()
     }
 
-    override fun diary(id: Int): Flowable<Diary> {
+    override fun diary(id: Long): Flowable<Diary> {
         return roomDatabase.diaryDao().diary(id)
+    }
+
+    override fun deleteDiary(id: Long): Completable {
+        return transaction {
+            roomDatabase.diaryDao().deleteDiary(id)
+        }
     }
 
     override fun upsertDiaries(vararg diaries: Diary): Completable {
