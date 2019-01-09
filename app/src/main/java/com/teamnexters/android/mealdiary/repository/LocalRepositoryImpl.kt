@@ -13,4 +13,8 @@ internal class LocalRepositoryImpl(private val dataSource: DataSource) : LocalRe
     override fun upsertDiaries(vararg diaries: Diary): Completable {
         return dataSource.upsertDiaries(*diaries)
     }
+
+    override fun deleteDiaries(vararg diaries: Diary): Completable {
+        return dataSource.deleteDiaries(*diaries)
+    }
 }

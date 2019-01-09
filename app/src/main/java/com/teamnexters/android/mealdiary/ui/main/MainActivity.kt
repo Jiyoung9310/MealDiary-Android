@@ -1,5 +1,7 @@
 package com.teamnexters.android.mealdiary.ui.main
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,15 +33,19 @@ internal class MainActivity : BaseActivity<ActivityMainBinding>() {
         disposables.addAll(
                 viewModel.ofNavigateToWrite()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { Navigator.navigateToWrite(this) }),
+                        .subscribeOf(onNext = { Navigator.navigateToWrite(this, null) }),
+
+                viewModel.ofNavigateToModify()
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = { Navigator.navigateToWrite(this, it) }),
 
                 viewModel.ofShowDiaryDialog()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
                             AlertDialog.Builder(this)
-                                    .setMessage(it)
-                                    .setNegativeButton("수정", null)
-                                    .setPositiveButton("삭제", null)
+                                    .setMessage(it.content)
+                                    .setNegativeButton("수정") { dialog, w -> viewModel.toClickModify(it.content)}
+                                    .setPositiveButton("삭제") {dialog, w -> viewModel.toClickDeleteDiaryItem(it)}
                                     .show()
                         })
         )
