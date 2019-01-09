@@ -15,7 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel.ViewModel by viewModel()
 
     private val diaryAdapter: DiaryAdapter by inject()
 
@@ -29,11 +29,11 @@ internal class MainActivity : BaseActivity<ActivityMainBinding>() {
         initializeRecyclerView()
 
         disposables.addAll(
-                viewModel.ofNavigateToWrite()
+                viewModel.outputs.ofNavigateToWrite()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = { Navigator.navigateToWrite(this) }),
 
-                viewModel.ofShowDiaryDialog()
+                viewModel.outputs.ofShowDiaryDialog()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
                             AlertDialog.Builder(this)

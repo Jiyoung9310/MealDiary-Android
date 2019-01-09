@@ -9,7 +9,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class WriteActivity : BaseActivity<ActivityWriteBinding>() {
 
-    private val viewModel: WriteViewModel by viewModel()
+    private val viewModel: WriteViewModel.ViewModel by viewModel()
 
     override val layoutResId: Int = R.layout.activity_write
 
@@ -19,7 +19,7 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding>() {
         binding.viewModel = viewModel
 
         disposables.addAll(
-                viewModel.ofNavigateToMain()
+                viewModel.outputs.ofNavigateToMain()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = { finish() })
         )

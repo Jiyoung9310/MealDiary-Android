@@ -12,41 +12,57 @@ import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
 
-internal class WriteViewModel(
-        schedulerProvider: SchedulerProvider,
-        localRepository: LocalRepository
-
-) : BaseViewModel() {
-
-    val content = MutableLiveData<String>()
-
-    private val clickWriteRelay = PublishRelay.create<Unit>()
-    private val navigateToMainRelay = PublishRelay.create<Unit>()
-
-    private val contentRelay = BehaviorRelay.create<String>()
-
-    init {
-        disposables.addAll(
-                ofContent()
-                        .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = content::setValue),
-
-                ofClickWrite()
-                        .throttleClick()
-                        .withLatestFromSecond(ofContent())
-                        .map { Diary(content = it) }
-                        .doOnNext { localRepository.upsertDiaries(it).subscribeOf() }
-                        .subscribeOf(onComplete = { toNavigateToMain() })
-        )
+internal interface WriteViewModel {
+    interface Inputs {
+        fun toClickWrite()
+        fun toContent(content: String)
+        fun toNavigateToMain()
     }
 
-    fun toClickWrite() = clickWriteRelay.accept(Unit)
-    fun ofClickWrite(): Observable<Unit> = clickWriteRelay
+    interface Outputs {
+        fun ofClickWrite(): Observable<Unit>
+        fun ofContent(): Observable<String>
+        fun ofNavigateToMain(): Observable<Unit>
+    }
 
-    fun toContent(content: String) = contentRelay.accept(content)
-    fun ofContent(): Observable<String> = contentRelay
+    class ViewModel(
+            schedulerProvider: SchedulerProvider,
+            localRepository: LocalRepository
 
-    fun toNavigateToMain() = navigateToMainRelay.accept(Unit)
-    fun ofNavigateToMain(): Observable<Unit> = navigateToMainRelay
+    ) : BaseViewModel(), Inputs, Outputs {
+
+        val inputs: Inputs = this
+        val outputs: Outputs = this
+
+        val content = MutableLiveData<String>()
+
+        private val clickWriteRelay = PublishRelay.create<Unit>()
+        private val navigateToMainRelay = PublishRelay.create<Unit>()
+
+        private val contentRelay = BehaviorRelay.create<String>()
+
+        init {
+            disposables.addAll(
+                    outputs.ofContent()
+                            .observeOn(schedulerProvider.ui())
+                            .subscribeOf(onNext = content::setValue),
+
+                    outputs.ofClickWrite()
+                            .throttleClick()
+                            .withLatestFromSecond(ofContent())
+                            .map { Diary(content = it) }
+                            .doOnNext { localRepository.upsertDiaries(it).subscribeOf() }
+                            .subscribeOf(onNext = { inputs.toNavigateToMain() })
+            )
+        }
+
+        override fun toClickWrite() = clickWriteRelay.accept(Unit)
+        override fun toContent(content: String) = contentRelay.accept(content)
+        override fun toNavigateToMain() = navigateToMainRelay.accept(Unit)
+
+        override fun ofClickWrite(): Observable<Unit> = clickWriteRelay
+        override fun ofContent(): Observable<String> = contentRelay
+        override fun ofNavigateToMain(): Observable<Unit> = navigateToMainRelay
+    }
 
 }

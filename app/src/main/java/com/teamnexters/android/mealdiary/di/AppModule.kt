@@ -12,9 +12,9 @@ import org.koin.dsl.module.module
 val appModule = module {
     single { androidContext().resources as Resources }
 
-    viewModel { MainViewModel(get(), get()) }
+    viewModel { MainViewModel.ViewModel(get(), get()) }
 
-    viewModel { WriteViewModel(get(), get()) }
+    viewModel { WriteViewModel.ViewModel(get(), get()) }
 
     factory { DiaryAdapter() }
 }
