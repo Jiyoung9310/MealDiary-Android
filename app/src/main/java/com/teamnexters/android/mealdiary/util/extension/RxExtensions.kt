@@ -22,7 +22,7 @@ private val onErrorStub: (Throwable) -> Unit = {
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Flowable<T>.subscribeOf(
+internal fun <T : Any> Flowable<T>.subscribeOf(
         onNext: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
@@ -32,7 +32,7 @@ fun <T : Any> Flowable<T>.subscribeOf(
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Observable<T>.subscribeOf(
+internal fun <T : Any> Observable<T>.subscribeOf(
         onNext: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
@@ -42,7 +42,7 @@ fun <T : Any> Observable<T>.subscribeOf(
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Single<T>.subscribeOf(
+internal fun <T : Any> Single<T>.subscribeOf(
         onSuccess: (T) -> Unit = onSuccessStub,
         onError: (Throwable) -> Unit = onErrorStub
 
@@ -51,7 +51,7 @@ fun <T : Any> Single<T>.subscribeOf(
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Maybe<T>.subscribeOf(
+internal fun <T : Any> Maybe<T>.subscribeOf(
         onSuccess: (T) -> Unit = onSuccessStub,
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
@@ -60,35 +60,35 @@ fun <T : Any> Maybe<T>.subscribeOf(
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun Completable.subscribeOf(
+internal fun Completable.subscribeOf(
         onComplete: () -> Unit = onCompleteStub,
         onError: (Throwable) -> Unit = onErrorStub
 ): Disposable = subscribe(onComplete, onError)
 
-fun <T> Flowable<T>.toLiveData(): LiveData<T> {
+internal fun <T> Flowable<T>.toLiveData(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this)
 }
 
-fun <T> Observable<T>.toLiveData(backPressureStrategy: BackpressureStrategy): LiveData<T> {
+internal fun <T> Observable<T>.toLiveData(backPressureStrategy: BackpressureStrategy): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backPressureStrategy))
 }
 
-fun <T> Single<T>.toLiveData(): LiveData<T> {
+internal fun <T> Single<T>.toLiveData(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this.toFlowable())
 }
 
-fun <T> Maybe<T>.toLiveData(): LiveData<T> {
+internal fun <T> Maybe<T>.toLiveData(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this.toFlowable())
 }
 
-fun <T> Completable.toLiveData(): LiveData<T> {
+internal fun <T> Completable.toLiveData(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this.toFlowable())
 }
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T, U> Observable<T>.withLatestFromSecond(other: ObservableSource<U>): Observable<U> = withLatestFrom(other, BiFunction { _, u -> u })
+internal fun <T, U> Observable<T>.withLatestFromSecond(other: ObservableSource<U>): Observable<U> = withLatestFrom(other, BiFunction { _, u -> u })
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.COMPUTATION)
-fun <T> Observable<T>.throttleClick(): Observable<T> = throttleFirst(300, TimeUnit.MILLISECONDS)
+internal fun <T> Observable<T>.throttleClick(): Observable<T> = throttleFirst(300, TimeUnit.MILLISECONDS)

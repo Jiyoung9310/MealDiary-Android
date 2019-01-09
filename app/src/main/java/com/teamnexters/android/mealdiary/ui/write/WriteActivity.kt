@@ -7,9 +7,9 @@ import com.teamnexters.android.mealdiary.databinding.ActivityWriteBinding
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class WriteActivity : BaseActivity<ActivityWriteBinding>() {
+internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel.ViewModel>() {
 
-    private val viewModel: WriteViewModel.ViewModel by viewModel()
+    override val viewModel: WriteViewModel.ViewModel by viewModel()
 
     override val layoutResId: Int = R.layout.activity_write
 
