@@ -2,25 +2,23 @@ package com.teamnexters.android.mealdiary.data.local.dao
 
 import androidx.room.*
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
+import com.teamnexters.android.mealdiary.data.local.entity.MealDiary
 import io.reactivex.Flowable
 
 @Dao
-internal interface DiaryDao {
+internal abstract class DiaryDao : BaseDao<Diary>() {
     @Query("SELECT * FROM diary")
-    fun diaries(): Flowable<List<Diary>>
+    abstract fun get(): Flowable<List<Diary>>
+
+    @Query("SELECT * FROM diary")
+    abstract fun gets(): Flowable<List<MealDiary>>
 
     @Query("SELECT * FROM diary WHERE id = :id")
-    fun diary(id: Long): Flowable<Diary>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsertDiaries(vararg diaries: Diary)
+    abstract fun getById(id: Long): Flowable<Diary>
 
     @Query("DELETE FROM diary WHERE id = :id")
-    fun deleteDiary(id: Long)
-
-    @Delete
-    fun deleteDiaries(vararg diaries: Diary)
+    abstract fun deleteById(id: Long)
 
     @Query("DELETE FROM diary")
-    fun deleteAllDiaries()
+    abstract fun deleteAll()
 }

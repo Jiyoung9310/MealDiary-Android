@@ -4,11 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "diary")
-internal data class Diary(
+@Entity(tableName = "photo")
+internal data class Photo(
         @PrimaryKey(autoGenerate = true)
         val id: Long = 0,
-
-        val content: String,
-        val score: Int
+        val diaryId: Long,
+        val photoUrl: String
 )

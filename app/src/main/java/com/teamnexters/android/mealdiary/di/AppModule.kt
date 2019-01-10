@@ -5,7 +5,6 @@ import com.teamnexters.android.mealdiary.ui.main.DiaryAdapter
 import com.teamnexters.android.mealdiary.ui.main.MainViewModel
 import com.teamnexters.android.mealdiary.ui.write.WriteViewModel
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.experimental.builder.viewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 

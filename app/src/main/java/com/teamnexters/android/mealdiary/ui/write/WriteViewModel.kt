@@ -60,8 +60,8 @@ internal interface WriteViewModel {
                             .withLatestFrom(ofScreen<Screen.Write>(), ofContent())
                             .map { (_, screen, content) ->
                                 when(screen) {
-                                    is Screen.Write.Write -> Diary(content = content)
-                                    is Screen.Write.Modify -> Diary(id = screen.id, content = content)
+                                    is Screen.Write.Write -> Diary(content = content, score = 0)
+                                    is Screen.Write.Modify -> Diary(id = screen.id, content = content, score = 1)
                                 }
                             }
                             .doOnNext { localRepository.upsertDiaries(it).subscribeOf() }
