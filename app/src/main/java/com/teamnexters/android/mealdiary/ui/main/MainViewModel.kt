@@ -1,14 +1,14 @@
 package com.teamnexters.android.mealdiary.ui.main
 
 import androidx.lifecycle.LiveData
+import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
+import com.teamnexters.android.mealdiary.data.local.entity.Diary
 import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.repository.LocalRepository
 import com.teamnexters.android.mealdiary.ui.Screen
-import com.teamnexters.android.mealdiary.util.extension.subscribeOf
-import com.teamnexters.android.mealdiary.util.extension.throttleClick
-import com.teamnexters.android.mealdiary.util.extension.toLiveData
+import com.teamnexters.android.mealdiary.util.extension.*
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
 
@@ -16,20 +16,24 @@ import io.reactivex.Observable
 internal interface MainViewModel {
     interface Inputs {
         fun toClickWrite()
-        fun toClickDiaryItem(diaryItem: ListItem.DiaryItem)
+        fun toClickModify()
+        fun toClickDelete()
+        fun toClickDiaryItem(diary: Diary)
+        fun toShowDiaryDialog(state: MainState.ShowDiaryDialog)
         fun toNavigateToWrite(screen: Screen)
-        fun toShowDiaryDialog(diaryItem: ListItem.DiaryItem)
-        fun toClickModify(id: Long)
-        fun toClickDelete(id: Long)
+
+        fun toClickedDiary(diary: Diary)
     }
 
     interface Outputs {
         fun ofClickWrite(): Observable<Unit>
-        fun ofClickDiaryItem(): Observable<ListItem.DiaryItem>
+        fun ofClickModify(): Observable<Unit>
+        fun ofClickDelete(): Observable<Unit>
+        fun ofClickDiaryItem(): Observable<Diary>
+        fun ofShowDiaryDialog(): Observable<MainState.ShowDiaryDialog>
         fun ofNavigateToWrite(): Observable<Screen>
-        fun ofShowDiaryDialog(): Observable<ListItem.DiaryItem>
-        fun ofClickModify(): Observable<Long>
-        fun ofClickDelete(): Observable<Long>
+
+        fun ofClickedDiary(): Observable<Diary>
     }
 
     class ViewModel(
@@ -42,15 +46,17 @@ internal interface MainViewModel {
         val outputs: Outputs = this
 
         val diaryItems: LiveData<List<ListItem.DiaryItem>> = localRepository.diaries().map { diaries ->
-            diaries.map { ListItem.DiaryItem(id = it.id, content = it.content) }
+            diaries.map { ListItem.DiaryItem(it) }
         }.toLiveData()
 
+        private val clickDiaryItemRelay = PublishRelay.create<Diary>()
+        private val clickModifyDiaryItemRelay = PublishRelay.create<Unit>()
+        private val clickDeleteDiaryItemRelay = PublishRelay.create<Unit>()
         private val clickWriteRelay = PublishRelay.create<Unit>()
-        private val clickDiaryItemRelay = PublishRelay.create<ListItem.DiaryItem>()
-        private val showDiaryDialogRelay = PublishRelay.create<ListItem.DiaryItem>()
+        private val showDiaryDialogRelay = PublishRelay.create<MainState.ShowDiaryDialog>()
         private val navigateToWriteRelay = PublishRelay.create<Screen>()
-        private val clickModifyDiaryItemRelay = PublishRelay.create<Long>()
-        private val clickDeleteDiaryItemRelay = PublishRelay.create<Long>()
+
+        private val clickedDiaryRelay = BehaviorRelay.create<Diary>()
 
         init {
             disposables.addAll(
@@ -63,17 +69,25 @@ internal interface MainViewModel {
                     outputs.ofClickDiaryItem()
                             .throttleClick()
                             .subscribeOf(onNext = {
-                                inputs.toShowDiaryDialog(it)
+                                inputs.toClickedDiary(it)
+
+                                inputs.toShowDiaryDialog(
+                                        MainState.ShowDiaryDialog(
+                                                message = it.content,
+                                                positiveButtonText = "삭제",
+                                                negativeButtonText = "수정"
+                                        )
+                                )
                             }),
 
                     outputs.ofClickModify()
                             .throttleClick()
-                            .subscribeOf(onNext = { id ->
-                                inputs.toNavigateToWrite(Screen.Write.Modify(id))
-                            }),
+                            .withLatestFromSecond(outputs.ofClickedDiary())
+                            .subscribeOf(onNext = { inputs.toNavigateToWrite(Screen.Write.Modify(it.id)) }),
 
                     outputs.ofClickDelete()
                             .throttleClick()
+                            .withLatestFromSecond(outputs.ofClickedDiary())
                             .subscribeOf(onNext = {
                                 localRepository.deleteDiary(it)
                                         .subscribeOf()
@@ -83,17 +97,19 @@ internal interface MainViewModel {
         }
 
         override fun toClickWrite() = clickWriteRelay.accept(Unit)
-        override fun toClickDiaryItem(diaryItem: ListItem.DiaryItem) = clickDiaryItemRelay.accept(diaryItem)
+        override fun toClickModify() = clickModifyDiaryItemRelay.accept(Unit)
+        override fun toClickDelete() = clickDeleteDiaryItemRelay.accept(Unit)
+        override fun toClickDiaryItem(diary: Diary) = clickDiaryItemRelay.accept(diary)
         override fun toNavigateToWrite(screen: Screen) = navigateToWriteRelay.accept(screen)
-        override fun toShowDiaryDialog(diaryItem: ListItem.DiaryItem) = showDiaryDialogRelay.accept(diaryItem)
-        override fun toClickModify(id: Long) = clickModifyDiaryItemRelay.accept(id)
-        override fun toClickDelete(id: Long) = clickDeleteDiaryItemRelay.accept(id)
+        override fun toShowDiaryDialog(state: MainState.ShowDiaryDialog) = showDiaryDialogRelay.accept(state)
+        override fun toClickedDiary(diary: Diary) = clickedDiaryRelay.accept(diary)
 
         override fun ofClickWrite(): Observable<Unit> = clickWriteRelay
-        override fun ofClickDiaryItem(): Observable<ListItem.DiaryItem> = clickDiaryItemRelay
+        override fun ofClickModify(): Observable<Unit> = clickModifyDiaryItemRelay
+        override fun ofClickDelete(): Observable<Unit> = clickDeleteDiaryItemRelay
+        override fun ofClickDiaryItem(): Observable<Diary> = clickDiaryItemRelay
+        override fun ofShowDiaryDialog(): Observable<MainState.ShowDiaryDialog> = showDiaryDialogRelay
         override fun ofNavigateToWrite(): Observable<Screen> = navigateToWriteRelay
-        override fun ofShowDiaryDialog(): Observable<ListItem.DiaryItem> = showDiaryDialogRelay
-        override fun ofClickModify(): Observable<Long> = clickModifyDiaryItemRelay
-        override fun ofClickDelete(): Observable<Long> = clickDeleteDiaryItemRelay
+        override fun ofClickedDiary(): Observable<Diary> = clickedDiaryRelay
     }
 }

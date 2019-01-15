@@ -1,6 +1,7 @@
 package com.teamnexters.android.mealdiary.ui.write
 
 import android.os.Bundle
+import android.util.Log
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.base.LifecycleState
@@ -17,6 +18,9 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        Log.d("MY_LOG", "onCreate")
+
         viewModel.toLifecycleState(LifecycleState.OnCreate(getScreen()))
 
         binding.viewModel = viewModel
@@ -24,7 +28,10 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
         disposables.addAll(
                 viewModel.outputs.ofNavigateToMain()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { finish() })
+                        .subscribeOf(onNext = {
+                            Log.d("MY_LOG", "삐니시")
+                            finish()
+                        })
         )
     }
 

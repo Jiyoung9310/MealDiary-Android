@@ -29,6 +29,8 @@ internal class LocalDataSource(
     override fun upsertDiaries(vararg diaries: Diary): Completable {
         return transaction {
             roomDatabase.diaryDao().upserts(*diaries)
+            roomDatabase.restaurantDao().upserts(*diaries.map { it.restaurant }.toTypedArray())
+            roomDatabase.hashTagDao().upserts(*diaries.flatMap { it.hashTags }.distinct().toTypedArray())
         }
     }
 

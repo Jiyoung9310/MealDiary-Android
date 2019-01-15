@@ -9,5 +9,5 @@ internal interface LocalRepository {
     fun diaries(): Flowable<List<Diary>>
     fun upsertDiaries(vararg diaries: Diary): Completable
     fun deleteDiaries(vararg diaries: Diary): Completable
-    fun deleteDiary(id: Long): Completable
+    fun deleteDiary(diary: Diary): Completable
 }

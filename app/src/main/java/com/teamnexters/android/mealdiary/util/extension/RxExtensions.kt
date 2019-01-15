@@ -2,6 +2,7 @@ package com.teamnexters.android.mealdiary.util.extension
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
+import com.jakewharton.rxrelay2.Relay
 import io.reactivex.*
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.annotations.SchedulerSupport
@@ -16,7 +17,7 @@ private val onSuccessStub: (Any) -> Unit = {}
 private val onCompleteStub: () -> Unit = {}
 private val onErrorStub: (Throwable) -> Unit = {
     Timber.e("Rx Error - $it")
-//    throw RuntimeException(it)
+    throw it
 }
 
 

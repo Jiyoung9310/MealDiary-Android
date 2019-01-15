@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "hashtag")
 internal data class HashTag(
+        val tagName: String,
+
         @PrimaryKey
-        val id: Long,
-        val diaryId: Long,
-        val tagName: String
+        val id: String = tagName
 )

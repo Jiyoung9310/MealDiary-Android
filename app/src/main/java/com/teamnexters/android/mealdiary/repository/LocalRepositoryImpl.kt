@@ -22,7 +22,7 @@ internal class LocalRepositoryImpl(private val dataSource: DataSource) : LocalRe
         return dataSource.deleteDiaries(*diaries)
     }
 
-    override fun deleteDiary(id: Long): Completable {
-        return dataSource.deleteDiary(id)
+    override fun deleteDiary(diary: Diary): Completable {
+        return dataSource.deleteDiaries(diary)
     }
 }

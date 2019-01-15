@@ -21,6 +21,7 @@ buildscript {
         ktxVersion = '1.0.1'
         navigationVersion = '1.0.0-alpha09'
         material_version = '1.0.0'
+        gson_version = '2.8.5'
 
         fabric_version = '1.25.4'
         crashlytics_version = '2.9.7'
@@ -47,8 +48,10 @@ buildscript {
         dexcount_version = '0.8.2'
 
         junit_version = '4.12'
-        runner_version = '1.1.0-alpha4'
-        espresso_version = '3.1.0-alpha4'
+        ext_junit_version = '1.1.0'
+        rules_version = '1.1.0'
+        arch_core_testing_version = '2.0.0'
+        espresso_version = '3.1.0'
     }
 
     repositories {

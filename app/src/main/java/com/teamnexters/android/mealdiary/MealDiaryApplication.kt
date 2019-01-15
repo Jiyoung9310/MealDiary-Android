@@ -2,6 +2,9 @@ package com.teamnexters.android.mealdiary
 
 import android.app.Application
 import com.crashlytics.android.Crashlytics
+import com.facebook.stetho.Stetho
+import com.google.firebase.FirebaseApp
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.teamnexters.android.mealdiary.di.appComponent
 import io.fabric.sdk.android.Fabric
 import org.koin.android.ext.android.startKoin
@@ -14,12 +17,20 @@ internal class MealDiaryApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        startKoin(this, appComponent)
+        Fabric.Builder(this)
+                .kits(Crashlytics())
+                .debuggable(BuildConfig.DEBUG)
+                .build()
 
-        Fabric.with(this, Crashlytics())
+        FirebaseApp.initializeApp(this)
+
+        AndroidThreeTen.init(this)
+
+        startKoin(this, appComponent)
 
         if(BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
+            Stetho.initializeWithDefaults(this)
         }
     }
 }

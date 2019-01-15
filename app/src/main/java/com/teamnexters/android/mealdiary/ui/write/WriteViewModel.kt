@@ -1,20 +1,21 @@
 package com.teamnexters.android.mealdiary.ui.write
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
-import com.teamnexters.android.mealdiary.base.LifecycleState
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
+import com.teamnexters.android.mealdiary.data.local.entity.HashTag
+import com.teamnexters.android.mealdiary.data.local.entity.Restaurant
 import com.teamnexters.android.mealdiary.repository.LocalRepository
 import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import com.teamnexters.android.mealdiary.util.extension.throttleClick
+import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.ofType
 import io.reactivex.rxkotlin.withLatestFrom
+import org.threeten.bp.ZonedDateTime
 
 internal interface WriteViewModel {
     interface Inputs {
@@ -45,10 +46,12 @@ internal interface WriteViewModel {
 
         private val contentRelay = BehaviorRelay.create<String>()
 
+
+        private val loadedDiary = ofScreen<Screen.Write.Modify>().switchMap { localRepository.diary(it.diaryId).toObservable() }
+
         init {
             disposables.addAll(
-                    ofScreen<Screen.Write.Modify>()
-                            .switchMap { localRepository.diary(it.id).toObservable() }
+                    loadedDiary
                             .subscribeOf(onNext = { inputs.toContent(it.content) }),
 
                     outputs.ofContent()
@@ -56,15 +59,28 @@ internal interface WriteViewModel {
                             .subscribeOf(onNext = content::setValue),
 
                     outputs.ofClickWrite()
+                            .withLatestFromSecond(ofScreen<Screen.Write.Write>())
                             .throttleClick()
-                            .withLatestFrom(ofScreen<Screen.Write>(), ofContent())
-                            .map { (_, screen, content) ->
-                                when(screen) {
-                                    is Screen.Write.Write -> Diary(content = content, score = 0)
-                                    is Screen.Write.Modify -> Diary(id = screen.id, content = content, score = 1)
-                                }
+                            .withLatestFromSecond(ofContent())
+                            .map { content ->
+                                getDummy().copy(content = content)
                             }
-                            .doOnNext { localRepository.upsertDiaries(it).subscribeOf() }
+                            .doOnNext {
+                                localRepository.upsertDiaries(it)
+                                        .subscribeOf()
+                            }
+                            .subscribeOf(onNext = { inputs.toNavigateToMain() }),
+
+                    outputs.ofClickWrite()
+                            .withLatestFromSecond(ofScreen<Screen.Write.Modify>())
+                            .throttleClick()
+                            .withLatestFrom(loadedDiary, ofContent()) { _, diary, content ->
+                                diary.copy(content = content)
+                            }
+                            .doOnNext {
+                                localRepository.upsertDiaries(it)
+                                        .subscribeOf()
+                            }
                             .subscribeOf(onNext = { inputs.toNavigateToMain() })
             )
         }
@@ -76,6 +92,17 @@ internal interface WriteViewModel {
         override fun ofClickWrite(): Observable<Unit> = clickWriteRelay
         override fun ofContent(): Observable<String> = contentRelay
         override fun ofNavigateToMain(): Observable<Unit> = navigateToMainRelay
+
+        private fun getDummy(): Diary {
+            return Diary(
+                    content = "안뇽",
+                    score = 20,
+                    photoUrls = listOf("photo1", "photo2"),
+                    restaurant = Restaurant(name = "재환식당", address = "방배동"),
+                    hashTags = listOf(HashTag("#해쉬브라운")),
+                    date = ZonedDateTime.now()
+            )
+        }
     }
 
 }

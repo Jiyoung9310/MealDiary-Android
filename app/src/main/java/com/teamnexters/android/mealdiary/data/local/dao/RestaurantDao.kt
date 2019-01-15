@@ -10,10 +10,10 @@ internal abstract class RestaurantDao : BaseDao<Restaurant>() {
     @Query("SELECT * FROM restaurant")
     abstract fun get(): Flowable<List<Restaurant>>
 
-    @Query("SELECT * FROM restaurant WHERE restaurant_id = :id")
+    @Query("SELECT * FROM restaurant WHERE id = :id")
     abstract fun getById(id: Long): Flowable<Restaurant>
 
-    @Query("DELETE FROM restaurant WHERE restaurant_id = :id")
+    @Query("DELETE FROM restaurant WHERE id= :id")
     abstract fun deleteById(id: Long)
 
     @Query("DELETE FROM restaurant")
