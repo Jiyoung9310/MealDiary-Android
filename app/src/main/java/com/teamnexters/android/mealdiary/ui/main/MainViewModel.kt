@@ -21,8 +21,8 @@ internal interface MainViewModel {
         fun toClickDiaryItem(diary: Diary)
         fun toShowDiaryDialog(state: MainState.ShowDiaryDialog)
         fun toNavigateToWrite(screen: Screen)
-
         fun toClickedDiary(diary: Diary)
+        fun toPermissionState(permissionState: PermissionState)
     }
 
     interface Outputs {
@@ -32,8 +32,8 @@ internal interface MainViewModel {
         fun ofClickDiaryItem(): Observable<Diary>
         fun ofShowDiaryDialog(): Observable<MainState.ShowDiaryDialog>
         fun ofNavigateToWrite(): Observable<Screen>
-
         fun ofClickedDiary(): Observable<Diary>
+        fun ofPermissionState(): Observable<PermissionState>
     }
 
     class ViewModel(
@@ -49,23 +49,18 @@ internal interface MainViewModel {
             diaries.map { ListItem.DiaryItem(it) }
         }.toLiveData()
 
+        private val clickedDiaryRelay = BehaviorRelay.create<Diary>()
+
         private val clickDiaryItemRelay = PublishRelay.create<Diary>()
         private val clickModifyDiaryItemRelay = PublishRelay.create<Unit>()
         private val clickDeleteDiaryItemRelay = PublishRelay.create<Unit>()
         private val clickWriteRelay = PublishRelay.create<Unit>()
         private val showDiaryDialogRelay = PublishRelay.create<MainState.ShowDiaryDialog>()
         private val navigateToWriteRelay = PublishRelay.create<Screen>()
-
-        private val clickedDiaryRelay = BehaviorRelay.create<Diary>()
+        private val permissionStateRelay = PublishRelay.create<PermissionState>()
 
         init {
             disposables.addAll(
-                    outputs.ofClickWrite()
-                            .throttleClick()
-                            .subscribeOf(onNext = {
-                                inputs.toNavigateToWrite(Screen.Write.Write)
-                            }),
-
                     outputs.ofClickDiaryItem()
                             .throttleClick()
                             .subscribeOf(onNext = {
@@ -103,6 +98,7 @@ internal interface MainViewModel {
         override fun toNavigateToWrite(screen: Screen) = navigateToWriteRelay.accept(screen)
         override fun toShowDiaryDialog(state: MainState.ShowDiaryDialog) = showDiaryDialogRelay.accept(state)
         override fun toClickedDiary(diary: Diary) = clickedDiaryRelay.accept(diary)
+        override fun toPermissionState(permissionState: PermissionState) = permissionStateRelay.accept(permissionState)
 
         override fun ofClickWrite(): Observable<Unit> = clickWriteRelay
         override fun ofClickModify(): Observable<Unit> = clickModifyDiaryItemRelay
@@ -111,5 +107,6 @@ internal interface MainViewModel {
         override fun ofShowDiaryDialog(): Observable<MainState.ShowDiaryDialog> = showDiaryDialogRelay
         override fun ofNavigateToWrite(): Observable<Screen> = navigateToWriteRelay
         override fun ofClickedDiary(): Observable<Diary> = clickedDiaryRelay
+        override fun ofPermissionState(): Observable<PermissionState> = permissionStateRelay
     }
 }
