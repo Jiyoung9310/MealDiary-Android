@@ -11,7 +11,6 @@ internal class Navigator {
     companion object {
         @JvmStatic
         fun navigateToWrite(context: Context?, screen: Screen) {
-            Log.d("MY_LOG", "오잉 이게?")
             context?.startActivity(
                     Intent(context, WriteActivity::class.java).screen(screen)
             )
