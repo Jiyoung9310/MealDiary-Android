@@ -1,19 +1,17 @@
 package com.teamnexters.android.mealdiary.ui.write.photo
 
-import android.Manifest
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.tbruyelle.rxpermissions2.RxPermissions
+import androidx.recyclerview.widget.GridLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
 import com.teamnexters.android.mealdiary.databinding.FragmentPhotoBinding
-import com.teamnexters.android.mealdiary.util.NavigationUtil
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel.ViewModel>() {
+
+    private val photoAdapter: PhotoAdapter by inject()
 
     override val layoutResId: Int = R.layout.fragment_photo
 
@@ -26,11 +24,18 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
 
         disposables.addAll(
                 viewModel.outputs.photoList()
-                        .subscribeOf(onNext = {
-                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
-                            Timber.d(it.toString())
-                        })
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = { photoAdapter.submitList(it) })
         )
+
+        initializeRecyclerView()
+    }
+
+    private fun initializeRecyclerView() {
+        binding.rvPhoto.run {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = photoAdapter
+        }
     }
 
 }

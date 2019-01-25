@@ -14,11 +14,15 @@ import androidx.navigation.fragment.findNavController
 import com.teamnexters.android.mealdiary.MealDiaryConst
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.ui.Screen
+import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
+import org.koin.android.ext.android.inject
 
 internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
 
     protected val disposables = CompositeDisposable()
+
+    protected val schedulerProvider: SchedulerProvider by inject()
 
     abstract val layoutResId: Int
 

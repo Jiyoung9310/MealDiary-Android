@@ -16,14 +16,16 @@ internal class GalleryProviderImpl(
 
         val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.DATE_ADDED)
 
-        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+        val sortOrderDESC = MediaStore.Images.Media._ID + " COLLATE LOCALIZED DESC"
+
+        val cursor = context.contentResolver.query(uri, projection, null, null, sortOrderDESC)
 
         val columnIndexData = cursor!!.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
 
         while(cursor.moveToNext()) {
-            val photoVO = Photo(cursor.getString(columnIndexData))
+            val photo = Photo(cursor.getString(columnIndexData))
 
-            photoList.add(photoVO)
+            photoList.add(photo)
         }
 
         cursor.close()

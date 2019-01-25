@@ -6,6 +6,7 @@ import com.teamnexters.android.mealdiary.ui.main.MainViewModel
 import com.teamnexters.android.mealdiary.ui.write.WriteViewModel
 import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProvider
 import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProviderImpl
+import com.teamnexters.android.mealdiary.ui.write.photo.PhotoAdapter
 import com.teamnexters.android.mealdiary.ui.write.photo.PhotoViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.koin.viewModel
@@ -18,9 +19,11 @@ val appModule = module {
 
     viewModel { WriteViewModel.ViewModel() }
 
-    viewModel { PhotoViewModel.ViewModel(get()) }
+    viewModel { PhotoViewModel.ViewModel(get(), get()) }
+
+    factory { DiaryAdapter() }
 
     factory { GalleryProviderImpl(get()) as GalleryProvider }
 
-    factory { DiaryAdapter() }
+    factory { PhotoAdapter() }
 }
