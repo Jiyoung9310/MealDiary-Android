@@ -1,7 +1,7 @@
 package com.teamnexters.android.mealdiary.ui.main
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamnexters.android.mealdiary.R
@@ -13,6 +13,9 @@ import com.teamnexters.android.mealdiary.util.extension.observe
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.view.MenuItem
+import android.widget.Toast
+
 
 internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.ViewModel>() {
 
@@ -24,6 +27,8 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.title = ""
+        supportActionBar?.elevation = 0F
 
         binding.viewModel = viewModel
 
@@ -59,5 +64,28 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                 viewModel.toClickDiaryItem(item.diary)
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(com.teamnexters.android.mealdiary.R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            return when(it.itemId) {
+                R.id.action_todo -> {
+                    Toast.makeText(applicationContext, "todo 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.action_search -> {
+                    Toast.makeText(applicationContext, "search 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> {
+                    super.onOptionsItemSelected(item)
+                }
+            }
+        }
     }
 }
