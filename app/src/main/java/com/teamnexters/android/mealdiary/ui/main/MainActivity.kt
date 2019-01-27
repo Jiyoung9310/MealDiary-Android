@@ -2,6 +2,7 @@ package com.teamnexters.android.mealdiary.ui.main
 
 import android.Manifest
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -18,18 +19,23 @@ import com.teamnexters.android.mealdiary.util.extension.throttleClick
 import io.reactivex.rxkotlin.ofType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.view.MenuItem
+import android.widget.Toast
+
 
 
 internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.ViewModel>() {
 
     private val diaryAdapter: DiaryAdapter by inject()
 
-    override val layoutResId: Int = com.teamnexters.android.mealdiary.R.layout.activity_main
+    override val layoutResId: Int = R.layout.activity_main
 
     override val viewModel: MainViewModel.ViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.title = ""
+        supportActionBar?.elevation = 0F
 
         binding.viewModel = viewModel
 
@@ -96,4 +102,26 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(com.teamnexters.android.mealdiary.R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            return when(it.itemId) {
+                R.id.action_todo -> {
+                    Toast.makeText(applicationContext, "todo 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.action_search -> {
+                    Toast.makeText(applicationContext, "search 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> {
+                    super.onOptionsItemSelected(item)
+                }
+            }
+        }
+    }
 }
