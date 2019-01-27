@@ -7,13 +7,13 @@
         <item name="android:background">@color/white</item>
         <item name="android:elevation">0dp</item>
     </style>
-
+<!--
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
+    </style>-->
 
 </resources>
