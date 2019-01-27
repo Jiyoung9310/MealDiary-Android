@@ -6,7 +6,7 @@ buildscript {
         min_sdk_version = 21
         target_sdk_version = 28
 
-        android_gradle_version = '3.3.0'
+        android_gradle_version = '3.5.0-alpha02'
 
         kotlin_version = '1.3.11'
 

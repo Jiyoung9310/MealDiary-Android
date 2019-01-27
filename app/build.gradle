@@ -187,7 +187,7 @@ File crashlyticsProperties = new File("${project.projectDir.absolutePath}/fabric
 android.applicationVariants.all { variant ->
     def variantSuffix = variant.name.capitalize()
     def generateResourcesTask = project.tasks.getByName("fabricGenerateResources${variantSuffix}")
-    def generatePropertiesTask = task("fabricGenerateProperties${variantSuffix}") << {
+    def generatePropertiesTask = task("fabricGenerateProperties${variantSuffix}") doLast {
         Properties properties = new Properties()
         println "...copying apiSecret for ${variant.name}"
         properties.put("apiSecret", variant.buildType.ext.crashlyticsApiSecret)
