@@ -1,15 +1,20 @@
 package com.teamnexters.android.mealdiary.ui.write
 
 import android.os.Bundle
-import android.util.Log
+import android.view.MenuItem
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.base.LifecycleState
 import com.teamnexters.android.mealdiary.databinding.ActivityWriteBinding
-import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel.ViewModel>() {
+
+    private val navController: NavController
+        get() = findNavController(R.id.navigation_fragment)
 
     override val layoutResId: Int = R.layout.activity_write
 
@@ -18,21 +23,24 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        Log.d("MY_LOG", "onCreate")
-
         viewModel.toLifecycleState(LifecycleState.OnCreate(getScreen()))
 
         binding.viewModel = viewModel
 
-        disposables.addAll(
-                viewModel.outputs.ofNavigateToMain()
-                        .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = {
-                            Log.d("MY_LOG", "삐니시")
-                            finish()
-                        })
-        )
+        initializeNavigation()
     }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId ?: 0) {
+            android.R.id.home -> navController.navigateUp()
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun initializeNavigation() {
+        setSupportActionBar(binding.toolbar)
+        setupActionBarWithNavController(navController)
+    }
+
 
 }

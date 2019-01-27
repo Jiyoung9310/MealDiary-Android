@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/photoFragment">
+
+    <fragment
+        android:id="@+id/photoFragment"
+        android:label="PhotoFragment"
+        android:name="com.teamnexters.android.mealdiary.ui.write.photo.PhotoFragment"
+        tools:layout="@layout/fragment_photo"/>
+
+</navigation>

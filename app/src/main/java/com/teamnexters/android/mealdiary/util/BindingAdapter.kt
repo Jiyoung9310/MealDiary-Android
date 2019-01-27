@@ -83,6 +83,7 @@ internal fun setSrcCompat(imageView: ImageView, colorOrResId: Int) {
 internal fun setSrcCompat(imageView: ImageView, url: String) {
     Glide.with(imageView)
             .load(url)
+            .apply(RequestOptions().centerCrop())
             .into(imageView)
 }
 
