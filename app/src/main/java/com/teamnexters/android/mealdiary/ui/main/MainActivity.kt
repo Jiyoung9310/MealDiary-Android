@@ -55,7 +55,7 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
 
                 viewModel.outputs.ofPermissionState()
                         .ofType<PermissionState.Granted>()
-                        .subscribeOf(onNext = { viewModel.inputs.toNavigateToWrite(Screen.Write.Write) }),
+                        .subscribeOf(onNext = { viewModel.inputs.toNavigateToWrite(Screen.Write.Photo) }),
 
                 viewModel.outputs.ofPermissionState()
                         .ofType<PermissionState.Denied>()

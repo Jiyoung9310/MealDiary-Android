@@ -27,7 +27,10 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?android:actionBarSize">
+                android:layout_height="?android:actionBarSize"
+                app:toolbarResources="@{viewModel.toolbarResources}"
+                android:background="@color/white"
+                android:elevation="0dp">
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -38,12 +41,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar"
-            app:navGraph="@navigation/navigation_write"/>
+            app:layout_constraintTop_toBottomOf="@+id/appbar"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
