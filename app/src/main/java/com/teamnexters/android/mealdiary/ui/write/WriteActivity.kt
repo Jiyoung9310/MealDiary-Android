@@ -2,10 +2,8 @@ package com.teamnexters.android.mealdiary.ui.write
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.teamnexters.android.mealdiary.MealDiaryConst
 import com.teamnexters.android.mealdiary.R
@@ -13,18 +11,14 @@ import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.base.LifecycleState
 import com.teamnexters.android.mealdiary.databinding.ActivityWriteBinding
 import com.teamnexters.android.mealdiary.ui.Screen
-import kotlinx.android.synthetic.main.activity_write.*
+import com.teamnexters.android.mealdiary.util.extension.observe
+import com.teamnexters.android.mealdiary.util.setToolbarResources
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel.ViewModel>() {
 
-    private val navController: NavController by lazy(LazyThreadSafetyMode.NONE) {
-        findNavController(R.id.navigation_fragment).apply {
-            setGraph(R.navigation.navigation_write, Bundle().apply {
-                putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Photo)
-            })
-        }
-    }
+    private val navController: NavController
+        get() = findNavController(R.id.navigation_fragment)
 
     override val layoutResId: Int = R.layout.activity_write
 
@@ -37,24 +31,48 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
 
         binding.viewModel = viewModel
 
+        observe(viewModel.toolbarResources) { setToolbarResources(binding.toolbar, it) }
+
         initializeNavigation()
     }
 
+    override fun onBackPressed() {
+        if(navController.currentDestination?.id == R.id.photoFragment) {
+            finish()
+        }
+
+        super.onBackPressed()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId ?: 0) {
-            android.R.id.home -> navController.navigateUp()
-            else -> super.onOptionsItemSelected(item)
+        return when {
+            navController.currentDestination?.id == R.id.photoFragment -> {
+                finish()
+
+                true
+            }
+            item?.itemId == android.R.id.home -> {
+                navController.navigateUp()
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 
     private fun initializeNavigation() {
-        navController.navigate(R.id.photoFragment, Bundle().apply {
-            putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Photo)
-        })
-
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        findNavController(R.id.navigation_fragment)
+                .setGraph(
+                        R.navigation.navigation_write,
+                        Bundle().apply {
+                            putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Photo)
+                        }
+                )
+
         setupActionBarWithNavController(navController)
     }
+
 }

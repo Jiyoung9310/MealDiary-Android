@@ -1,7 +1,6 @@
 package com.teamnexters.android.mealdiary.ui.write
 
 import androidx.lifecycle.LiveData
-import com.jakewharton.rxrelay2.Relay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.ui.ToolbarChannel
 import com.teamnexters.android.mealdiary.ui.ToolbarResources
@@ -13,7 +12,7 @@ internal interface WriteViewModel {
     interface Outputs
 
     class ViewModel(
-            toolbarChannel: ToolbarChannel
+            private val toolbarChannel: ToolbarChannel
 
     ) : BaseViewModel(), Inputs, Outputs {
 

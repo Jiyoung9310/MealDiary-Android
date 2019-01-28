@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import com.teamnexters.android.mealdiary.R
 
 internal sealed class ToolbarResources(@DrawableRes val navigationRes: Int) {
-    class None: ToolbarResources(R.drawable.ic_arrow_back_material)
+    class None: ToolbarResources(R.drawable.transparent)
 
     class Photo : ToolbarResources(R.drawable.ic_arrow_back_material)
     class Restaurant : ToolbarResources(R.drawable.ic_arrow_back_material)

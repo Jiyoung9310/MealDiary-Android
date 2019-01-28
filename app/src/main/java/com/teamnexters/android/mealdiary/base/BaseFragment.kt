@@ -9,15 +9,10 @@ import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.jakewharton.rxrelay2.BehaviorRelay
-import com.jakewharton.rxrelay2.Relay
 import com.teamnexters.android.mealdiary.MealDiaryConst
-import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.ui.ToolbarChannel
-import com.teamnexters.android.mealdiary.ui.ToolbarResources
 import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProvider
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -41,7 +36,7 @@ internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
         (arguments?.getSerializable(MealDiaryConst.KEY_ARGS) as? Screen)?.let {
             viewModel.toLifecycleState(LifecycleState.OnCreate(it))
