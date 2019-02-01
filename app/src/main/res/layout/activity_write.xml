@@ -20,6 +20,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:elevation="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -28,9 +29,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
-                app:toolbarResources="@{viewModel.toolbarResources}"
                 android:background="@color/white"
-                android:elevation="0dp">
+                app:elevation="0dp"
+                app:toolbarResources="@{viewModel.toolbarResources}">
 
             </androidx.appcompat.widget.Toolbar>
 

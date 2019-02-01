@@ -1,6 +1,9 @@
 package com.teamnexters.android.mealdiary.ui.write.photo
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.recyclerview.widget.GridLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
@@ -20,16 +23,41 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        setHasOptionsMenu(true)
+
         binding.viewModel = viewModel
 
         disposables.addAll(
-                viewModel.outputs.photoList()
+                viewModel.outputs.ofPhotoList()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { photoAdapter.submitList(it) })
+                        .subscribeOf(onNext = { photoAdapter.submitList(it) }),
+
+                photoAdapter.selectedPhotoListObservable()
+                        .distinctUntilChanged()
+                        .subscribeOf(onNext = { viewModel.inputs.toSelectedPhotoList(it) }),
+
+                viewModel.outputs.ofNavigateToRestaurant()
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = { navigate(R.id.action_photoFragment_to_restaurantFragment, it) })
         )
 
         initializeRecyclerView()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.photo_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            R.id.action_next -> {
+                viewModel.inputs.toClickNext()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun initializeRecyclerView() {
         binding.rvPhoto.run {

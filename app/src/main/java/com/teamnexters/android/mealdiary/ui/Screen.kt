@@ -8,8 +8,8 @@ internal sealed class Screen : Serializable {
 
     sealed class Write : Screen() {
         object Photo : Screen.Write()
-        object Restaurant : Screen.Write()
-        object Write : Screen.Write()
-        object Score : Screen.Write()
+        class Restaurant(val photos: List<com.teamnexters.android.mealdiary.ui.write.photo.Photo>) : Screen.Write()
+        class Write : Screen.Write()
+        class Score : Screen.Write()
     }
 }

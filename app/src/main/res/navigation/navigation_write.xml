@@ -2,12 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/photoFragment">
+    app:startDestination="@id/photoFragment"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/photoFragment"
         android:label="PhotoFragment"
         android:name="com.teamnexters.android.mealdiary.ui.write.photo.PhotoFragment"
-        tools:layout="@layout/fragment_photo"/>
+        tools:layout="@layout/fragment_photo">
+        <action
+            android:id="@+id/action_photoFragment_to_restaurantFragment"
+            app:destination="@id/restaurantFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/restaurantFragment"
+        android:label="RestaurantFragment"
+        android:name="com.teamnexters.android.mealdiary.ui.write.restaurant.RestaurantFragment"
+        tools:layout="@layout/fragment_restaurant"/>
 
 </navigation>

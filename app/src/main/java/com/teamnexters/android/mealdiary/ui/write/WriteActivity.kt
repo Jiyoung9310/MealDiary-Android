@@ -41,17 +41,15 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
             finish()
         }
 
-        super.onBackPressed()
+        navController.navigateUp()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when {
-            navController.currentDestination?.id == R.id.photoFragment -> {
-                finish()
-
-                true
-            }
-            item?.itemId == android.R.id.home -> {
+        return when(item?.itemId) {
+            android.R.id.home -> {
+                if(navController.currentDestination?.id == R.id.photoFragment) {
+                    finish()
+                }
                 navController.navigateUp()
             }
             else -> {
