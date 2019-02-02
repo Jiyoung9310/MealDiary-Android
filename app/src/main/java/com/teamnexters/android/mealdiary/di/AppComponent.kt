@@ -4,5 +4,7 @@ val appComponent = listOf(
         appModule,
         rxModule,
         dbModule,
-        localRepositoryModule
+        networkModule,
+        localRepositoryModule,
+        remoteRepositoryModule
 )

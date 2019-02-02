@@ -27,7 +27,7 @@ val appModule = module {
 
     viewModel { PhotoViewModel.ViewModel(get(), get()) }
 
-    viewModel { RestaurantViewModel.ViewModel() }
+    viewModel { RestaurantViewModel.ViewModel(get()) }
 
     factory { ToolbarResourcesProviderImpl() as ToolbarResourcesProvider }
 

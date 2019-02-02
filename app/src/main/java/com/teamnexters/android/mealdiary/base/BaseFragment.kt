@@ -36,7 +36,7 @@ internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
-        binding.lifecycleOwner = this
+        binding.setLifecycleOwner(this)
 
         (arguments?.getSerializable(MealDiaryConst.KEY_ARGS) as? Screen)?.let {
             viewModel.toLifecycleState(LifecycleState.OnCreate(it))
