@@ -11,6 +11,7 @@ import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProvider
 import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProviderImpl
 import com.teamnexters.android.mealdiary.ui.write.photo.PhotoAdapter
 import com.teamnexters.android.mealdiary.ui.write.photo.PhotoViewModel
+import com.teamnexters.android.mealdiary.ui.write.restaurant.RestaurantAdapter
 import com.teamnexters.android.mealdiary.ui.write.restaurant.RestaurantViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.koin.viewModel
@@ -36,4 +37,6 @@ val appModule = module {
     factory { GalleryProviderImpl(get()) as GalleryProvider }
 
     factory { PhotoAdapter() }
+
+    factory { RestaurantAdapter() }
 }

@@ -20,13 +20,12 @@ val networkModule = module {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor {
-
-                    val requestBuilder = it.request().newBuilder()
+                .addInterceptor { chain ->
+                    val requestBuilder = chain.request().newBuilder()
                             .addHeader("Authorization", "KakaoAK ${BuildConfig.KAKAO_API_KEY}")
 
 
-                    it.proceed(requestBuilder.build())
+                    chain.proceed(requestBuilder.build())
                 }
                 .addNetworkInterceptor(
                         HttpLoggingInterceptor().apply {

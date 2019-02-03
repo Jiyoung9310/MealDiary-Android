@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
 import com.teamnexters.android.mealdiary.databinding.FragmentPhotoBinding
+import com.teamnexters.android.mealdiary.util.extension.hideKeyboard
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,6 +43,12 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
         )
 
         initializeRecyclerView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        binding.root.hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
