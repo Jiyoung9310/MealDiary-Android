@@ -10,7 +10,7 @@ internal data class RestaurantItem(
 ) {
     companion object {
         fun toRestaurant(restaurantItem: RestaurantItem): Restaurant {
-            Restaurant(
+            return Restaurant(
                     placeName = restaurantItem.placeName,
                     addressName = restaurantItem.addressName,
                     x = restaurantItem.x,
