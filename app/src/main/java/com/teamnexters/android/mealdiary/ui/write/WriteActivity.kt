@@ -1,9 +1,6 @@
 package com.teamnexters.android.mealdiary.ui.write
 
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
 import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -17,9 +14,6 @@ import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.observe
 import com.teamnexters.android.mealdiary.util.setToolbarResources
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import timber.log.Timber
 
 
 internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel.ViewModel>() {
@@ -44,7 +38,7 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
     }
 
     override fun onBackPressed() {
-        if(navController.currentDestination?.id == R.id.photoFragment) {
+        if(navController.currentDestination?.id == R.id.restaurantFragment) {
             finish()
         }
 
@@ -54,7 +48,7 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId) {
             android.R.id.home -> {
-                if(navController.currentDestination?.id == R.id.photoFragment) {
+                if(navController.currentDestination?.id == R.id.restaurantFragment) {
                     finish()
                 }
                 navController.navigateUp()
@@ -73,29 +67,11 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
                 .setGraph(
                         R.navigation.navigation_write,
                         Bundle().apply {
-                            putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Photo)
+                            putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Restaurant(WriteParam()))
                         }
                 )
 
         setupActionBarWithNavController(navController)
-
-        Timber.d("해싱 ${getKeyHash(this)}")
-    }
-
-    fun getKeyHash(context: Context): String? {
-        val packageInfo = packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-
-        for(signature in packageInfo!!.signatures) {
-            try {
-                val md = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                return Base64.encodeToString(md.digest(), Base64.NO_WRAP)
-            } catch(e: NoSuchAlgorithmException) {
-//                Log.w(FragmentActivity.TAG, "Unable to get MessageDigest. signature=$signature", e)
-            }
-
-        }
-        return null
     }
 
 }

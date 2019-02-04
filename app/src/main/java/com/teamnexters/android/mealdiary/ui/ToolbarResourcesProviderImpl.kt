@@ -5,7 +5,7 @@ internal class ToolbarResourcesProviderImpl : ToolbarResourcesProvider {
         return when(screen) {
             is Screen.Write.Photo -> ToolbarResources.Photo()
             is Screen.Write.Restaurant -> ToolbarResources.Restaurant()
-            is Screen.Write.Write -> ToolbarResources.Write()
+            is Screen.Write.Note -> ToolbarResources.Note()
             is Screen.Write.Score -> ToolbarResources.Score()
             else -> ToolbarResources.None()
         }

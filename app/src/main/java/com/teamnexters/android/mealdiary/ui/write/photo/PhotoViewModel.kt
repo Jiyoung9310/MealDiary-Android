@@ -8,19 +8,18 @@ import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.withLatestFrom
 
 internal interface PhotoViewModel {
     interface Inputs {
         fun toClickNext()
-        fun toNavigateToRestaurant(screen: Screen)
+        fun toNavigate(screen: Screen)
         fun toSelectedPhotoList(photos: List<Photo>)
     }
 
     interface Outputs {
         fun ofPhotoList(): Observable<List<Photo>>
         fun ofClickNext(): Observable<Unit>
-        fun ofNavigateToRestaurant(): Observable<Screen>
+        fun ofNavigate(): Observable<Screen>
         fun ofSelectedPhotoList(): Observable<List<Photo>>
     }
 
@@ -42,7 +41,7 @@ internal interface PhotoViewModel {
                     outputs.ofClickNext()
                             .withLatestFromSecond(outputs.ofSelectedPhotoList())
                             .subscribeOf(onNext = {
-                                inputs.toNavigateToRestaurant(Screen.Write.Restaurant(it))
+
                             })
             )
         }
@@ -54,8 +53,8 @@ internal interface PhotoViewModel {
         override fun toClickNext() = clickNextRelay.accept(Unit)
         override fun ofClickNext(): Observable<Unit> = clickNextRelay
 
-        override fun toNavigateToRestaurant(screen: Screen) = navigateToRestaurantRelay.accept(screen)
-        override fun ofNavigateToRestaurant(): Observable<Screen> = navigateToRestaurantRelay
+        override fun toNavigate(screen: Screen) = navigateToRestaurantRelay.accept(screen)
+        override fun ofNavigate(): Observable<Screen> = navigateToRestaurantRelay
 
         override fun toSelectedPhotoList(photos: List<Photo>) = selectedPhotoRelay.accept(photos)
         override fun ofSelectedPhotoList(): Observable<List<Photo>> = selectedPhotoRelay

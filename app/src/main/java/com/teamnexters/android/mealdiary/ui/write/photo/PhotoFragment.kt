@@ -37,9 +37,9 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
                         .distinctUntilChanged()
                         .subscribeOf(onNext = { viewModel.inputs.toSelectedPhotoList(it) }),
 
-                viewModel.outputs.ofNavigateToRestaurant()
+                viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { navigate(R.id.action_photoFragment_to_restaurantFragment, it) })
+                        .subscribeOf(onNext = { navigate(R.id.action_photoFragment_to_scoreFragment, it) })
         )
 
         initializeRecyclerView()

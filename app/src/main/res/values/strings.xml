@@ -8,7 +8,9 @@
     <string name="permission_dialog_rational_positive_text">환경설정 바로가기</string>
     <string name="photo_title">무엇을 먹었어?</string>
     <string name="next">다음</string>
+    <string name="skip">Skip</string>
     <string name="restaurant_title">어디서 먹었어?</string>
     <string name="restaurant_hint">식당이름</string>
+    <string name="note_title">적는게 남는거야</string>
 
 </resources>

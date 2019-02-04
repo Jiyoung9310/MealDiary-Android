@@ -8,6 +8,6 @@ internal sealed class ToolbarResources(@DrawableRes val navigationRes: Int) {
 
     class Photo : ToolbarResources(R.drawable.ic_arrow_back_material)
     class Restaurant : ToolbarResources(R.drawable.ic_arrow_back_material)
-    class Write : ToolbarResources(R.drawable.ic_arrow_back_material)
+    class Note : ToolbarResources(R.drawable.ic_arrow_back_material)
     class Score : ToolbarResources(R.drawable.ic_close)
 }
