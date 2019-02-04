@@ -24,7 +24,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_name"
-            style="@style/H3BlackBoldLeft"
+            style="@style/H516PtBlackBoldLeft"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_address"
-            style="@style/H4GrayRegularLeftUnderline"
+            style="@style/Sm12PtGrayBoldLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

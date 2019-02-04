@@ -10,7 +10,10 @@
     <string name="next">다음</string>
     <string name="skip">Skip</string>
     <string name="restaurant_title">어디서 먹었어?</string>
-    <string name="restaurant_hint">식당이름</string>
     <string name="note_title">적는게 남는거야</string>
+    <string name="hint_restaurant">식당이름</string>
+    <string name="hint_title">제목</string>
+    <string name="hint_tag">#태그</string>
+    <string name="hint_content">식후감</string>
 
 </resources>

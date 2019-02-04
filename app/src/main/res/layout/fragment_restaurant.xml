@@ -36,7 +36,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_title"
-                style="@style/H1BlackBoldLeft"
+                style="@style/H324PtBlackBoldLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -54,10 +54,10 @@
             android:id="@+id/edit_keyword"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/bg_edittext"
-            android:hint="@string/restaurant_hint"
+            android:hint="@string/hint_restaurant"
             android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toKeyword(text.toString())}"
             android:text="@{viewModel.keyword}"
             app:layout_constraintEnd_toEndOf="parent"

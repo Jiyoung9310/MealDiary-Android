@@ -25,6 +25,7 @@
             android:id="@+id/action_restaurantFragment_to_noteFragment"
             app:destination="@id/noteFragment"/>
     </fragment>
+
     <fragment
         android:id="@+id/noteFragment"
         android:name="com.teamnexters.android.mealdiary.ui.write.note.NoteFragment"
@@ -33,6 +34,7 @@
             android:id="@+id/action_noteFragment_to_photoFragment"
             app:destination="@id/photoFragment"/>
     </fragment>
+
     <fragment
         android:id="@+id/scoreFragment"
         android:name="com.teamnexters.android.mealdiary.ui.write.score.ScoreFragment"

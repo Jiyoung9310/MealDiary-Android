@@ -6,9 +6,11 @@
 
     <color name="black">#333535</color>
     <color name="white">#ffffff</color>
+    <color name="dark_gray">#646869</color>
+    <color name="light_gray_2">#dfe4e5</color>
+    <color name="light_gray">#bfc7c9</color>
     <color name="gray">#9fa4a5</color>
-    <color name="light_gray">#dfe4e5</color>
     <color name="pale_gray">#f3f7f8</color>
-    <color name="secondary_blue">#366684</color>
     <color name="primary_orange">#ff775c</color>
+    <color name="secondary_blue">#366684</color>
 </resources>

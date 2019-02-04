@@ -8,11 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
 import com.teamnexters.android.mealdiary.databinding.FragmentRestaurantBinding
-import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.observe
 import com.teamnexters.android.mealdiary.util.extension.showKeyboard
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
-import io.reactivex.rxkotlin.ofType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
