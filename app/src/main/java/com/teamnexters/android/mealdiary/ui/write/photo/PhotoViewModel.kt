@@ -5,9 +5,9 @@ import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
-import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.withLatestFrom
 
 internal interface PhotoViewModel {
     interface Inputs {
@@ -39,10 +39,12 @@ internal interface PhotoViewModel {
         init {
             disposables.addAll(
                     outputs.ofClickNext()
-                            .withLatestFromSecond(outputs.ofSelectedPhotoList())
-                            .subscribeOf(onNext = {
-
-                            })
+                            .withLatestFrom(ofScreen<Screen.Write.Photo>(), outputs.ofSelectedPhotoList()) { _, screen, photos ->
+                                screen.writeParam.apply {
+                                    photoUrls = photos.map { it.imgPath }
+                                }
+                            }
+                            .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Score(it)) })
             )
         }
 

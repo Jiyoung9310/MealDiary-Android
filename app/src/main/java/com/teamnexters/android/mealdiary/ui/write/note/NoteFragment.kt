@@ -7,6 +7,8 @@ import android.view.MenuItem
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
 import com.teamnexters.android.mealdiary.databinding.FragmentNoteBinding
+import com.teamnexters.android.mealdiary.util.extension.observe
+import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.ViewModel>() {
@@ -23,6 +25,14 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
         setHasOptionsMenu(true)
 
         binding.viewModel = viewModel
+
+        observe(viewModel.nextEnable) { nextIcon.isEnabled = it }
+
+        disposables.addAll(
+                viewModel.ofNavigate()
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = { navigate(R.id.action_noteFragment_to_photoFragment, it) })
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -30,14 +40,13 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
 
         menu?.let {
             nextIcon = it.findItem(R.id.action_next)
-            nextIcon.isEnabled = false
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             R.id.action_next -> {
-
+                viewModel.inputs.toClickNext()
             }
         }
 

@@ -58,11 +58,14 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/bg_edittext"
             android:hint="@string/hint_title"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toTitle(text.toString())}"
+            android:text="@{viewModel.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/container_title"/>
-
-        <!--android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toKeyword(text.toString())}"-->
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edit_tag"
@@ -72,6 +75,11 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/bg_edittext"
             android:hint="@string/hint_tag"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toHashTag(text.toString())}"
+            android:text="@{viewModel.hashTag}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_title"/>
@@ -84,7 +92,11 @@
             android:layout_marginEnd="20dp"
             android:background="@null"
             android:hint="@string/hint_content"
+            android:imeOptions="actionDone"
+            android:inputType="text"
             android:minHeight="45dp"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toContent(text.toString())}"
+            android:text="@{viewModel.content}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_tag"/>
