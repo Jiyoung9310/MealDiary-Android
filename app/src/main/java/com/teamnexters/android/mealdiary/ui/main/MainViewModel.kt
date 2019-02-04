@@ -75,11 +75,6 @@ internal interface MainViewModel {
                                 )
                             }),
 
-                    outputs.ofClickModify()
-                            .throttleClick()
-                            .withLatestFromSecond(outputs.ofClickedDiary())
-                            .subscribeOf(onNext = { inputs.toNavigateToWrite(Screen.Write.Modify(it.id)) }),
-
                     outputs.ofClickDelete()
                             .throttleClick()
                             .withLatestFromSecond(outputs.ofClickedDiary())

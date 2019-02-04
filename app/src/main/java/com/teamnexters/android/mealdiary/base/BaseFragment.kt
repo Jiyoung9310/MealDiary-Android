@@ -9,11 +9,11 @@ import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.teamnexters.android.mealdiary.MealDiaryConst
-import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.ui.Screen
+import com.teamnexters.android.mealdiary.ui.ToolbarChannel
+import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProvider
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.android.ext.android.inject
@@ -23,6 +23,10 @@ internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> :
     protected val disposables = CompositeDisposable()
 
     protected val schedulerProvider: SchedulerProvider by inject()
+
+    private val toolbarResourcesProvider: ToolbarResourcesProvider by inject()
+
+    private val toolbarChannel: ToolbarChannel by inject()
 
     abstract val layoutResId: Int
 
@@ -34,8 +38,9 @@ internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> :
         binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         binding.setLifecycleOwner(this)
 
-        arguments?.let {
-            viewModel.toLifecycleState(LifecycleState.OnCreate(arguments?.getSerializable(MealDiaryConst.KEY_ARGS) as Screen))
+        (arguments?.getSerializable(MealDiaryConst.KEY_ARGS) as? Screen)?.let {
+            viewModel.toLifecycleState(LifecycleState.OnCreate(it))
+            toolbarChannel.toolbarRelay().accept(toolbarResourcesProvider.get(it))
         }
 
         return binding.root
@@ -54,7 +59,6 @@ internal abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> :
                 Bundle().apply {
                     putSerializable(MealDiaryConst.KEY_ARGS, screen)
                 }
-
         )
     }
 

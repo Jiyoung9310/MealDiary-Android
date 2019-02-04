@@ -70,7 +70,7 @@ internal fun <T> Flowable<T>.toLiveData(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this)
 }
 
-internal fun <T> Observable<T>.toLiveData(backPressureStrategy: BackpressureStrategy): LiveData<T> {
+internal fun <T> Observable<T>.toLiveData(backPressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backPressureStrategy))
 }
 

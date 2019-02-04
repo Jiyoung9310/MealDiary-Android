@@ -4,14 +4,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionMenuTextAppearance">@style/H516PtPrimaryBoldRight</item>
+        <item name="android:actionMenuTextColor">@drawable/menu_text_selector</item>
     </style>
-<!--
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>-->
+    </style>
 
 </resources>

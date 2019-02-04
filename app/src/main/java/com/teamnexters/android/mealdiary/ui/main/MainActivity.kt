@@ -23,7 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-
+import com.teamnexters.android.mealdiary.ui.write.WriteParam
 
 internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.ViewModel>() {
 
@@ -57,7 +57,7 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
 
                 viewModel.outputs.ofPermissionState()
                         .ofType<PermissionState.Granted>()
-                        .subscribeOf(onNext = { viewModel.inputs.toNavigateToWrite(Screen.Write.Write) }),
+                        .subscribeOf(onNext = { viewModel.inputs.toNavigateToWrite(Screen.Write.Restaurant(WriteParam())) }),
 
                 viewModel.outputs.ofPermissionState()
                         .ofType<PermissionState.Denied>()
@@ -129,19 +129,17 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            return when(it.itemId) {
-                R.id.action_todo -> {
-                    Toast.makeText(applicationContext, "todo 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.action_search -> {
-                    Toast.makeText(applicationContext, "search 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> {
-                    super.onOptionsItemSelected(item)
-                }
+        return when(item?.itemId) {
+            R.id.action_todo -> {
+                Toast.makeText(applicationContext, "todo 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_search -> {
+                Toast.makeText(applicationContext, "search 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
             }
         }
     }

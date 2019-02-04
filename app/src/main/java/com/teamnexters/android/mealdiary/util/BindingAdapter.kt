@@ -9,6 +9,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.widget.TextViewCompat
@@ -16,6 +17,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.teamnexters.android.mealdiary.ui.ToolbarResources
 import com.teamnexters.android.mealdiary.util.extension.hasResource
 import com.teamnexters.android.mealdiary.util.extension.toPx
 import io.reactivex.functions.Action
@@ -137,4 +139,11 @@ internal fun setOnEditorAction(textView: TextView, onEditorAction: Action) {
 @BindingAdapter("android:selected")
 internal fun setSelected(view: View, selected: Boolean) {
     view.isSelected = selected
+}
+
+@BindingAdapter("toolbarResources")
+internal fun setToolbarResources(view: Toolbar, toolbarResources: ToolbarResources?) {
+    toolbarResources?.let {
+        view.setNavigationIcon(it.navigationRes)
+    }
 }

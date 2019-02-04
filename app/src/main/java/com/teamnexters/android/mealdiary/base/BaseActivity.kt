@@ -2,7 +2,6 @@ package com.teamnexters.android.mealdiary.base
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil

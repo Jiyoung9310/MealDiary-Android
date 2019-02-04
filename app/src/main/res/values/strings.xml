@@ -6,5 +6,14 @@
     <string name="permission_storage_message">저장소 권한이 거부되어 있습니다. 앱 환경설정에서 권한을 허용해주세요."</string>
     <string name="permission_dialog_rational_title">권한요청</string>
     <string name="permission_dialog_rational_positive_text">환경설정 바로가기</string>
+    <string name="photo_title">무엇을 먹었어?</string>
+    <string name="next">다음</string>
+    <string name="skip">Skip</string>
+    <string name="restaurant_title">어디서 먹었어?</string>
+    <string name="note_title">적는게 남는거야</string>
+    <string name="hint_restaurant">식당이름</string>
+    <string name="hint_title">제목</string>
+    <string name="hint_tag">#태그</string>
+    <string name="hint_content">식후감</string>
 
 </resources>
