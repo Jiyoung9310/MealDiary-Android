@@ -184,7 +184,6 @@
     <style name="H324PtPrimaryBoldLeft">
         <item name="android:textSize">24sp</item>
         <item name="android:letterSpacing">0</item>
-        <item name="android:lineSpacingExtra">9sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/primary_orange</item>
     </style>
