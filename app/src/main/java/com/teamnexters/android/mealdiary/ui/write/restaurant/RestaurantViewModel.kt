@@ -83,12 +83,12 @@ internal interface RestaurantViewModel {
                                     restaurant = RestaurantItem.toRestaurant(it.first)
                                 }
                             }
-                            .subscribeOf(onNext = { toNavigate(Screen.Write.Note(it)) }),
+                            .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Note(it)) }),
 
                     outputs.ofClickSkip()
                             .throttleClick()
                             .withLatestFromSecond(ofScreen<Screen.Write.Restaurant>())
-                            .subscribeOf(onNext = { toNavigate(Screen.Write.Note(it.writeParam)) })
+                            .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Note(it.writeParam)) })
             )
         }
 

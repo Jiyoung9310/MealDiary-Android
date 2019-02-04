@@ -3,6 +3,8 @@ package com.teamnexters.android.mealdiary.ui.main
 import android.Manifest
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -19,9 +21,6 @@ import com.teamnexters.android.mealdiary.util.extension.throttleClick
 import io.reactivex.rxkotlin.ofType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.view.MenuItem
-import android.widget.Toast
-import com.teamnexters.android.mealdiary.ui.write.WriteParam
 
 
 internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.ViewModel>() {
@@ -54,10 +53,6 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                         }),
 
                 viewModel.outputs.ofPermissionState()
-                        .ofType<PermissionState.Granted>()
-                        .subscribeOf(onNext = { viewModel.inputs.toNavigateToWrite(Screen.Write.Restaurant(WriteParam())) }),
-
-                viewModel.outputs.ofPermissionState()
                         .ofType<PermissionState.Denied>()
                         .subscribeOf(onNext = {
                             AlertDialog.Builder(this)
@@ -71,9 +66,15 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                                     .show()
                         }),
 
-                viewModel.outputs.ofNavigateToWrite()
+                viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { Navigator.navigateToWrite(this, it) }),
+                        .subscribeOf(onNext = {
+                            when(it) {
+                                is Screen.Write.Restaurant -> {
+                                    Navigator.navigateToWrite(this, it)
+                                }
+                            }
+                        }),
 
                 viewModel.outputs.ofShowDiaryDialog()
                         .observeOn(schedulerProvider.ui())
