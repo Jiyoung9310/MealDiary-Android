@@ -34,6 +34,14 @@
       app:layout_constraintBottom_toBottomOf="parent"
       />
 
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="155dp"
+      android:background="@drawable/bg_gradient"
+      app:layout_constraintTop_toTopOf="parent"
+      />
+
     <androidx.appcompat.widget.AppCompatTextView
       android:id="@+id/tvDate"
       android:layout_width="wrap_content"
@@ -43,20 +51,44 @@
       android:text="@{item.diary.date.toString()}"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      tools:text="2019.02.02"/>
+      tools:text="2019.02.02"
+      style="@style/Sm12PtWhiteRegularLeft"/>
 
-
-    <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/tvTitle"
-      android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/container_title"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginStart="20dp"
-      android:gravity="center_vertical"
-      android:text="@{item.diary.content}"
       android:layout_marginTop="4dp"
-      app:layout_constraintTop_toBottomOf="@id/tvDate"
+      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      tools:text="베네딕트 맛집"/>
+      app:layout_constraintTop_toBottomOf="@id/tvDate">
+
+      <View
+        android:id="@+id/highlight"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:alpha="0.8"
+        android:background="@color/primary_orange"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+        app:layout_constraintStart_toStartOf="@+id/tvTitle"/>
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@{item.diary.content}"
+        android:layout_marginStart="20dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="베네딕트 맛집"
+        style="@style/H324PtWhiteBoldLeft"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     
     <View
       android:id="@+id/borderLine"
@@ -64,6 +96,7 @@
       android:layout_height="2dp"
       android:layout_marginStart="19dp"
       android:layout_marginEnd="19dp"
+      android:alpha="0.6"
       android:background="@color/white"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -79,6 +112,7 @@
       app:layout_constraintTop_toBottomOf="@id/borderLine"
       app:layout_constraintStart_toStartOf="parent"
       tools:text="#베네딕트 #대구"
+      style="@style/Sm12PtWhiteRegularLeft"
       />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -88,19 +122,22 @@
       android:layout_marginEnd="20dp"
       android:layout_marginTop="17dp"
       android:text="점"
-      app:layout_constraintTop_toBottomOf="@id/borderLine"
+      app:layout_constraintBaseline_toBaselineOf="@id/tvScore"
       app:layout_constraintEnd_toEndOf="parent"
+      style="@style/P14PtWhiteRegularRight"
       />
 
     <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/tvScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="1.5dp"
-      android:layout_marginTop="17dp"
+      android:layout_marginTop="6dp"
       app:inttext="@{item.diary.score}"
       app:layout_constraintTop_toBottomOf="@id/borderLine"
       app:layout_constraintEnd_toStartOf="@id/tvJum"
       tools:text="70"
+      style="@style/H324PtWhiteBoldLeft"
       />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
