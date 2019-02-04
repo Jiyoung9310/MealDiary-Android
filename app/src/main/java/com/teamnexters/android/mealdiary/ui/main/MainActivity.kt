@@ -21,8 +21,8 @@ import io.reactivex.rxkotlin.ofType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
-
 
 
 internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.ViewModel>() {
@@ -88,10 +88,29 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                         })
         )
 
-        observe(viewModel.diaryItems) { diaryAdapter.submitList(it) }
+        observe(viewModel.diaryItems) {
+            diaryAdapter.submitList(it)
+            visibleRecyclerView(it)
+        }
+    }
+
+    private fun visibleRecyclerView(items: List<ListItem.DiaryItem>?) {
+        items?.let {
+            when(it.isEmpty()) {
+                true -> {
+                    binding.frameEmpty.visibility = View.VISIBLE
+                    binding.rvDiary.visibility = View.GONE
+                }
+                false -> {
+                    binding.frameEmpty.visibility = View.GONE
+                    binding.rvDiary.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun initializeRecyclerView() {
+        visibleRecyclerView(viewModel.diaryItems.value)
         binding.rvDiary.run {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = diaryAdapter

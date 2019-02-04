@@ -14,6 +14,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+      android:id="@+id/frameEmpty"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/appbar"
+      layout="@layout/view_empty">
+
+    </include>
+
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rv_diary"
       android:layout_width="match_parent"
@@ -52,7 +65,7 @@
             android:id="@+id/tvTitle"
             android:textStyle="bold"
             android:layout_width="match_parent"
-            android:layout_height="94dp"
+            android:layout_height="wrap_content"
             android:text="먹고,\n적는게 남는거야."
             android:textColor="@color/black"
             android:textSize="24sp"
@@ -62,10 +75,10 @@
           <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/bg_btn_write"
             android:onClick="@{() -> viewModel.inputs.toClickWrite()}"
             android:text="+ 식후감"
-            app:layout_constraintBaseline_toBaselineOf="@id/tvTitle"
+            app:layout_constraintBottom_toBottomOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"/>
 
 
