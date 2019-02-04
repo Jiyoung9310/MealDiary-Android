@@ -1,6 +1,7 @@
 package com.teamnexters.android.mealdiary.ui.main
 
 import android.Manifest
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AlertDialog
@@ -36,6 +37,7 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
         super.onCreate(savedInstanceState)
         supportActionBar?.title = ""
         supportActionBar?.elevation = 0F
+        supportActionBar?.setBackgroundDrawable(this.getDrawable(R.color.white))
 
         binding.viewModel = viewModel
 

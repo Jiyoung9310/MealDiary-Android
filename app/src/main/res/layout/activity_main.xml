@@ -22,7 +22,8 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/appbar"/>
+      app:layout_constraintTop_toBottomOf="@id/appbar"
+      tools:listitem="@layout/view_diary"/>
 
     <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/appbar"
@@ -51,7 +52,7 @@
             android:id="@+id/tvTitle"
             android:textStyle="bold"
             android:layout_width="match_parent"
-            android:layout_height="92dp"
+            android:layout_height="94dp"
             android:text="먹고,\n적는게 남는거야."
             android:textColor="@color/black"
             android:textSize="24sp"
@@ -72,7 +73,7 @@
         <androidx.appcompat.widget.Toolbar
           android:id="@+id/toolbar"
           android:layout_width="match_parent"
-          android:layout_height="?attr/actionBarSize"
+          android:layout_height="45dp"
           android:layout_gravity="bottom"
           android:elevation="0dp"
           app:layout_collapseMode="pin"

@@ -3,6 +3,9 @@ package com.teamnexters.android.mealdiary.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +13,7 @@ import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.databinding.ViewDiaryBinding
 import androidx.databinding.DataBindingUtil
 import com.teamnexters.android.mealdiary.R
+import com.teamnexters.android.mealdiary.data.local.entity.Diary
 
 
 internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : DiffUtil.ItemCallback<ListItem>() {
@@ -22,6 +26,24 @@ internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : Di
     }
 
 }) {
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("arrtext")
+        fun AppCompatTextView.arrText(diary: Diary){
+            var s: String = ""
+            for(i in diary.hashTags) {
+                s += i.tagName + " "
+            }
+            this.text = s
+        }
+
+        @JvmStatic
+        @BindingAdapter("inttext")
+        fun AppCompatTextView.intText(score: Int){
+            this.text = score.toString()
+        }
+    }
 
     interface Callbacks {
         fun onClickDiary(item: ListItem.DiaryItem)
@@ -51,6 +73,7 @@ internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : Di
     override fun onBindViewHolder(holder: DiaryViewHolder, position: Int) {
         if(holder.adapterPosition != RecyclerView.NO_POSITION) {
             holder.bind(getItem(position) as ListItem.DiaryItem)
+            holder.imgload()
         }
     }
 

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:paddingStart="20dp"
+  android:paddingEnd="20dp"
+  android:paddingBottom="20dp">
   <data>
     <variable
       name="item"
@@ -11,31 +15,93 @@
       type="android.view.View.OnClickListener"/>
   </data>
 
+
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="@{clickListener}">
+    android:layout_height="470dp"
+    android:onClick="@{clickListener}"
+    >
 
     <androidx.appcompat.widget.AppCompatImageView
       android:id="@+id/ivPhoto"
-      android:layout_width="0dp"
-      android:layout_height="260dp"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"
       android:src="@mipmap/dummy_img"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
       />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/tvDate"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:layout_marginStart="20dp"
+      android:text="@{item.diary.date.toString()}"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:text="2019.02.02"/>
 
 
     <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="0dp"
+      android:id="@+id/tvTitle"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginStart="20dp"
       android:gravity="center_vertical"
       android:text="@{item.diary.content}"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_marginTop="4dp"
+      app:layout_constraintTop_toBottomOf="@id/tvDate"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/ivPhoto"/>
+      tools:text="베네딕트 맛집"/>
+    
+    <View
+      android:id="@+id/borderLine"
+      android:layout_width="match_parent"
+      android:layout_height="2dp"
+      android:layout_marginStart="19dp"
+      android:layout_marginEnd="19dp"
+      android:background="@color/white"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintVertical_bias=".855"
+      />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="15dp"
+      app:arrtext="@{item.diary}"
+      app:layout_constraintTop_toBottomOf="@id/borderLine"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:text="#베네딕트 #대구"
+      />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/tvJum"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="20dp"
+      android:layout_marginTop="17dp"
+      android:text="점"
+      app:layout_constraintTop_toBottomOf="@id/borderLine"
+      app:layout_constraintEnd_toEndOf="parent"
+      />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="1.5dp"
+      android:layout_marginTop="17dp"
+      app:inttext="@{item.diary.score}"
+      app:layout_constraintTop_toBottomOf="@id/borderLine"
+      app:layout_constraintEnd_toStartOf="@id/tvJum"
+      tools:text="70"
+      />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
