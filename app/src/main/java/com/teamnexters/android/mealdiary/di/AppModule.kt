@@ -5,6 +5,7 @@ import com.teamnexters.android.mealdiary.ui.ToolbarChannel
 import com.teamnexters.android.mealdiary.ui.ToolbarChannelImpl
 import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProvider
 import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProviderImpl
+import com.teamnexters.android.mealdiary.ui.boarding.BoardingViewModel
 import com.teamnexters.android.mealdiary.ui.intro.IntroViewModel
 import com.teamnexters.android.mealdiary.ui.main.DiaryAdapter
 import com.teamnexters.android.mealdiary.ui.main.MainViewModel
@@ -43,6 +44,8 @@ val appModule = module {
     viewModel { SplashViewModel.ViewModel(get()) }
 
     viewModel { IntroViewModel.ViewModel(get()) }
+
+    viewModel { BoardingViewModel.ViewModel(get()) }
 
     factory { ToolbarResourcesProviderImpl() as ToolbarResourcesProvider }
 

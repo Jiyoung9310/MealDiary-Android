@@ -4,8 +4,8 @@ import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.repository.LocalRepository
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
-import com.teamnexters.android.mealdiary.util.extension.throttleClick
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 internal interface SplashViewModel {
     interface Inputs {
@@ -16,7 +16,7 @@ internal interface SplashViewModel {
         fun ofNavigate(): Observable<Boolean>
     }
 
-    class ViewModel(local: LocalRepository) : BaseViewModel(), Inputs, Outputs {
+    class ViewModel(private val local: LocalRepository) : BaseViewModel(), Inputs, Outputs {
 
         val inputs: Inputs = this
         val outputs: Outputs = this
@@ -26,6 +26,7 @@ internal interface SplashViewModel {
         init {
             disposables.addAll(
                     local.getPrivacyAgree()
+                            .delay(2, TimeUnit.SECONDS)
                             .filter { it }
                             .subscribeOf(onNext = {
                                 inputs.toNavigate(it)
@@ -34,7 +35,6 @@ internal interface SplashViewModel {
         }
 
         override fun toNavigate(value: Boolean) = navigationToIntroRelay.accept(value)
-
         override fun ofNavigate(): Observable<Boolean> = navigationToIntroRelay
     }
 }

@@ -2,6 +2,7 @@ package com.teamnexters.android.mealdiary.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.databinding.ActivitySplashBinding
@@ -25,6 +26,7 @@ internal class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewMo
                 viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
+                            Log.d("SplashAct()", "ofNavigate :$it")
                             when(it) {
                                 true -> startActivity(Intent(this, MainActivity::class.java))
                                 else -> {
@@ -33,7 +35,6 @@ internal class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewMo
                                 }
                             }
                             finish()
-
                         })
         )
     }
