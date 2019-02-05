@@ -1,12 +1,16 @@
 package com.teamnexters.android.mealdiary.data.local
 
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
 
 internal class LocalDataSourceImpl(
         private val roomDatabase: MealDiaryRoomDatabase,
+        private val sharedPreferences: SharedPreferences,
         private val schedulerProvider: SchedulerProvider
 
 ) : LocalDataSource {
@@ -51,4 +55,13 @@ internal class LocalDataSourceImpl(
         }.subscribeOn(schedulerProvider.io())
     }
 
+    override fun setPrivacyAgree(value: Boolean): Completable {
+        return transaction {
+            sharedPreferences.edit { putBoolean("privacyAgree", value) }
+        }
+    }
+
+    override fun getPrivacyAgree(): Observable<Boolean> {
+        return Observable.just(sharedPreferences.getBoolean("privacyAgree", false))
+    }
 }

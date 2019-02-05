@@ -15,7 +15,7 @@ val dbModule = module {
 
     single { createRoomDatabase(get(), MealDiaryRoomDatabase::class.java, "meal-diary-db") }
 
-    single { LocalDataSourceImpl(get(), get()) as LocalDataSource }
+    single { LocalDataSourceImpl(get(), get(), get()) as LocalDataSource }
 }
 
 internal inline fun <reified T : RoomDatabase> createRoomDatabase(context: Context, clazz: Class<T>, dbName: String): T {

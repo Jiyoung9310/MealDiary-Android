@@ -5,14 +5,20 @@ import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
+import com.teamnexters.android.mealdiary.data.local.entity.HashTag
+import com.teamnexters.android.mealdiary.data.local.entity.Restaurant
 import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.repository.LocalRepository
 import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.ui.write.WriteParam
-import com.teamnexters.android.mealdiary.util.extension.*
+import com.teamnexters.android.mealdiary.util.extension.subscribeOf
+import com.teamnexters.android.mealdiary.util.extension.throttleClick
+import com.teamnexters.android.mealdiary.util.extension.toLiveData
+import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.ofType
+import org.threeten.bp.ZonedDateTime
 
 
 internal interface MainViewModel {
@@ -47,9 +53,19 @@ internal interface MainViewModel {
         val inputs: Inputs = this
         val outputs: Outputs = this
 
-        val diaryItems: LiveData<List<ListItem.DiaryItem>> = localRepository.diaries().map { diaries ->
+        val photoList = mutableListOf("https://travelblog.expedia.co.kr/wp-content/uploads/2015/07/34.png")
+        val rest = Restaurant("브라운동까스", "강남구 어디로 123번길")
+        val hash = mutableListOf(HashTag("#브돈 #디캠 #맛집"))
+
+        val diaryItems: LiveData<List<ListItem.DiaryItem>> = Observable.just(listOf(
+                Diary(content = "식후감 쓰는 부분쓰", score = 60, photoUrls = photoList, restaurant =  rest, hashTags = hash, date = ZonedDateTime.now())
+        )).map { diaries ->
             diaries.map { ListItem.DiaryItem(it) }
         }.toLiveData()
+
+//        val diaryItems: LiveData<List<ListItem.DiaryItem>> = localRepository.diaries().map { diaries ->
+//            diaries.map { ListItem.DiaryItem(it) }
+//        }.toLiveData()
 
         private val clickedDiaryRelay = BehaviorRelay.create<Diary>()
 
