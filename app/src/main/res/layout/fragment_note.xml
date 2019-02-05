@@ -78,7 +78,7 @@
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1"
-            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toHashTag(text.toString())}"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toHashTagTextParam(text, start, before, count)}"
             android:text="@{viewModel.hashTag}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
