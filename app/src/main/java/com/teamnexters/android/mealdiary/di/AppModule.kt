@@ -5,8 +5,10 @@ import com.teamnexters.android.mealdiary.ui.ToolbarChannel
 import com.teamnexters.android.mealdiary.ui.ToolbarChannelImpl
 import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProvider
 import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProviderImpl
+import com.teamnexters.android.mealdiary.ui.intro.IntroViewModel
 import com.teamnexters.android.mealdiary.ui.main.DiaryAdapter
 import com.teamnexters.android.mealdiary.ui.main.MainViewModel
+import com.teamnexters.android.mealdiary.ui.splash.SplashViewModel
 import com.teamnexters.android.mealdiary.ui.write.WriteViewModel
 import com.teamnexters.android.mealdiary.ui.write.note.NoteViewModel
 import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProvider
@@ -37,6 +39,10 @@ val appModule = module {
     viewModel { ScoreViewModel.ViewModel(get()) }
 
     viewModel { PhotoViewModel.ViewModel(get(), get()) }
+
+    viewModel { SplashViewModel.ViewModel(get()) }
+
+    viewModel { IntroViewModel.ViewModel(get()) }
 
     factory { ToolbarResourcesProviderImpl() as ToolbarResourcesProvider }
 
