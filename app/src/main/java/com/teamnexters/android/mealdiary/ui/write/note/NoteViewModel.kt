@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
+import com.teamnexters.android.mealdiary.data.TextChangedParam
 import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
+import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.withLatestFrom
@@ -13,7 +15,8 @@ import io.reactivex.rxkotlin.withLatestFrom
 internal interface NoteViewModel {
     interface Inputs {
         fun toTitle(title: String)
-        fun toHashTag(tag: String)
+        fun toHashTagTextParam(s: CharSequence, start: Int, before: Int, count: Int)
+        fun toHashTagFocused(hasFocus: Boolean)
         fun toContent(content: String)
         fun toClickNext()
         fun toNavigate(screen: Screen)
@@ -21,7 +24,9 @@ internal interface NoteViewModel {
 
     interface Outputs {
         fun ofTitle(): Observable<String>
+        fun ofHashTagTextParam(): Observable<TextChangedParam>
         fun ofHashTag(): Observable<String>
+        fun ofHashTagFocused(): Observable<Boolean>
         fun ofContent(): Observable<String>
         fun ofClickNext(): Observable<Unit>
         fun ofNavigate(): Observable<Screen>
@@ -42,9 +47,10 @@ internal interface NoteViewModel {
         val nextEnable = MutableLiveData<Boolean>().apply { postValue(false) }
 
         private val titleRelay = BehaviorRelay.createDefault("")
-        private val hashTagRelay = BehaviorRelay.createDefault("")
+        private val hashTagRelay = BehaviorRelay.createDefault(TextChangedParam("", 0, 0, 0))
         private val contentRelay = BehaviorRelay.createDefault("")
 
+        private val hashTagFocusedRelay = BehaviorRelay.createDefault(false)
         private val clickNextRelay = PublishRelay.create<Unit>()
         private val navigateRelay = PublishRelay.create<Screen>()
 
@@ -56,8 +62,26 @@ internal interface NoteViewModel {
                                 title.postValue(it)
                             }),
 
-                    outputs.ofHashTag()
-                            .subscribeOf(onNext = { hashTag.postValue(it) }),
+                    outputs.ofHashTagTextParam()
+                            .withLatestFrom(outputs.ofHashTagFocused())
+                            .observeOn(schedulerProvider.ui())
+                            .subscribeOf(onNext = { (textParam, focused) ->
+                                val stringBuilder = StringBuilder(textParam.s.toString())
+
+                                if(stringBuilder.length >= 2 && stringBuilder.last().isWhitespace() && stringBuilder[stringBuilder.length-2] == '#') {
+                                    stringBuilder.deleteCharAt(stringBuilder.length-1)
+                                } else if(focused && (stringBuilder.isEmpty() || stringBuilder.last().isWhitespace() && textParam.before < textParam.count)) {
+                                    stringBuilder.append("#")
+                                }
+
+                                hashTag.value = stringBuilder.toString()
+                            }),
+
+                    outputs.ofHashTagFocused()
+                            .filter { it }
+                            .withLatestFromSecond(outputs.ofHashTag())
+                            .filter { it.isEmpty() }
+                            .subscribeOf(onNext = { hashTag.postValue("#") }),
 
                     outputs.ofContent()
                             .subscribeOf(onNext = { content.postValue(it) }),
@@ -77,8 +101,12 @@ internal interface NoteViewModel {
         override fun toTitle(title: String) = titleRelay.accept(title)
         override fun ofTitle(): Observable<String> = titleRelay
 
-        override fun toHashTag(tag: String) = hashTagRelay.accept(tag)
-        override fun ofHashTag(): Observable<String> = hashTagRelay
+        override fun toHashTagTextParam(s: CharSequence, start: Int, before: Int, count: Int) = hashTagRelay.accept(TextChangedParam(s, start, before, count))
+        override fun ofHashTagTextParam(): Observable<TextChangedParam> = hashTagRelay
+        override fun ofHashTag(): Observable<String> = hashTagRelay.map { it.s.toString() }
+
+        override fun toHashTagFocused(hasFocus: Boolean) = hashTagFocusedRelay.accept(hasFocus)
+        override fun ofHashTagFocused(): Observable<Boolean> = hashTagFocusedRelay
 
         override fun toContent(content: String) = contentRelay.accept(content)
         override fun ofContent(): Observable<String> = contentRelay
