@@ -57,9 +57,10 @@ internal interface NoteViewModel {
         init {
             disposables.addAll(
                     outputs.ofTitle()
+                            .observeOn(schedulerProvider.ui())
                             .subscribeOf(onNext = {
-                                nextEnable.postValue(it.isNotBlank())
-                                title.postValue(it)
+                                nextEnable.value = it.isNotBlank()
+                                title.value = it
                             }),
 
                     outputs.ofHashTagTextParam()
@@ -68,8 +69,8 @@ internal interface NoteViewModel {
                             .subscribeOf(onNext = { (textParam, focused) ->
                                 val stringBuilder = StringBuilder(textParam.s.toString())
 
-                                if(stringBuilder.length >= 2 && stringBuilder.last().isWhitespace() && stringBuilder[stringBuilder.length-2] == '#') {
-                                    stringBuilder.deleteCharAt(stringBuilder.length-1)
+                                if(stringBuilder.length >= 2 && stringBuilder.last().isWhitespace() && stringBuilder[stringBuilder.length - 2] == '#') {
+                                    stringBuilder.deleteCharAt(stringBuilder.length - 1)
                                 } else if(focused && (stringBuilder.isEmpty() || stringBuilder.last().isWhitespace() && textParam.before < textParam.count)) {
                                     stringBuilder.append("#")
                                 }
@@ -81,10 +82,12 @@ internal interface NoteViewModel {
                             .filter { it }
                             .withLatestFromSecond(outputs.ofHashTag())
                             .filter { it.isEmpty() }
-                            .subscribeOf(onNext = { hashTag.postValue("#") }),
+                            .observeOn(schedulerProvider.ui())
+                            .subscribeOf(onNext = { hashTag.value = "#" }),
 
                     outputs.ofContent()
-                            .subscribeOf(onNext = { content.postValue(it) }),
+                            .observeOn(schedulerProvider.ui())
+                            .subscribeOf(onNext = { content.value = it }),
 
                     outputs.ofClickNext()
                             .withLatestFrom(ofScreen<Screen.Write.Note>(), outputs.ofTitle(), outputs.ofContent(), outputs.ofHashTag()) { _, screen, title, content, hashTags ->
