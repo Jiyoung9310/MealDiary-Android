@@ -18,12 +18,14 @@ import java.util.concurrent.TimeUnit
 internal interface ScoreViewModel {
     interface Inputs {
         fun toScore(progress: Int)
+        fun toScoreItem(scoreItem: ScoreItem)
         fun toClickComplete()
         fun toFinish()
     }
 
     interface Outputs {
         fun ofScore(): Observable<Int>
+        fun ofScoreItem(): Observable<ScoreItem>
         fun ofClickComplete(): Observable<Unit>
         fun ofFinish(): Observable<Unit>
     }
@@ -46,30 +48,34 @@ internal interface ScoreViewModel {
         private val clickCompleteRelay = PublishRelay.create<Unit>()
         private val finishRelay = PublishRelay.create<Unit>()
 
+        private val scoreItemRelay = PublishRelay.create<ScoreItem>()
+
         init {
-            val items = (0..5).map { ScoreItem(it * 10, "title$it") }
-
-            scoreItems.postValue(items)
-
             disposables.addAll(
+                    localRepository.scoreItems()
+                            .subscribeOf(onNext = { scoreItems.postValue(it) }),
+
                     outputs.ofScore()
                             .throttleLast(300, TimeUnit.MILLISECONDS)
                             .subscribeOf(onNext = {
                                 scoreProgress.postValue(it)
-                                scoreCardPosition.postValue(it / 20)
+                                scoreCardPosition.postValue(it / 10)
+                                scoreItems.value?.get(it / 10)?.let { scoreItem ->
+                                    scoreItemRelay.accept(scoreItem)
+                                }
                             }),
 
                     outputs.ofClickComplete()
                             .withLatestFromSecond(ofScreen<Screen.Write.Score>())
-                            .withLatestFrom(outputs.ofScore())
+                            .withLatestFrom(outputs.ofScoreItem())
                             .doOnNext {
                                 val param = it.first.writeParam
-                                val score = it.second
+                                val scoreItem = it.second
 
                                 val diary = Diary(
                                         title = param.title ?: "",
                                         content = param.content,
-                                        score = score,
+                                        score = scoreItem.score,
                                         photoUrls = param.photoUrls,
                                         restaurant = param.restaurant,
                                         hashTags = param.hashTags,
@@ -84,6 +90,9 @@ internal interface ScoreViewModel {
 
         override fun toScore(progress: Int) = scoreRelay.accept(progress)
         override fun ofScore(): Observable<Int> = scoreRelay
+
+        override fun toScoreItem(scoreItem: ScoreItem) = scoreItemRelay.accept(scoreItem)
+        override fun ofScoreItem(): Observable<ScoreItem> = scoreItemRelay
 
         override fun toClickComplete() = clickCompleteRelay.accept(Unit)
         override fun ofClickComplete(): Observable<Unit> = clickCompleteRelay

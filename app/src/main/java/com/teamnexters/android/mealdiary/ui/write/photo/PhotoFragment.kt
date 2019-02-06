@@ -17,6 +17,8 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
 
     private val photoAdapter: PhotoAdapter by inject()
 
+    private var nextIcon: MenuItem? = null
+
     override val layoutResId: Int = R.layout.fragment_photo
 
     override val viewModel: PhotoViewModel.ViewModel by viewModel()
@@ -34,7 +36,11 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
                         .subscribeOf(onNext = { photoAdapter.submitList(it) }),
 
                 viewModel.outputs.ofSelectedPhotoList()
-                        .subscribeOf(onNext = { photoAdapter.setSelectedPhotoList(it) }),
+                        .subscribeOf(onNext = {
+                            photoAdapter.setSelectedPhotoList(it)
+
+                            nextIcon?.isEnabled = it.isNotEmpty()
+                        }),
 
                 viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
@@ -52,6 +58,11 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.photo_menu, menu)
+
+        menu?.let {
+            nextIcon = it.findItem(R.id.action_next)
+            nextIcon?.isEnabled = false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

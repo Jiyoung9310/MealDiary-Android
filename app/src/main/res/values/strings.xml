@@ -6,7 +6,7 @@
     <string name="permission_storage_message">저장소 권한이 거부되어 있습니다. 앱 환경설정에서 권한을 허용해주세요."</string>
     <string name="permission_dialog_rational_title">권한요청</string>
     <string name="permission_dialog_rational_positive_text">환경설정 바로가기</string>
-    <string name="photo_title">무엇을 먹었어?</string>
+    <string name="photo_title">먹은 음식 사진을 골라줘</string>
     <string name="next">다음</string>
     <string name="skip">Skip</string>
     <string name="restaurant_title">어디서 먹었어?</string>
@@ -22,5 +22,19 @@
     <!--intro-->
     <string name="intro_privacy_agree">개인정보수집 및 이용동의 약관\n“안전결제 프리미엄 서비스(이하, ‘서비스’라 합니다.)”의 서비스 제공과 관련하여 “브이피 주식회사(이하, ‘회사’라 합니다.)”가 본인으로부터 취득한 개인정보는 통신비밀보호법, 전기통신사업법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률 등 정보통신서비스제공자가 준수하여야 할 관련 법령상의 개인정보보호 규정에 따라 제3자에 제공하거나 영업목적으로 이용 시 동의를 받아야 하는 정보입니다. 이에 본인은, 귀사가 본인으로부터 취득한 개인정보를 아래와 같은 목적으로 이용하거나 제휴업체에게 제공하는데 동의합니다. 회사는 본 서비스를 가입자에게 제공하기 위해 다음과 같이 개인정보를 수집/이용합니다.</string>
     <string name="intro_btn_agree">동의하고 사용할게요</string>
+
+    <!-- score -->
+    <string-array name="array_score_text">
+        <!-- 0~29 -->
+        <item>다시는 안갈꺼야!!</item>
+        <!-- 30~49 -->
+        <item>언젠가 인연이 되면 또 가겠지..</item>
+        <!-- 50~69 -->
+        <item>먹을만.. 했다.</item>
+        <!-- 70~89 -->
+        <item>보람찬 한 끼였다.</item>
+        <!-- 90~100 -->
+        <item>드디어 인생 맛집을 찾았다!</item>
+    </string-array>
 
 </resources>
