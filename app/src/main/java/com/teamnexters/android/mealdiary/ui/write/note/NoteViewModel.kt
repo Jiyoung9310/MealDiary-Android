@@ -5,7 +5,9 @@ import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.data.TextChangedParam
+import com.teamnexters.android.mealdiary.data.local.converter.HashTagConverter
 import com.teamnexters.android.mealdiary.ui.Screen
+import com.teamnexters.android.mealdiary.util.HashTagUtil
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
@@ -94,7 +96,7 @@ internal interface NoteViewModel {
                                 screen.writeParam.apply {
                                     this.title = title
                                     this.content = content
-                                    this.hashTags = listOf(hashTags)
+                                    this.hashTags = HashTagUtil.toHashTagList(hashTags)
                                 }
                             }
                             .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Photo(it)) })

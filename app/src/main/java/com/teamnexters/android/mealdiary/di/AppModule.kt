@@ -37,7 +37,7 @@ val appModule = module {
 
     viewModel { NoteViewModel.ViewModel(get()) }
 
-    viewModel { ScoreViewModel.ViewModel(get()) }
+    viewModel { ScoreViewModel.ViewModel(get(), get()) }
 
     viewModel { PhotoViewModel.ViewModel(get(), get()) }
 

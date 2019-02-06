@@ -16,7 +16,7 @@ import com.teamnexters.android.mealdiary.data.local.entity.*
             Restaurant::class,
             HashTag::class
         ],
-        version = 2,
+        version = 3,
         exportSchema = false
 )
 @TypeConverters(
