@@ -24,8 +24,15 @@ internal class PhotoAdapter : ListAdapter<Photo, PhotoViewHolder>(object : DiffU
         const val PAYLOAD_SELECT_ICON = "payload_select_icon"
     }
 
-    private var selectedPositions = mutableListOf<Int>()
-    private val selectedPhotoListRelay = BehaviorRelay.createDefault<List<Photo>>(listOf())
+    interface Callbacks {
+        fun onSelectedPhotos(selectedPhotos: List<Photo>)
+    }
+
+    private var items: List<Photo> = emptyList()
+
+    private var selectedPhotoList = mutableListOf<Photo>()
+
+    private var callbacks: Callbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val binding = ViewPhotoBinding.inflate(LayoutInflater.from(parent.context))
@@ -38,33 +45,33 @@ internal class PhotoAdapter : ListAdapter<Photo, PhotoViewHolder>(object : DiffU
 
                 val selected = !item.selected
 
-                if(selected && selectedPositions.size < 6) {
-                    selectedPositions.add(viewHolder.adapterPosition)
+                if(selected && selectedPhotoList.size < 6) {
+                    selectedPhotoList.add(item)
 
                     item.selected = selected
-                    item.order = selectedPositions.size
+                    item.order = selectedPhotoList.size
 
                     notifyItemChanged(viewHolder.adapterPosition, PAYLOAD_SELECT_ICON)
                 } else if(!selected) {
-                    selectedPositions.remove(viewHolder.adapterPosition)
+                    selectedPhotoList.remove(item)
 
                     val removedItemOrder = item.order
 
                     item.selected = selected
                     item.order = 0
 
-                    selectedPositions
-                            .filter { selectedPosition -> removedItemOrder < getItem(selectedPosition).order }
-                            .forEach { selectedPosition ->
-                                getItem(selectedPosition).order = getItem(selectedPosition).order - 1
-
-                                notifyItemChanged(selectedPosition, PAYLOAD_SELECT_ICON)
+                    selectedPhotoList
+                            .filter { selectedItem -> removedItemOrder < selectedItem.order }
+                            .forEach { selectedItem ->
+                                selectedItem.order -= 1
                             }
 
                     notifyItemChanged(viewHolder.adapterPosition, PAYLOAD_SELECT_ICON)
                 }
 
-                selectedPhotoListRelay.accept(selectedPhotoList())
+                setSelectedPhotoList(selectedPhotoList)
+
+                callbacks?.onSelectedPhotos(selectedPhotoList)
             }
         }
 
@@ -72,19 +79,42 @@ internal class PhotoAdapter : ListAdapter<Photo, PhotoViewHolder>(object : DiffU
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        bind(holder, position)
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int, payloads: MutableList<Any>) {
+        bind(holder, position)
+    }
+
+    fun setSelectedPhotoList(selectedPhotos: List<Photo>) {
+        items.forEachIndexed { index, photo ->
+            selectedPhotos.firstOrNull { selectedPhoto -> selectedPhoto.imgPath == photo.imgPath }?.let {
+                val selectedPosition = items.indexOf(it)
+
+                if(selectedPosition != -1) {
+                    photo.selected = it.selected
+                    photo.order = it.order
+
+                    notifyItemChanged(index, PAYLOAD_SELECT_ICON)
+                }
+            }
+        }
+    }
+
+    fun setCallbacks(callbacks: Callbacks) {
+        this.callbacks = callbacks
+    }
+
+    private fun bind(holder: PhotoViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    fun selectedPhotoListObservable(): Observable<List<Photo>> {
-        return selectedPhotoListRelay
-    }
+    override fun submitList(list: List<Photo>?) {
+        super.submitList(list)
 
-    private fun selectedPhotoList(): List<Photo> {
-        return selectedPositions.map { getItem(it) }
+        list?.let {
+            items = it
+        }
     }
 
 }
