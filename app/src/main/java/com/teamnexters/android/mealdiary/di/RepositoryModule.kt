@@ -7,7 +7,7 @@ import com.teamnexters.android.mealdiary.repository.RemoteRepositoryImpl
 import org.koin.dsl.module.module
 
 val localRepositoryModule = module {
-    single { LocalRepositoryImpl(get()) as LocalRepository }
+    single { LocalRepositoryImpl(get(), get()) as LocalRepository }
 }
 
 val remoteRepositoryModule = module {

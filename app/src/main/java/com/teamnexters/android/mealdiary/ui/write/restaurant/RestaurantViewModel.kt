@@ -10,6 +10,7 @@ import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import com.teamnexters.android.mealdiary.util.extension.throttleClick
 import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
+import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.withLatestFrom
 import java.util.concurrent.TimeUnit
@@ -30,7 +31,8 @@ internal interface RestaurantViewModel {
     }
 
     class ViewModel(
-            private val remoteRepository: RemoteRepository
+            private val remoteRepository: RemoteRepository,
+            private val schedulerProvider: SchedulerProvider
 
     ) : BaseViewModel(), Inputs, Outputs {
 
@@ -50,6 +52,7 @@ internal interface RestaurantViewModel {
         init {
             disposables.addAll(
                     outputs.ofKeyword()
+                            .observeOn(schedulerProvider.ui())
                             .doOnNext { keyword.postValue(it) }
                             .debounce(500, TimeUnit.MILLISECONDS)
                             .doOnNext {

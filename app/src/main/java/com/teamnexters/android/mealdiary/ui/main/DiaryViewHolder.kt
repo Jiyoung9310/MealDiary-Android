@@ -10,7 +10,4 @@ internal class DiaryViewHolder(private val binding: ViewDiaryBinding) : Recycler
     fun bind(item: ListItem.DiaryItem) {
         binding.item = item
     }
-    fun imgload() {
-        ImageUtil().setImage(binding.root.context, R.mipmap.dummy_img, binding.ivPhoto)
-    }
 }

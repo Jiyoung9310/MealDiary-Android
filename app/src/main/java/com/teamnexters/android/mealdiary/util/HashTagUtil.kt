@@ -4,10 +4,12 @@ import com.teamnexters.android.mealdiary.data.local.entity.HashTag
 
 internal class HashTagUtil {
     companion object {
+        @JvmStatic
         fun toHashTagList(value: String): List<HashTag> {
             return value.replace("\\s".toRegex(), "").split('#').filter { it.isNotBlank() }.map { HashTag(tagName = it) }
         }
 
+        @JvmStatic
         fun toString(hashTags: List<HashTag>): String {
 
             val stringBuilder = StringBuilder()

@@ -17,6 +17,8 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
 
     private val photoAdapter: PhotoAdapter by inject()
 
+    private var nextIcon: MenuItem? = null
+
     override val layoutResId: Int = R.layout.fragment_photo
 
     override val viewModel: PhotoViewModel.ViewModel by viewModel()
@@ -33,9 +35,12 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = { photoAdapter.submitList(it) }),
 
-                photoAdapter.selectedPhotoListObservable()
-                        .distinctUntilChanged()
-                        .subscribeOf(onNext = { viewModel.inputs.toSelectedPhotoList(it) }),
+                viewModel.outputs.ofSelectedPhotoList()
+                        .subscribeOf(onNext = {
+                            photoAdapter.setSelectedPhotoList(it)
+
+                            nextIcon?.isEnabled = it.isNotEmpty()
+                        }),
 
                 viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
@@ -53,6 +58,11 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.photo_menu, menu)
+
+        menu?.let {
+            nextIcon = it.findItem(R.id.action_next)
+            nextIcon?.isEnabled = false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -71,6 +81,12 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
             layoutManager = GridLayoutManager(context, 3)
             adapter = photoAdapter
         }
+
+        photoAdapter.setCallbacks(object : PhotoAdapter.Callbacks {
+            override fun onSelectedPhotos(selectedPhotos: List<Photo>) {
+                viewModel.inputs.toSelectedPhotoList(selectedPhotos)
+            }
+        })
     }
 
 }

@@ -11,6 +11,7 @@ import io.reactivex.rxkotlin.withLatestFrom
 
 internal interface PhotoViewModel {
     interface Inputs {
+        fun toPhotoList(photos: List<Photo>)
         fun toClickNext()
         fun toNavigate(screen: Screen)
         fun toSelectedPhotoList(photos: List<Photo>)
@@ -34,10 +35,15 @@ internal interface PhotoViewModel {
 
         private val clickNextRelay = PublishRelay.create<Unit>()
         private val navigateToRestaurantRelay = PublishRelay.create<Screen>()
-        private val selectedPhotoRelay = BehaviorRelay.createDefault<List<Photo>>(listOf())
+        private val photosRelay = BehaviorRelay.createDefault<List<Photo>>(emptyList())
+        private val selectedPhotoRelay = BehaviorRelay.createDefault<List<Photo>>(emptyList())
 
         init {
             disposables.addAll(
+                    Observable.fromCallable { galleryProvider.photoPathList() }
+                            .subscribeOn(schedulerProvider.io())
+                            .subscribeOf(onNext = { inputs.toPhotoList(it) }),
+
                     outputs.ofClickNext()
                             .withLatestFrom(ofScreen<Screen.Write.Photo>(), outputs.ofSelectedPhotoList()) { _, screen, photos ->
                                 screen.writeParam.apply {
@@ -48,9 +54,8 @@ internal interface PhotoViewModel {
             )
         }
 
-        override fun ofPhotoList(): Observable<List<Photo>> {
-            return Observable.fromCallable { galleryProvider.photoPathList() }.subscribeOn(schedulerProvider.io())
-        }
+        override fun toPhotoList(photos: List<Photo>) = photosRelay.accept(photos)
+        override fun ofPhotoList(): Observable<List<Photo>> = photosRelay
 
         override fun toClickNext() = clickNextRelay.accept(Unit)
         override fun ofClickNext(): Observable<Unit> = clickNextRelay

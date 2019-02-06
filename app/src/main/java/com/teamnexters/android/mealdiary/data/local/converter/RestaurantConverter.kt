@@ -8,12 +8,12 @@ internal class RestaurantConverter {
     private val gson = GsonProvider.gson
 
     @TypeConverter
-    fun fromRestaurant(value: Restaurant): String {
+    fun fromRestaurant(value: Restaurant?): String {
         return gson.toJson(value, Restaurant::class.java)
     }
 
     @TypeConverter
-    fun toRestaurant(value: String): Restaurant {
+    fun toRestaurant(value: String): Restaurant? {
         return gson.fromJson(value, Restaurant::class.java)
     }
 

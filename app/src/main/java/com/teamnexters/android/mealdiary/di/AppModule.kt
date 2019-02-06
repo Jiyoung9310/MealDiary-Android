@@ -33,11 +33,11 @@ val appModule = module {
 
     viewModel { WriteViewModel.ViewModel(get()) }
 
-    viewModel { RestaurantViewModel.ViewModel(get()) }
+    viewModel { RestaurantViewModel.ViewModel(get(), get()) }
 
     viewModel { NoteViewModel.ViewModel(get()) }
 
-    viewModel { ScoreViewModel.ViewModel(get()) }
+    viewModel { ScoreViewModel.ViewModel(get(), get()) }
 
     viewModel { PhotoViewModel.ViewModel(get(), get()) }
 

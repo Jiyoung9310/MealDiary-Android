@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
@@ -146,4 +147,9 @@ internal fun setToolbarResources(view: Toolbar, toolbarResources: ToolbarResourc
     toolbarResources?.let {
         view.setNavigationIcon(it.navigationRes)
     }
+}
+
+@BindingAdapter("lottie_fileName")
+internal fun setLottieFilename(view: LottieAnimationView, fileName: String) {
+    view.setAnimation(fileName)
 }

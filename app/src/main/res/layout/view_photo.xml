@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
         <variable
             name="photo"
@@ -10,9 +11,11 @@
             name="clickListener"
             type="android.view.View.OnClickListener"/>
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:selected="@{photo.selected}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
@@ -31,12 +34,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:selected="@{photo.selected}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_photo"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            style="@style/H516PtWhiteRegularCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{String.valueOf(photo.order)}"
@@ -46,6 +49,15 @@
             app:layout_constraintEnd_toEndOf="@+id/iv_photo"
             app:layout_constraintStart_toStartOf="@+id/iv_photo"
             app:layout_constraintTop_toTopOf="@+id/iv_photo"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_photo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

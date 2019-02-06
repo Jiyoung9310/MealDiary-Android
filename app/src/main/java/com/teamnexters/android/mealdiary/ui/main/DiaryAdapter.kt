@@ -27,24 +27,6 @@ internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : Di
 
 }) {
 
-    companion object {
-        @JvmStatic
-        @BindingAdapter("arrtext")
-        fun AppCompatTextView.arrText(diary: Diary){
-            var s: String = ""
-            for(i in diary.hashTags) {
-                s += i.tagName + " "
-            }
-            this.text = s
-        }
-
-        @JvmStatic
-        @BindingAdapter("inttext")
-        fun AppCompatTextView.intText(score: Int){
-            this.text = score.toString()
-        }
-    }
-
     interface Callbacks {
         fun onClickDiary(item: ListItem.DiaryItem)
     }
@@ -58,7 +40,6 @@ internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : Di
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        //val binding = ViewDiaryBinding.inflate(inflater, parent, false)
         val binding = DataBindingUtil.inflate<ViewDiaryBinding>(inflater, R.layout.view_diary, parent, false)
 
         val viewHolder =  DiaryViewHolder(binding)
@@ -73,7 +54,6 @@ internal class DiaryAdapter : ListAdapter<ListItem, DiaryViewHolder>(object : Di
     override fun onBindViewHolder(holder: DiaryViewHolder, position: Int) {
         if(holder.adapterPosition != RecyclerView.NO_POSITION) {
             holder.bind(getItem(position) as ListItem.DiaryItem)
-            holder.imgload()
         }
     }
 

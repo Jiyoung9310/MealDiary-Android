@@ -6,7 +6,7 @@
     <string name="permission_storage_message">저장소 권한이 거부되어 있습니다. 앱 환경설정에서 권한을 허용해주세요."</string>
     <string name="permission_dialog_rational_title">권한요청</string>
     <string name="permission_dialog_rational_positive_text">환경설정 바로가기</string>
-    <string name="photo_title">무엇을 먹었어?</string>
+    <string name="photo_title">먹은 음식 사진을 골라줘</string>
     <string name="next">다음</string>
     <string name="skip">Skip</string>
     <string name="restaurant_title">어디서 먹었어?</string>
@@ -24,5 +24,19 @@
     <string name="intro_btn_agree">동의하고 사용할게요</string>
     <string name="intro_btn_next">다음</string>
     <string name="intro_skip">Skip</string>
+
+    <!-- score -->
+    <string-array name="array_score_text">
+        <!-- 0~29 -->
+        <item>다시는 안갈꺼야!!</item>
+        <!-- 30~49 -->
+        <item>언젠가 인연이 되면 또 가겠지..</item>
+        <!-- 50~69 -->
+        <item>먹을만.. 했다.</item>
+        <!-- 70~89 -->
+        <item>보람찬 한 끼였다.</item>
+        <!-- 90~100 -->
+        <item>드디어 인생 맛집을 찾았다!</item>
+    </string-array>
 
 </resources>
