@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@{item.diary.photoUrls.size > 0 ? item.diary.photoUrls.get(0) : null}"
+            app:srcCompatCorner="@{item.diary.photoUrls.size > 0 ? item.diary.photoUrls.get(0) : null}"
             tools:src="@drawable/dummy_img"/>
 
         <View
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
-            android:text="@{item.diary.date.toString()}"
+            app:textDate="@{item.diary.date}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="2019.02.02"/>

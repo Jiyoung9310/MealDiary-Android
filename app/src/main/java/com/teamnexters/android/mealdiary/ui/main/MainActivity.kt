@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +22,6 @@ import com.teamnexters.android.mealdiary.util.extension.throttleClick
 import io.reactivex.rxkotlin.ofType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.view.View
 
 internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.ViewModel>() {
 
@@ -33,9 +33,6 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.title = ""
-        supportActionBar?.elevation = 0F
-        supportActionBar?.setBackgroundDrawable(this.getDrawable(R.color.white))
 
         binding.viewModel = viewModel
 
@@ -100,10 +97,12 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                 true -> {
                     binding.frameEmpty.visibility = View.VISIBLE
                     binding.rvDiary.visibility = View.GONE
+                    binding.toolbar.visibility = View.GONE
                 }
                 false -> {
                     binding.frameEmpty.visibility = View.GONE
                     binding.rvDiary.visibility = View.VISIBLE
+                    binding.toolbar.visibility = View.VISIBLE
                 }
             }
         }

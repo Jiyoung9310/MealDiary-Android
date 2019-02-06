@@ -1,6 +1,7 @@
 package com.teamnexters.android.mealdiary.util
 
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ImageView
@@ -18,10 +19,13 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.ui.ToolbarResources
 import com.teamnexters.android.mealdiary.util.extension.hasResource
 import com.teamnexters.android.mealdiary.util.extension.toPx
 import io.reactivex.functions.Action
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 @BindingAdapter("android:visibility")
 internal fun setVisibility(view: View, isVisible: Boolean) {
@@ -62,6 +66,13 @@ internal fun setTextAppearance(textView: TextView, @StyleRes resId: Int) {
     TextViewCompat.setTextAppearance(textView, resId)
 }
 
+@BindingAdapter("textDate")
+internal fun setTextDate(textView: TextView, date: ZonedDateTime) {
+    textView.text = date.run {
+        DateTimeFormatter.ofPattern("yyyy.MM.dd").format(this)
+    }
+}
+
 @BindingAdapter("android:background")
 internal fun setBackground(view: View, colorOrResId: Int) {
     if(view.context.hasResource(colorOrResId)) {
@@ -88,6 +99,20 @@ internal fun setSrcCompat(imageView: ImageView, url: String) {
             .load(url)
             .apply(RequestOptions().centerCrop())
             .into(imageView)
+}
+
+@BindingAdapter("srcCompatCorner")
+internal fun setSrcCompatCorner(imageView: ImageView, url: String) {
+    Glide.with(imageView)
+            .load(url)
+            .apply(RequestOptions().centerCrop())
+            .into(imageView)
+
+    val drawable = imageView.context.getDrawable(R.drawable.bg_round_corner) as GradientDrawable
+    imageView.run {
+        background = drawable
+        clipToOutline = true
+    }
 }
 
 @BindingAdapter(value = [

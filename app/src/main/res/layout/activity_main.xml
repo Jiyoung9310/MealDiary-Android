@@ -106,8 +106,8 @@
                             />
 
                         <androidx.appcompat.widget.AppCompatButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="104dp"
+                            android:layout_height="46dp"
                             android:background="@drawable/bg_gradient_btn_corner"
                             android:onClick="@{() -> viewModel.inputs.toClickWrite()}"
                             android:text="+ 식후감"
