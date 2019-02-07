@@ -27,7 +27,7 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
 
         binding.viewModel = viewModel
 
-        observe(viewModel.nextEnable) { nextIcon.isEnabled = it }
+        observe(viewModel.title) { nextIcon.isEnabled = it.isNotBlank() }
 
         disposables.addAll(
                 Observable.merge(viewModel.ofHashTagTextParam(), viewModel.outputs.ofHashTagFocused())

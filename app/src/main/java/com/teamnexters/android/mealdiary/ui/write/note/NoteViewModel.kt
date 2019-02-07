@@ -16,20 +16,16 @@ import io.reactivex.rxkotlin.withLatestFrom
 
 internal interface NoteViewModel {
     interface Inputs {
-        fun toTitle(title: String)
         fun toHashTagTextParam(s: CharSequence, start: Int, before: Int, count: Int)
         fun toHashTagFocused(hasFocus: Boolean)
-        fun toContent(content: String)
         fun toClickNext()
         fun toNavigate(screen: Screen)
     }
 
     interface Outputs {
-        fun ofTitle(): Observable<String>
         fun ofHashTagTextParam(): Observable<TextChangedParam>
         fun ofHashTag(): Observable<String>
         fun ofHashTagFocused(): Observable<Boolean>
-        fun ofContent(): Observable<String>
         fun ofClickNext(): Observable<Unit>
         fun ofNavigate(): Observable<Screen>
     }
@@ -46,11 +42,7 @@ internal interface NoteViewModel {
         val hashTag = MutableLiveData<String>()
         val content = MutableLiveData<String>()
 
-        val nextEnable = MutableLiveData<Boolean>().apply { postValue(false) }
-
-        private val titleRelay = BehaviorRelay.createDefault("")
         private val hashTagRelay = BehaviorRelay.createDefault(TextChangedParam("", 0, 0, 0))
-        private val contentRelay = BehaviorRelay.createDefault("")
 
         private val hashTagFocusedRelay = BehaviorRelay.createDefault(false)
         private val clickNextRelay = PublishRelay.create<Unit>()
@@ -58,13 +50,6 @@ internal interface NoteViewModel {
 
         init {
             disposables.addAll(
-                    outputs.ofTitle()
-                            .observeOn(schedulerProvider.ui())
-                            .subscribeOf(onNext = {
-                                nextEnable.value = it.isNotBlank()
-                                title.value = it
-                            }),
-
                     outputs.ofHashTagTextParam()
                             .withLatestFrom(outputs.ofHashTagFocused())
                             .observeOn(schedulerProvider.ui())
@@ -87,15 +72,11 @@ internal interface NoteViewModel {
                             .observeOn(schedulerProvider.ui())
                             .subscribeOf(onNext = { hashTag.value = "#" }),
 
-                    outputs.ofContent()
-                            .observeOn(schedulerProvider.ui())
-                            .subscribeOf(onNext = { content.value = it }),
-
                     outputs.ofClickNext()
-                            .withLatestFrom(ofScreen<Screen.Write.Note>(), outputs.ofTitle(), outputs.ofContent(), outputs.ofHashTag()) { _, screen, title, content, hashTags ->
+                            .withLatestFrom(ofScreen<Screen.Write.Note>(), outputs.ofHashTag()) { _, screen, hashTags ->
                                 screen.writeParam.apply {
-                                    this.title = title
-                                    this.content = content
+                                    this.title = this@ViewModel.title.value
+                                    this.content = this@ViewModel.content.value
                                     this.hashTags = HashTagUtil.toHashTagList(hashTags)
                                 }
                             }
@@ -103,18 +84,12 @@ internal interface NoteViewModel {
             )
         }
 
-        override fun toTitle(title: String) = titleRelay.accept(title)
-        override fun ofTitle(): Observable<String> = titleRelay
-
         override fun toHashTagTextParam(s: CharSequence, start: Int, before: Int, count: Int) = hashTagRelay.accept(TextChangedParam(s, start, before, count))
         override fun ofHashTagTextParam(): Observable<TextChangedParam> = hashTagRelay
         override fun ofHashTag(): Observable<String> = hashTagRelay.map { it.s.toString() }
 
         override fun toHashTagFocused(hasFocus: Boolean) = hashTagFocusedRelay.accept(hasFocus)
         override fun ofHashTagFocused(): Observable<Boolean> = hashTagFocusedRelay
-
-        override fun toContent(content: String) = contentRelay.accept(content)
-        override fun ofContent(): Observable<String> = contentRelay
 
         override fun toClickNext() = clickNextRelay.accept(Unit)
         override fun ofClickNext(): Observable<Unit> = clickNextRelay

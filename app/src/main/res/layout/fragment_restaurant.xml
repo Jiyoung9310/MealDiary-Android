@@ -60,8 +60,7 @@
             android:hint="@string/hint_restaurant"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toKeyword(text.toString())}"
-            android:text="@{viewModel.keyword}"
+            android:text="@={viewModel.keyword}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/container_title"/>

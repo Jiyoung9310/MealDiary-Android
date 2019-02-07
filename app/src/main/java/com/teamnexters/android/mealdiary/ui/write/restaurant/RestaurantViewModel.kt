@@ -17,14 +17,14 @@ import java.util.concurrent.TimeUnit
 
 internal interface RestaurantViewModel {
     interface Inputs {
-        fun toKeyword(keyword: String)
+        fun toSearch(keyword: String)
         fun toClickRestaurantItem(restaurantItem: RestaurantItem)
         fun toNavigate(screen: Screen)
         fun toClickSkip()
     }
 
     interface Outputs {
-        fun ofKeyword(): Observable<String>
+        fun ofSearch(): Observable<String>
         fun ofRestaurantClickItem(): Observable<RestaurantItem>
         fun ofNavigate(): Observable<Screen>
         fun ofClickSkip(): Observable<Unit>
@@ -43,17 +43,14 @@ internal interface RestaurantViewModel {
         val restaurantItems = MutableLiveData<List<RestaurantItem>>()
         val listVisibility = MutableLiveData<Int>().apply { postValue(View.INVISIBLE) }
 
-        private val keywordRelay = BehaviorRelay.createDefault("")
-
+        private val searchRelay = PublishRelay.create<String>()
         private val navigateRelay = PublishRelay.create<Screen>()
         private val clickRestaurantItemRelay = PublishRelay.create<RestaurantItem>()
         private val clickSkipRelay = PublishRelay.create<Unit>()
 
         init {
             disposables.addAll(
-                    outputs.ofKeyword()
-                            .observeOn(schedulerProvider.ui())
-                            .doOnNext { keyword.postValue(it) }
+                    outputs.ofSearch()
                             .debounce(500, TimeUnit.MILLISECONDS)
                             .doOnNext {
                                 if(it.isBlank()) {
@@ -95,8 +92,8 @@ internal interface RestaurantViewModel {
             )
         }
 
-        override fun toKeyword(keyword: String) = keywordRelay.accept(keyword)
-        override fun ofKeyword(): Observable<String> = keywordRelay
+        override fun toSearch(keyword: String) = searchRelay.accept(keyword)
+        override fun ofSearch(): Observable<String> = searchRelay
 
         override fun toClickRestaurantItem(restaurantItem: RestaurantItem) = clickRestaurantItemRelay.accept(restaurantItem)
         override fun ofRestaurantClickItem(): Observable<RestaurantItem> = clickRestaurantItemRelay

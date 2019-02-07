@@ -61,9 +61,7 @@
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1"
-            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toTitle(text.toString())}"
-            android:selection="@{viewModel.title.length}"
-            android:text="@{viewModel.title}"
+            android:text="@={viewModel.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/container_title"/>
@@ -80,7 +78,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toHashTagTextParam(text, start, before, count)}"
-            android:text="@{viewModel.hashTag}"
+            android:text="@={viewModel.hashTag}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_title"/>
@@ -96,9 +94,7 @@
             android:imeOptions="actionDone"
             android:inputType="text"
             android:minHeight="45dp"
-            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputs.toContent(text.toString())}"
-            android:selection="@{viewModel.content.length}"
-            android:text="@{viewModel.content}"
+            android:text="@={viewModel.content}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_tag"/>

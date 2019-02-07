@@ -31,6 +31,7 @@ internal class RestaurantFragment : BaseFragment<FragmentRestaurantBinding, Rest
 
         initializeRecyclerView()
 
+        observe(viewModel.keyword) { viewModel.toSearch(it) }
         observe(viewModel.restaurantItems) { restaurantAdapter.submitList(it) }
         observe(viewModel.listVisibility) { binding.rvRestaurant.visibility = it}
 
