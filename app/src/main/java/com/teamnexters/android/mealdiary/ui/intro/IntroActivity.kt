@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.databinding.ActivityIntroBinding
-import com.teamnexters.android.mealdiary.ui.main.MainActivity
+import com.teamnexters.android.mealdiary.ui.boarding.BoardingActivity
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +25,7 @@ internal class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel
                 viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
-                            startActivity(Intent(this, MainActivity::class.java))
+                            startActivity(Intent(this, BoardingActivity::class.java))
                             finish()
                         })
         )

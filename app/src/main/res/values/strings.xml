@@ -25,6 +25,18 @@
     <string name="intro_btn_next">다음</string>
     <string name="intro_skip">Skip</string>
 
+    <!--board-->
+    <string-array name="array_board_title">
+        <item>맛집 리스트</item>
+        <item>식사</item>
+        <item>식후감</item>
+    </string-array>
+    <string-array name="array_board_subtitle">
+        <item>나만의 맛집 리스트를 만들어보세요.</item>
+        <item>맛있는 음식을 기억하고 싶으신가요?</item>
+        <item>식후감을 작성하고 오랫동안 간직해 보세요.</item>
+    </string-array>
+
     <!-- score -->
     <string-array name="array_score_text">
         <!-- 0~29 -->

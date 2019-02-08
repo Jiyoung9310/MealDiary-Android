@@ -1,6 +1,7 @@
 package com.teamnexters.android.mealdiary.repository
 
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
+import com.teamnexters.android.mealdiary.ui.boarding.BoardItem
 import com.teamnexters.android.mealdiary.ui.write.score.ScoreItem
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -16,4 +17,5 @@ internal interface LocalRepository {
     fun getPrivacyAgree(): Observable<Boolean>
 
     fun scoreItems(): Observable<List<ScoreItem>>
+    fun boardItems(): Observable<List<BoardItem>>
 }

@@ -4,6 +4,7 @@ import android.content.res.Resources
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.data.local.LocalDataSource
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
+import com.teamnexters.android.mealdiary.ui.boarding.BoardItem
 import com.teamnexters.android.mealdiary.ui.write.score.ScoreItem
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -61,6 +62,22 @@ internal class LocalRepositoryImpl(
                 ScoreItem(
                         score = it * 10,
                         title = title
+                )
+            }
+        }
+    }
+
+    override fun boardItems(): Observable<List<BoardItem>> {
+        val boardTitle = resources.getStringArray(R.array.array_board_title)
+        val boardSubTitle = resources.getStringArray(R.array.array_board_subtitle)
+        val boardImages = resources.obtainTypedArray(R.array.array_board_image)
+
+        return Observable.fromCallable {
+            (0 until 3).map {
+                BoardItem(
+                        title = boardTitle[it],
+                        subtitle = boardSubTitle[it],
+                        boardImgId = boardImages.getResourceId(it, -1)
                 )
             }
         }
