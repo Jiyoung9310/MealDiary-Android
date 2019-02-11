@@ -48,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:text="@string/intro_skip"
+                android:onClick="@{() -> viewModel.inputs.toClickSkip()}"
                 app:layout_constraintBaseline_toBaselineOf="@id/btnNext"
                 app:layout_constraintStart_toStartOf="parent"
                 />
@@ -62,6 +63,7 @@
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
                 android:background="@drawable/bg_gradient_btn_corner"
+                android:onClick="@{() -> viewModel.inputs.toClickNext()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 />
