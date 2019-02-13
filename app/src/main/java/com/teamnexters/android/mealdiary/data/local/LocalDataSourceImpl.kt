@@ -38,7 +38,6 @@ internal class LocalDataSourceImpl(
 
             diaries.forEach {
                 it.restaurant?.let { restaurant ->  roomDatabase.restaurantDao().upserts(restaurant) }
-                it.hashTags.forEach { hashTags -> roomDatabase.hashTagDao().upserts(hashTags) }
             }
         }
     }

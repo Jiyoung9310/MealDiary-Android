@@ -36,6 +36,7 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
                         .subscribeOf(onNext = { photoAdapter.submitList(it) }),
 
                 viewModel.outputs.ofSelectedPhotoList()
+                        .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
                             photoAdapter.setSelectedPhotoList(it)
 
@@ -61,7 +62,6 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
 
         menu?.let {
             nextIcon = it.findItem(R.id.action_next)
-            nextIcon?.isEnabled = false
         }
     }
 

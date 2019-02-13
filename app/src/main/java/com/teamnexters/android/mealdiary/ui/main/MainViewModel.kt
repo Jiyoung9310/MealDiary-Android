@@ -5,8 +5,6 @@ import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.data.local.entity.Diary
-import com.teamnexters.android.mealdiary.data.local.entity.HashTag
-import com.teamnexters.android.mealdiary.data.local.entity.Restaurant
 import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.repository.LocalRepository
 import com.teamnexters.android.mealdiary.ui.Screen
@@ -18,7 +16,6 @@ import com.teamnexters.android.mealdiary.util.extension.withLatestFromSecond
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.ofType
-import org.threeten.bp.ZonedDateTime
 
 
 internal interface MainViewModel {

@@ -13,7 +13,6 @@
     <string name="note_title">적는게 남는거야</string>
     <string name="hint_restaurant">식당이름</string>
     <string name="hint_title">제목</string>
-    <string name="hint_tag">#태그</string>
     <string name="hint_content">식후감</string>
     <string name="score_title">오늘의 식사는</string>
     <string name="score_button_title">평가하기</string>

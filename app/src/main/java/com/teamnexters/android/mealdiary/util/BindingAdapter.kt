@@ -102,7 +102,7 @@ internal fun setSrcCompat(imageView: ImageView, url: String) {
 }
 
 @BindingAdapter("srcCompatCorner")
-internal fun setSrcCompatCorner(imageView: ImageView, url: String) {
+internal fun setSrcCompatCorner(imageView: ImageView, url: String?) {
     Glide.with(imageView)
             .load(url)
             .apply(RequestOptions().centerCrop())

@@ -33,7 +33,7 @@ internal class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel
         initializeView()
 
         observe(viewModel.scoreItems) { scoreAdapter.submitList(it) }
-        observe(viewModel.scoreCardPosition) { binding.rvScore.smoothScrollToPosition(it) }
+        observe(viewModel.scoreProgress) { binding.rvScore.smoothScrollToPosition(it / 10) }
 
         disposables.addAll(
                 viewModel.outputs.ofFinish()
@@ -53,16 +53,6 @@ internal class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel
                 true
             }
         }
-
-        binding.seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.inputs.toScore(progress)
-            }
-        })
     }
 
 }

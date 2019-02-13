@@ -43,7 +43,7 @@
             android:layout_marginBottom="84dp"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:progress="@{viewModel.scoreProgress}"
+            android:progress="@={viewModel.scoreProgress}"
             android:progressTint="@color/primary_orange"
             android:thumb="@drawable/ic_thumb"
             app:layout_constraintBottom_toTopOf="@+id/btn_score"
