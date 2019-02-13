@@ -45,24 +45,21 @@ internal class LocalRepositoryImpl(
 
     override fun scoreItems(): Observable<List<ScoreItem>> {
         val scoreTextArray = resources.getStringArray(R.array.array_score_text)
+        val scoreLottieFilePathArray = resources.getStringArray(R.array.array_score_lottie_file_name)
 
         return Observable.fromCallable {
             (0..10).map {
                 val score = it * 10
 
-                val title = when(score) {
-                    in 0..29 -> scoreTextArray[0]
-                    in 30..49 -> scoreTextArray[1]
-                    in 50..69 -> scoreTextArray[2]
-                    in 70..89 -> scoreTextArray[3]
-                    in 90..100 -> scoreTextArray[4]
+                when(score) {
+                    in 0..19 -> ScoreItem(score = score, title = scoreTextArray[0], lottieFilePath = scoreLottieFilePathArray[0])
+                    in 20..39 -> ScoreItem(score = score, title = scoreTextArray[1], lottieFilePath = scoreLottieFilePathArray[1])
+                    in 40..59 -> ScoreItem(score = score, title = scoreTextArray[2], lottieFilePath = scoreLottieFilePathArray[2])
+                    in 60..79 -> ScoreItem(score = score, title = scoreTextArray[3], lottieFilePath = scoreLottieFilePathArray[3])
+                    in 80..99 -> ScoreItem(score = score, title = scoreTextArray[4], lottieFilePath = scoreLottieFilePathArray[4])
+                    100 -> ScoreItem(score = score, title = scoreTextArray[5], lottieFilePath = scoreLottieFilePathArray[5])
                     else -> throw RuntimeException("invalid score = $score")
                 }
-
-                ScoreItem(
-                        score = it * 10,
-                        title = title
-                )
             }
         }
     }

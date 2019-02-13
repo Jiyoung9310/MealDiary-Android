@@ -38,16 +38,21 @@
 
     <!-- score -->
     <string-array name="array_score_text">
-        <!-- 0~29 -->
         <item>다시는 안갈꺼야!!</item>
-        <!-- 30~49 -->
         <item>언젠가 인연이 되면 또 가겠지..</item>
-        <!-- 50~69 -->
         <item>먹을만.. 했다.</item>
-        <!-- 70~89 -->
         <item>보람찬 한 끼였다.</item>
-        <!-- 90~100 -->
+        <item>뿌듯한 한 끼였다.</item>
         <item>드디어 인생 맛집을 찾았다!</item>
+    </string-array>
+
+    <string-array name="array_score_lottie_file_name">
+        <item>lottie/score_zero_until_twenty.json</item>
+        <item>lottie/score_twenty_until_forty.json</item>
+        <item>lottie/score_forty_until_sixty.json</item>
+        <item>lottie/score_sixty_until_eighty.json</item>
+        <item>lottie/score_eighty_until_hundred.json</item>
+        <item>lottie/score_hundred.json</item>
     </string-array>
 
 </resources>
