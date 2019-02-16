@@ -31,6 +31,7 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
         binding.viewModel = viewModel
 
         initializeRecyclerView()
+        initializeListener()
 
         observe(viewModel.title) { nextIcon?.isEnabled = it.isNotBlank() }
         observe(viewModel.keyword) { viewModel.toSearch(it) }
@@ -67,7 +68,9 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
             layoutManager = LinearLayoutManager(context)
             adapter = restaurantAdapter
         }
+    }
 
+    private fun initializeListener() {
         restaurantAdapter.setCallbacks(object : RestaurantAdapter.Callbacks {
             override fun onClickRestaurantItem(restaurantItem: RestaurantItem) {
                 viewModel.inputs.toClickRestaurantItem(restaurantItem)

@@ -44,7 +44,7 @@ internal interface NoteViewModel {
         val restaurantItems = MutableLiveData<List<RestaurantItem>>()
         val restaurantItemsVisibility = MutableLiveData<Int>().apply { postValue(View.INVISIBLE) }
 
-        val hashtag = MutableLiveData<String>().apply { postValue("") }
+        val hashTag = MutableLiveData<String>().apply { postValue("") }
 
         private val clickNextRelay = PublishRelay.create<Unit>()
         private val navigateRelay = PublishRelay.create<Screen>()
@@ -88,7 +88,7 @@ internal interface NoteViewModel {
                             .subscribeOf(onNext = {
                                 restaurantItems.postValue(it)
                                 restaurantItemsVisibility.postValue(View.VISIBLE)
-                            })
+                            }, onError = { })
             )
         }
 

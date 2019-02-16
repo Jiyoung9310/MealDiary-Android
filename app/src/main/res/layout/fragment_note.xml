@@ -96,7 +96,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:minHeight="45dp"
-                android:text="@={viewModel.hashtag}"
+                android:text="@={viewModel.hashTag}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_content"/>
