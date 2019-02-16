@@ -79,6 +79,7 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
     private fun initializeRecyclerView() {
         binding.rvPhoto.run {
             layoutManager = GridLayoutManager(context, 3)
+            addItemDecoration(GridDividerDecoration(context))
             adapter = photoAdapter
         }
 
