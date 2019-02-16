@@ -17,6 +17,7 @@
         android:layout_height="52dp">
 
         <androidx.appcompat.widget.AppCompatTextView
+            style="@style/H615PtDarkGrayBoldLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -26,9 +27,12 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/H7PrimaryRegularCenter"
+            android:layout_width="94dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_stroke_orange"
             android:onClick="@{clickListener}"
             android:text="@string/restaurant_add"
             app:layout_constraintBottom_toBottomOf="parent"

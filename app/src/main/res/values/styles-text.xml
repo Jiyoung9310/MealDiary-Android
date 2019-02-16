@@ -263,4 +263,13 @@
         <item name="android:letterSpacing">0.01</item>
         <item name="android:textColor">@color/gray</item>
     </style>
+
+    <style name="H7PrimaryRegularCenter">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineSpacingExtra">21sp</item>
+        <item name="android:textColor">@color/primary_orange</item>
+    </style>
+
 </resources>
