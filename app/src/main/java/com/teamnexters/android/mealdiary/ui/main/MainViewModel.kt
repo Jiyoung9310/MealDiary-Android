@@ -50,16 +50,6 @@ internal interface MainViewModel {
         val inputs: Inputs = this
         val outputs: Outputs = this
 
-//        val photoList = mutableListOf("https://travelblog.expedia.co.kr/wp-content/uploads/2015/07/34.png")
-//        val rest = Restaurant("브라운동까스", "강남구 어디로 123번길")
-//        val hash = mutableListOf(HashTag("#브돈 #디캠 #맛집"))
-//
-//        val diaryItems: LiveData<List<ListItem.DiaryItem>> = Observable.just(listOf(
-//                Diary(content = "식후감 쓰는 부분쓰", score = 60, photoUrls = photoList, restaurant =  rest, hashTags = hash, date = ZonedDateTime.now())
-//        )).map { diaries ->
-//            diaries.map { ListItem.DiaryItem(it) }
-//        }.toLiveData()
-
         val diaryItems: LiveData<List<ListItem.DiaryItem>> = localRepository.diaries().map { diaries ->
             diaries.map { ListItem.DiaryItem(it) }
         }.toLiveData()
@@ -100,7 +90,7 @@ internal interface MainViewModel {
 
                     outputs.ofPermissionState()
                             .ofType<PermissionState.Granted>()
-                            .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Restaurant(WriteParam())) })
+                            .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Note(WriteParam())) })
             )
         }
 

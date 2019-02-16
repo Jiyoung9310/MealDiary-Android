@@ -8,9 +8,8 @@ internal sealed class Screen : Serializable {
     object Main : Screen()
 
     sealed class Write(val writeParam: WriteParam) : Screen() {
-        class Photo(writeParam: WriteParam) : Screen.Write(writeParam)
-        class Restaurant(writeParam: WriteParam) : Screen.Write(writeParam)
         class Note(writeParam: WriteParam) : Screen.Write(writeParam)
+        class Photo(writeParam: WriteParam) : Screen.Write(writeParam)
         class Score(writeParam: WriteParam) : Screen.Write(writeParam)
     }
 }

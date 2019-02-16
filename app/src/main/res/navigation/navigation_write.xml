@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/restaurantFragment"
+    app:startDestination="@id/noteFragment"
     tools:ignore="UnusedNavigation">
 
     <fragment
@@ -13,17 +13,6 @@
         <action
             android:id="@+id/action_photoFragment_to_scoreFragment"
             app:destination="@id/scoreFragment"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/restaurantFragment"
-        android:label="RestaurantFragment"
-        android:name="com.teamnexters.android.mealdiary.ui.write.restaurant.RestaurantFragment"
-        tools:layout="@layout/fragment_restaurant">
-
-        <action
-            android:id="@+id/action_restaurantFragment_to_noteFragment"
-            app:destination="@id/noteFragment"/>
     </fragment>
 
     <fragment

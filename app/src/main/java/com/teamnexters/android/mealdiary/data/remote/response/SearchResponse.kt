@@ -9,7 +9,7 @@ internal data class SearchResponse(
 internal data class Document(
         @SerializedName("place_name")
         val placeName: String,
-        @SerializedName("road_address_name")
+        @SerializedName("address_name")
         val addressName: String,
         val x: String,
         val y: String
