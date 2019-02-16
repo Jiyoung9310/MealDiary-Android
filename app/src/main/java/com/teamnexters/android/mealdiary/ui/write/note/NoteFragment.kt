@@ -31,11 +31,12 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
         binding.viewModel = viewModel
 
         initializeRecyclerView()
+        initializeListener()
 
         observe(viewModel.title) { nextIcon?.isEnabled = it.isNotBlank() }
         observe(viewModel.keyword) { viewModel.toSearch(it) }
         observe(viewModel.restaurantItems) { restaurantAdapter.submitList(it) }
-        observe(viewModel.restaurantItemsVisibility) { binding.rvRestaurant.visibility = it}
+        observe(viewModel.restaurantItemsVisibility) { binding.rvRestaurant.visibility = it }
 
         disposables.addAll(
                 viewModel.outputs.ofNavigate()
@@ -67,8 +68,10 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
             layoutManager = LinearLayoutManager(context)
             adapter = restaurantAdapter
         }
+    }
 
-        restaurantAdapter.setCallbacks(object: RestaurantAdapter.Callbacks {
+    private fun initializeListener() {
+        restaurantAdapter.setCallbacks(object : RestaurantAdapter.Callbacks {
             override fun onClickRestaurantItem(restaurantItem: RestaurantItem) {
                 viewModel.inputs.toClickRestaurantItem(restaurantItem)
             }
