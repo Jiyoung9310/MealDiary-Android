@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
 import com.teamnexters.android.mealdiary.databinding.FragmentNoteBinding
 import com.teamnexters.android.mealdiary.util.extension.observe
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.ViewModel>() {
@@ -16,6 +18,8 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
     override val layoutResId: Int = R.layout.fragment_note
 
     override val viewModel: NoteViewModel.ViewModel by viewModel()
+
+    private val restaurantAdapter: RestaurantAdapter by inject()
 
     private var nextIcon: MenuItem? = null
 
@@ -26,10 +30,15 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
 
         binding.viewModel = viewModel
 
+        initializeRecyclerView()
+
         observe(viewModel.title) { nextIcon?.isEnabled = it.isNotBlank() }
+        observe(viewModel.keyword) { viewModel.toSearch(it) }
+        observe(viewModel.restaurantItems) { restaurantAdapter.submitList(it) }
+        observe(viewModel.restaurantItemsVisibility) { binding.rvRestaurant.visibility = it}
 
         disposables.addAll(
-                viewModel.ofNavigate()
+                viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = { navigate(R.id.action_noteFragment_to_photoFragment, it) })
         )
@@ -51,6 +60,19 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initializeRecyclerView() {
+        binding.rvRestaurant.run {
+            layoutManager = LinearLayoutManager(context)
+            adapter = restaurantAdapter
+        }
+
+        restaurantAdapter.setCallbacks(object: RestaurantAdapter.Callbacks {
+            override fun onClickRestaurantItem(restaurantItem: RestaurantItem) {
+                viewModel.inputs.toClickRestaurantItem(restaurantItem)
+            }
+        })
     }
 
 }

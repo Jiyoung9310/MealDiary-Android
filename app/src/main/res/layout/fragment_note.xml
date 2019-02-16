@@ -72,15 +72,42 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@null"
+            android:background="@drawable/bg_edittext"
             android:hint="@string/hint_content"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:inputType="text"
             android:minHeight="45dp"
             android:text="@={viewModel.content}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_title"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_restaurant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="@string/hint_restaurant"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:minHeight="45dp"
+            android:text="@={viewModel.keyword}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_restaurant"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/pale_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_restaurant"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

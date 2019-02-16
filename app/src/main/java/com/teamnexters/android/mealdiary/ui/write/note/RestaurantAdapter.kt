@@ -1,4 +1,4 @@
-package com.teamnexters.android.mealdiary.ui.write.restaurant
+package com.teamnexters.android.mealdiary.ui.write.note
 
 import android.view.LayoutInflater
 import android.view.View
