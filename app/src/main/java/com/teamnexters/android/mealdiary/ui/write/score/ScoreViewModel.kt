@@ -30,7 +30,7 @@ internal interface ScoreViewModel {
     ) : BaseViewModel(), Inputs, Outputs {
 
         val scoreItems = MutableLiveData<List<ScoreItem>>()
-        val scoreProgress = MutableLiveData<Int>()
+        val scoreProgress = MutableLiveData<Int>().apply { postValue(0) }
 
         val inputs: Inputs = this
         val outputs: Outputs = this
