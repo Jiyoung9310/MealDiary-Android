@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
+import com.teamnexters.android.mealdiary.data.local.entity.Restaurant
 import com.teamnexters.android.mealdiary.repository.RemoteRepository
 import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.HashTagUtil
@@ -51,7 +52,7 @@ internal interface NoteViewModel {
         private val navigateRelay = PublishRelay.create<Screen>()
 
         private val searchRelay = PublishRelay.create<String>()
-        private val clickRestaurantItemRelay = BehaviorRelay.create<RestaurantItem>().apply { accept(RestaurantItem("", "", .0, .0)) }
+        private val clickRestaurantItemRelay = BehaviorRelay.create<RestaurantItem>().apply { accept(RestaurantItem.FoundedRestaurant("", "", .0, .0)) }
 
         init {
             disposables.addAll(
@@ -61,7 +62,18 @@ internal interface NoteViewModel {
                                 screen.writeParam.apply {
                                     this.title = this@ViewModel.title.value
                                     this.content = this@ViewModel.content.value
-                                    this.restaurant = RestaurantItem.toRestaurant(restaurantItem)
+
+                                    val selectedRestaurant = when(restaurantItem) {
+                                        is RestaurantItem.FoundedRestaurant -> {
+                                            RestaurantItem.FoundedRestaurant.toRestaurant(restaurantItem)
+                                        }
+                                        is RestaurantItem.NotFound -> {
+                                            Restaurant(keyword.value!!, keyword.value!!)
+                                        }
+                                    }
+
+                                    this.restaurant = selectedRestaurant
+
                                     hashTag.value?.let { this.hashTags = HashTagUtil.toHashTagList(it) }
                                 }
                             }
@@ -79,12 +91,14 @@ internal interface NoteViewModel {
                             .switchMapSingle { remoteRepository.search(it) }
                             .map {
                                 it.documents.map { document ->
-                                    RestaurantItem(
+                                    RestaurantItem.FoundedRestaurant(
                                             placeName = document.placeName,
                                             addressName = document.addressName,
                                             x = document.x.toDouble(),
                                             y = document.y.toDouble()
                                     )
+                                }.toMutableList<RestaurantItem>().apply {
+                                    add(RestaurantItem.NotFound)
                                 }
                             }
                             .subscribeOf(onNext = {

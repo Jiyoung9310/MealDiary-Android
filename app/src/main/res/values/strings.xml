@@ -24,6 +24,8 @@
     <string name="intro_btn_agree">동의하고 사용할게요</string>
     <string name="intro_btn_next">다음</string>
     <string name="intro_skip">Skip</string>
+    <string name="restaurant_not_found">검색한 식당이 없습니다.</string>
+    <string name="restaurant_add">식당추가하기</string>
 
     <!--board-->
     <string-array name="array_board_title">
