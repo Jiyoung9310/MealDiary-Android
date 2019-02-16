@@ -12,6 +12,7 @@ internal data class Diary(
         val photoUrls: List<String> = mutableListOf(),
 
         val restaurant: Restaurant?,
+        val hashTags: List<HashTag> = mutableListOf(),
 
         val date: ZonedDateTime,
 

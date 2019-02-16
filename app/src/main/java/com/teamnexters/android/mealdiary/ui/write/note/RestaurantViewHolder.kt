@@ -1,4 +1,4 @@
-package com.teamnexters.android.mealdiary.ui.write.restaurant
+package com.teamnexters.android.mealdiary.ui.write.note
 
 import androidx.recyclerview.widget.RecyclerView
 import com.teamnexters.android.mealdiary.databinding.ViewRestaurantBinding

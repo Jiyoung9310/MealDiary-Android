@@ -68,7 +68,7 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                         .observeOn(schedulerProvider.ui())
                         .subscribeOf(onNext = {
                             when(it) {
-                                is Screen.Write.Restaurant -> {
+                                is Screen.Write.Note -> {
                                     Navigator.navigateToWrite(this, it)
                                 }
                             }

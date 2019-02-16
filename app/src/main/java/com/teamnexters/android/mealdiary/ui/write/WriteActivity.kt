@@ -38,7 +38,7 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
     }
 
     override fun onBackPressed() {
-        if(navController.currentDestination?.id == R.id.restaurantFragment) {
+        if(navController.currentDestination?.id == R.id.noteFragment) {
             finish()
         }
 
@@ -48,7 +48,7 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId) {
             android.R.id.home -> {
-                if(navController.currentDestination?.id == R.id.restaurantFragment) {
+                if(navController.currentDestination?.id == R.id.noteFragment) {
                     finish()
                 }
                 navController.navigateUp()
@@ -67,7 +67,7 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
                 .setGraph(
                         R.navigation.navigation_write,
                         Bundle().apply {
-                            putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Restaurant(WriteParam()))
+                            putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Note(WriteParam()))
                         }
                 )
 

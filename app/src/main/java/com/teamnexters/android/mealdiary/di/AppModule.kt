@@ -17,8 +17,7 @@ import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProvider
 import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProviderImpl
 import com.teamnexters.android.mealdiary.ui.write.photo.PhotoAdapter
 import com.teamnexters.android.mealdiary.ui.write.photo.PhotoViewModel
-import com.teamnexters.android.mealdiary.ui.write.restaurant.RestaurantAdapter
-import com.teamnexters.android.mealdiary.ui.write.restaurant.RestaurantViewModel
+import com.teamnexters.android.mealdiary.ui.write.note.RestaurantAdapter
 import com.teamnexters.android.mealdiary.ui.write.score.ScoreAdapter
 import com.teamnexters.android.mealdiary.ui.write.score.ScoreViewModel
 import org.koin.android.ext.koin.androidContext
@@ -34,9 +33,7 @@ val appModule = module {
 
     viewModel { WriteViewModel.ViewModel(get()) }
 
-    viewModel { RestaurantViewModel.ViewModel(get(), get()) }
-
-    viewModel { NoteViewModel.ViewModel(get()) }
+    viewModel { NoteViewModel.ViewModel(get(), get()) }
 
     viewModel { ScoreViewModel.ViewModel(get(), get()) }
 

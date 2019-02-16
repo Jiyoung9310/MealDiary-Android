@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.teamnexters.android.mealdiary.ui.write.restaurant.RestaurantItem"/>
+            type="com.teamnexters.android.mealdiary.ui.write.note.RestaurantItem"/>
 
         <variable
             name="clickListener"

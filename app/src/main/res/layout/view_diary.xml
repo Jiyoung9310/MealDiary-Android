@@ -6,6 +6,8 @@
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
     <data>
+        <import type="com.teamnexters.android.mealdiary.util.HashTagUtil"/>
+
         <variable
             name="item"
             type="com.teamnexters.android.mealdiary.data.model.ListItem.DiaryItem"/>
@@ -97,6 +99,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias=".855"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Sm12PtWhiteRegularLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:text="@{HashTagUtil.toString(item.diary.hashTags)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/borderLine"
+            tools:text="#베네딕트 #대구"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvJum"
