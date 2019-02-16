@@ -38,11 +38,13 @@ internal interface NoteViewModel {
         val outputs: Outputs = this
 
         val title = MutableLiveData<String>().apply { postValue("") }
-        val content = MutableLiveData<String>()
+        val content = MutableLiveData<String>().apply { postValue("") }
 
-        val keyword = MutableLiveData<String>()
+        val keyword = MutableLiveData<String>().apply { postValue("") }
         val restaurantItems = MutableLiveData<List<RestaurantItem>>()
         val restaurantItemsVisibility = MutableLiveData<Int>().apply { postValue(View.INVISIBLE) }
+
+        val hashtag = MutableLiveData<String>().apply { postValue("") }
 
         private val clickNextRelay = PublishRelay.create<Unit>()
         private val navigateRelay = PublishRelay.create<Screen>()
