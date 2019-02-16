@@ -7,6 +7,7 @@ import com.jakewharton.rxrelay2.PublishRelay
 import com.teamnexters.android.mealdiary.base.BaseViewModel
 import com.teamnexters.android.mealdiary.repository.RemoteRepository
 import com.teamnexters.android.mealdiary.ui.Screen
+import com.teamnexters.android.mealdiary.util.HashTagUtil
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
@@ -61,6 +62,7 @@ internal interface NoteViewModel {
                                     this.title = this@ViewModel.title.value
                                     this.content = this@ViewModel.content.value
                                     this.restaurant = RestaurantItem.toRestaurant(restaurantItem)
+                                    hashTag.value?.let { this.hashTags = HashTagUtil.toHashTagList(it) }
                                 }
                             }
                             .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Photo(it)) }),

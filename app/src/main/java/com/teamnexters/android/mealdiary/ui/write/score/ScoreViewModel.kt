@@ -52,6 +52,7 @@ internal interface ScoreViewModel {
                                 val diary = Diary(
                                         title = param.title ?: "",
                                         content = param.content,
+                                        hashTags = param.hashTags,
                                         score = scoreItem.score,
                                         photoUrls = param.photoUrls,
                                         restaurant = param.restaurant,
