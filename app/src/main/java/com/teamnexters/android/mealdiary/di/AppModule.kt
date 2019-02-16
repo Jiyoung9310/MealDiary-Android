@@ -7,6 +7,7 @@ import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProvider
 import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProviderImpl
 import com.teamnexters.android.mealdiary.ui.boarding.BoardingPagerAdapter
 import com.teamnexters.android.mealdiary.ui.boarding.BoardingViewModel
+import com.teamnexters.android.mealdiary.ui.detail.DetailViewModel
 import com.teamnexters.android.mealdiary.ui.intro.IntroViewModel
 import com.teamnexters.android.mealdiary.ui.main.DiaryAdapter
 import com.teamnexters.android.mealdiary.ui.main.MainViewModel
@@ -33,6 +34,8 @@ val appModule = module {
     viewModel { MainViewModel.ViewModel(get(), get()) }
 
     viewModel { WriteViewModel.ViewModel(get()) }
+
+    viewModel { DetailViewModel.ViewModel(get(), get()) }
 
     viewModel { RestaurantViewModel.ViewModel(get(), get()) }
 
