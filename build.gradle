@@ -23,6 +23,7 @@ buildscript {
         material_version = '1.0.0'
         retrofit_version = '2.5.0'
         okhttp_version = '3.12.1'
+        viewpager2_version = '1.0.0-alpha01'
 
         fabric_version = '1.25.4'
         crashlytics_version = '2.9.7'

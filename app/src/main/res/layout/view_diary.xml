@@ -20,7 +20,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="367dp"
         android:onClick="@{clickListener}">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -36,10 +36,20 @@
             tools:src="@drawable/dummy_img"/>
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="155dp"
             android:background="@drawable/bg_gradient"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="132dp"
+            android:background="@drawable/bg_gradient_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDate"

@@ -7,17 +7,19 @@ import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProvider
 import com.teamnexters.android.mealdiary.ui.ToolbarResourcesProviderImpl
 import com.teamnexters.android.mealdiary.ui.boarding.BoardingPagerAdapter
 import com.teamnexters.android.mealdiary.ui.boarding.BoardingViewModel
+import com.teamnexters.android.mealdiary.ui.detail.DetailPhotoAdapter
+import com.teamnexters.android.mealdiary.ui.detail.DetailViewModel
 import com.teamnexters.android.mealdiary.ui.intro.IntroViewModel
 import com.teamnexters.android.mealdiary.ui.main.DiaryAdapter
 import com.teamnexters.android.mealdiary.ui.main.MainViewModel
 import com.teamnexters.android.mealdiary.ui.splash.SplashViewModel
 import com.teamnexters.android.mealdiary.ui.write.WriteViewModel
 import com.teamnexters.android.mealdiary.ui.write.note.NoteViewModel
+import com.teamnexters.android.mealdiary.ui.write.note.RestaurantAdapter
 import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProvider
 import com.teamnexters.android.mealdiary.ui.write.photo.GalleryProviderImpl
 import com.teamnexters.android.mealdiary.ui.write.photo.PhotoAdapter
 import com.teamnexters.android.mealdiary.ui.write.photo.PhotoViewModel
-import com.teamnexters.android.mealdiary.ui.write.note.RestaurantAdapter
 import com.teamnexters.android.mealdiary.ui.write.score.ScoreAdapter
 import com.teamnexters.android.mealdiary.ui.write.score.ScoreViewModel
 import org.koin.android.ext.koin.androidContext
@@ -32,6 +34,8 @@ val appModule = module {
     viewModel { MainViewModel.ViewModel(get(), get()) }
 
     viewModel { WriteViewModel.ViewModel(get()) }
+
+    viewModel { DetailViewModel.ViewModel(get(), get()) }
 
     viewModel { NoteViewModel.ViewModel(get(), get()) }
 
@@ -58,4 +62,6 @@ val appModule = module {
     factory { ScoreAdapter() }
 
     factory { BoardingPagerAdapter() }
+
+    factory { DetailPhotoAdapter() }
 }
