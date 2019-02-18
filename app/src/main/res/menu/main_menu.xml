@@ -7,7 +7,8 @@
     android:id="@+id/action_todo"
     android:icon="@drawable/icon_ic_todo_default"
     android:title="먹을 곳"
-    app:showAsAction="ifRoom"/>
+    app:showAsAction="ifRoom"
+    android:visible="false"/>
 
   <item
     android:id="@+id/action_search"

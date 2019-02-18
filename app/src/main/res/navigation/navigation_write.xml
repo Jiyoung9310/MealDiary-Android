@@ -2,12 +2,31 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/photoFragment">
+    app:startDestination="@id/noteFragment"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/photoFragment"
         android:label="PhotoFragment"
         android:name="com.teamnexters.android.mealdiary.ui.write.photo.PhotoFragment"
-        tools:layout="@layout/fragment_photo"/>
+        tools:layout="@layout/fragment_photo">
+        <action
+            android:id="@+id/action_photoFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="com.teamnexters.android.mealdiary.ui.write.note.NoteFragment"
+        android:label="NoteFragment">
+        <action
+            android:id="@+id/action_noteFragment_to_photoFragment"
+            app:destination="@id/photoFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/scoreFragment"
+        android:name="com.teamnexters.android.mealdiary.ui.write.score.ScoreFragment"
+        android:label="ScoreFragment"/>
 
 </navigation>

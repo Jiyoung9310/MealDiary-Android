@@ -3,6 +3,9 @@ package com.teamnexters.android.mealdiary.ui.main
 import android.Manifest
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -19,10 +22,6 @@ import com.teamnexters.android.mealdiary.util.extension.throttleClick
 import io.reactivex.rxkotlin.ofType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.view.MenuItem
-import android.widget.Toast
-
-
 
 internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.ViewModel>() {
 
@@ -34,8 +33,6 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.title = ""
-        supportActionBar?.elevation = 0F
 
         binding.viewModel = viewModel
 
@@ -54,10 +51,6 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                         }),
 
                 viewModel.outputs.ofPermissionState()
-                        .ofType<PermissionState.Granted>()
-                        .subscribeOf(onNext = { viewModel.inputs.toNavigateToWrite(Screen.Write.Write) }),
-
-                viewModel.outputs.ofPermissionState()
                         .ofType<PermissionState.Denied>()
                         .subscribeOf(onNext = {
                             AlertDialog.Builder(this)
@@ -71,9 +64,15 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                                     .show()
                         }),
 
-                viewModel.outputs.ofNavigateToWrite()
+                viewModel.outputs.ofNavigate()
                         .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = { Navigator.navigateToWrite(this, it) }),
+                        .subscribeOf(onNext = {
+                            when(it) {
+                                is Screen.Write.Note -> {
+                                    Navigator.navigateToWrite(this, it)
+                                }
+                            }
+                        }),
 
                 viewModel.outputs.ofShowDiaryDialog()
                         .observeOn(schedulerProvider.ui())
@@ -86,10 +85,31 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                         })
         )
 
-        observe(viewModel.diaryItems) { diaryAdapter.submitList(it) }
+        observe(viewModel.diaryItems) {
+            diaryAdapter.submitList(it)
+            visibleRecyclerView(it)
+        }
+    }
+
+    private fun visibleRecyclerView(items: List<ListItem.DiaryItem>?) {
+        items?.let {
+            when(it.isEmpty()) {
+                true -> {
+                    binding.frameEmpty.visibility = View.VISIBLE
+                    binding.rvDiary.visibility = View.GONE
+                    binding.toolbar.visibility = View.GONE
+                }
+                false -> {
+                    binding.frameEmpty.visibility = View.GONE
+                    binding.rvDiary.visibility = View.VISIBLE
+                    binding.toolbar.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun initializeRecyclerView() {
+        visibleRecyclerView(viewModel.diaryItems.value)
         binding.rvDiary.run {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = diaryAdapter
@@ -108,19 +128,17 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            return when(it.itemId) {
-                R.id.action_todo -> {
-                    Toast.makeText(applicationContext, "todo 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.action_search -> {
-                    Toast.makeText(applicationContext, "search 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> {
-                    super.onOptionsItemSelected(item)
-                }
+        return when(item?.itemId) {
+            R.id.action_todo -> {
+                Toast.makeText(applicationContext, "todo 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_search -> {
+                Toast.makeText(applicationContext, "search 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
             }
         }
     }

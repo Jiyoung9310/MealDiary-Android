@@ -11,19 +11,24 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:name=".MealDiaryApplication"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.intro.IntroActivity">
+        </activity>
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.main.MainActivity"/>
         <activity
             android:name=".ui.write.WriteActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.teamnexters.android.mealdiary.ui.boarding.BoardingActivity"
             android:screenOrientation="portrait"/>
     </application>
 

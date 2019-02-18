@@ -2,14 +2,15 @@ package com.teamnexters.android.mealdiary.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "restaurant")
 internal data class Restaurant(
-        val name: String,
-        val address: String,
-        val latitude: Long = 0L,
-        val longitude: Long = 0L,
+        val placeName: String,
+        val addressName: String,
+        val x: Double = .0,
+        val y: Double = .0,
 
         @PrimaryKey
-        val id: String = name + address
-)
+        val id: String = placeName + addressName
+) : Serializable

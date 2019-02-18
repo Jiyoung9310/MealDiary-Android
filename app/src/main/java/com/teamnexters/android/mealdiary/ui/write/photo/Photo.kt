@@ -1,3 +1,5 @@
 package com.teamnexters.android.mealdiary.ui.write.photo
 
-internal data class Photo(var imgPath: String)
+import com.teamnexters.android.mealdiary.data.Selectable
+
+internal data class Photo(var imgPath: String) : Selectable()

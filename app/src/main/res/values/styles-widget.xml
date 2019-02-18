@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LongBottomButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:background">@drawable/bg_gradient_button</item>
+        <item name="android:textAppearance">@style/H418PtWhiteBoldCenter</item>
+        <item name="android:layout_height">60dp</item>
+    </style>
+</resources>
