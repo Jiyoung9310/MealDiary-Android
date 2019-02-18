@@ -23,6 +23,7 @@ internal class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewMo
         super.onCreate(savedInstanceState)
 
         binding.viewModel = viewModel
+
         viewModel.toLifecycleState(LifecycleState.OnCreate(getScreen()))
 
         vpDetailPhotoList.adapter = viewPagerAdapter
@@ -32,7 +33,7 @@ internal class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewMo
 
         observe(viewModel.diaryItem) {
             viewPagerAdapter.submitList(it.diary.photoUrls)
-            Log.d("GetDiaryItem", "내용 : ${it.diary.content}")
+            Log.d("GetDiaryItem", "내용 : ${it.diary}")
         }
     }
 

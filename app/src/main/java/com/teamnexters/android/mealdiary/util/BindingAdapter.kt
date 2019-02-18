@@ -39,7 +39,9 @@ internal fun setMinWidth(view: TextView, dp: Int) {
 
 @BindingAdapter("android:text")
 internal fun setText(textView: TextView, @StringRes resId: Int) {
-    textView.setText(resId)
+    if(resId != 0) {
+        textView.setText(resId)
+    }
 }
 
 @BindingAdapter("android:textColor")
@@ -67,9 +69,9 @@ internal fun setTextAppearance(textView: TextView, @StyleRes resId: Int) {
 }
 
 @BindingAdapter("textDate")
-internal fun setTextDate(textView: TextView, date: ZonedDateTime) {
-    textView.text = date.run {
-        DateTimeFormatter.ofPattern("yyyy.MM.dd").format(this)
+internal fun setTextDate(textView: TextView, date: ZonedDateTime?) {
+    date?.let {
+        textView.text = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(it)
     }
 }
 
