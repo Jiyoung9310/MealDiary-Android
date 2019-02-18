@@ -122,7 +122,7 @@ internal interface NoteViewModel {
                                         RestaurantItem.FoundedRestaurant.toRestaurant(restaurantItem)
                                     }
                                     is RestaurantItem.NotFound -> {
-                                        Restaurant(keyword.value.toString(), keyword.value.toString())
+                                        Restaurant(keyword.value.toString(), "")
                                     }
                                 }
 

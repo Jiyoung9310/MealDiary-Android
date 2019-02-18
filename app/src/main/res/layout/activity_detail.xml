@@ -6,6 +6,7 @@
 
     <data>
         <import type="com.teamnexters.android.mealdiary.util.HashTagUtil"/>
+
         <variable
             name="viewModel"
             type="com.teamnexters.android.mealdiary.ui.detail.DetailViewModel.ViewModel"/>
@@ -49,9 +50,9 @@
                 android:layout_width="0dp"
                 android:layout_height="260dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
 
             </androidx.viewpager2.widget.ViewPager2>
 
@@ -95,9 +96,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:textDate="@{viewModel.diaryItem.diary.date}"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toTopOf="parent"
+                app:textDate="@{viewModel.diary.date}"
                 tools:text="2019.01.27"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -109,7 +110,7 @@
                 android:layout_marginEnd="10dp"
                 android:maxLength="15"
                 android:maxLines="2"
-                android:text="@{viewModel.diaryItem.diary.title}"
+                android:text="@{viewModel.diary.title}"
                 app:layout_constraintEnd_toStartOf="@id/tvDetailScore"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toBottomOf="@id/tvDetailDate"
@@ -122,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="43dp"
                 android:layout_marginEnd="5dp"
-                android:text="@{viewModel.diaryItem.diary.score}"
+                android:text="@{String.valueOf(viewModel.diary.score)}"
                 app:layout_constraintEnd_toStartOf="@id/tvDetailScoreJum"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="70"/>
@@ -152,7 +153,7 @@
                 style="@style/P14PtDarkGrayRegularLeft"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.diaryItem.diary.content}"
+                android:text="@{viewModel.diary.content}"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetailTags"
@@ -187,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@{viewModel.diaryItem.diary.restaurant.placeName}"
+                    android:text="@{viewModel.diary.restaurant.placeName}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivAddress"
                     app:layout_constraintTop_toTopOf="parent"
@@ -199,7 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@{viewModel.diaryItem.diary.restaurant.addressName}"
+                    android:text="@{viewModel.diary.restaurant.addressName}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvDetailRestaurant"
                     app:layout_constraintTop_toTopOf="parent"

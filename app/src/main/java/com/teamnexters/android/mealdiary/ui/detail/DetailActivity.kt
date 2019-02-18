@@ -22,19 +22,19 @@ internal class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewMo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.viewModel = viewModel
-
         viewModel.toLifecycleState(LifecycleState.OnCreate(getScreen()))
+
+        binding.viewModel = viewModel
 
         vpDetailPhotoList.adapter = viewPagerAdapter
 
+        observe(viewModel.diary) {
+            viewPagerAdapter.submitList(it.photoUrls)
+            Log.d("GetDiaryItem", "내용 : ${it}")
+        }
+
         disposables.addAll(
         )
-
-        observe(viewModel.diaryItem) {
-            viewPagerAdapter.submitList(it.diary.photoUrls)
-            Log.d("GetDiaryItem", "내용 : ${it.diary}")
-        }
     }
 
 }

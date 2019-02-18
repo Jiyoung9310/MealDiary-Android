@@ -2,7 +2,7 @@ package com.teamnexters.android.mealdiary.ui.detail
 
 import androidx.lifecycle.MutableLiveData
 import com.teamnexters.android.mealdiary.base.BaseViewModel
-import com.teamnexters.android.mealdiary.data.model.ListItem
+import com.teamnexters.android.mealdiary.data.local.entity.Diary
 import com.teamnexters.android.mealdiary.repository.LocalRepository
 import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
@@ -22,7 +22,7 @@ internal interface DetailViewModel {
         val inputs: Inputs = this
         val outputs: Outputs = this
 
-        val diaryItem = MutableLiveData<ListItem.DiaryItem>()
+        val diary = MutableLiveData<Diary>()
 
         init {
             disposables.addAll(
@@ -31,8 +31,7 @@ internal interface DetailViewModel {
                             .switchMap {
                                 localRepository.diary(it).toObservable()
                             }
-                            .map { ListItem.DiaryItem(it) }
-                            .subscribeOf(onNext = { diaryItem.postValue(it) })
+                            .subscribeOf(onNext = { diary.postValue(it) })
 
             )
         }
