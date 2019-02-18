@@ -1,7 +1,7 @@
 package com.teamnexters.android.mealdiary.ui.write.note
 
-import android.content.Context
 import android.view.View
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
@@ -46,6 +46,15 @@ internal interface NoteViewModel {
         val title = MutableLiveData<String>().apply { postValue("") }
         val content = MutableLiveData<String>().apply { postValue("") }
 
+        val enableNext = MediatorLiveData<Boolean>().apply {
+            addSource(title) {
+                postValue(!title.value.isNullOrBlank() && !content.value.isNullOrBlank())
+            }
+            addSource(content) {
+                postValue(!title.value.isNullOrBlank() && !content.value.isNullOrBlank())
+            }
+        }
+
         val keyword = MutableLiveData<CharSequence>().apply { postValue("") }
         val keywordTextColor = MutableLiveData<Int>().apply { postValue(R.color.black) }
 
@@ -69,7 +78,10 @@ internal interface NoteViewModel {
                                 screen.writeParam.apply {
                                     this.title = this@ViewModel.title.value
                                     this.content = this@ViewModel.content.value
-                                    this.restaurant = selectedRestaurant
+
+                                    if(selectedRestaurant.placeName.isNotBlank()) {
+                                        this.restaurant = selectedRestaurant
+                                    }
 
                                     hashTag.value?.let { this.hashTags = HashTagUtil.toHashTagList(it) }
                                 }

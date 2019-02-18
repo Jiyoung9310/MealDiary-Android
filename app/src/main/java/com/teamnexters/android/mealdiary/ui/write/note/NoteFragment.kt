@@ -1,6 +1,9 @@
 package com.teamnexters.android.mealdiary.ui.write.note
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ImageSpan
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -31,10 +34,11 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
 
         binding.viewModel = viewModel
 
+        initializeEditText()
         initializeRecyclerView()
         initializeListener()
 
-        observe(viewModel.title) { nextIcon?.isEnabled = it.isNotBlank() }
+        observe(viewModel.enableNext) { nextIcon?.isEnabled = it }
         observe(viewModel.restaurantItems) { restaurantAdapter.submitList(it) }
         observe(viewModel.restaurantItemsVisibility) { binding.rvRestaurant.visibility = it }
         observe(viewModel.keyword) { viewModel.toSearch(it.toString()) }
@@ -48,21 +52,36 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater?.inflate(R.menu.note_menu, menu)
+        inflater.inflate(R.menu.note_menu, menu)
 
-        menu?.let {
-            nextIcon = it.findItem(R.id.action_next)
+        menu.run {
+            nextIcon = findItem(R.id.action_next)
+            nextIcon?.isEnabled = viewModel.enableNext.value ?: false
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item?.itemId) {
+        when(item.itemId) {
             R.id.action_next -> {
                 viewModel.inputs.toClickNext()
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initializeEditText() {
+        val starDrawable = ContextCompat.getDrawable(context!!, R.drawable.ic_necessary_star)!!.apply {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+        }
+
+        binding.editTitle.hint = SpannableString("${binding.editTitle.hint}  ").apply {
+            setSpan(ImageSpan(starDrawable, ImageSpan.ALIGN_BASELINE), length - 1, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        binding.editContent.hint = SpannableString("${binding.editContent.hint}  ").apply {
+            setSpan(ImageSpan(starDrawable, ImageSpan.ALIGN_BASELINE), length - 1, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
     }
 
     private fun initializeRecyclerView() {
