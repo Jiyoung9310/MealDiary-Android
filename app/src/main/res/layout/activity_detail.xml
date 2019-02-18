@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.teamnexters.android.mealdiary.util.HashTagUtil"/>
         <variable
             name="viewModel"
             type="com.teamnexters.android.mealdiary.ui.detail.DetailViewModel.ViewModel"/>
@@ -43,27 +44,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar">
 
-            <androidx.viewpager.widget.ViewPager
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vpDetailPhotoList"
                 android:layout_width="0dp"
                 android:layout_height="260dp"
+                android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-            </androidx.viewpager.widget.ViewPager>
+            </androidx.viewpager2.widget.ViewPager2>
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Sm12PtWhiteRegularLeft"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bg_photo_count"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_default="wrap"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_default="wrap"
                 tools:text="1/4"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,28 +92,25 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDetailDate"
                 style="@style/Sm12PtGrayRegularLeft"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@{}"
-                app:layout_constraintHeight_default="wrap"
+                app:textDate="@{viewModel.diaryItem.diary.date}"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_default="wrap"
                 tools:text="2019.01.27"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDetailTitle"
                 style="@style/H324PtBlackBoldLeft"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
                 android:maxLength="15"
                 android:maxLines="2"
-                android:text="@{}"
+                android:text="@{viewModel.diaryItem.diary.title}"
                 app:layout_constraintEnd_toStartOf="@id/tvDetailScore"
-                app:layout_constraintHeight_default="wrap"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toBottomOf="@id/tvDetailDate"
                 tools:text="배네딕트 맛집"/>
@@ -121,36 +118,31 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDetailScore"
                 style="@style/H226PtPrimaryBoldRight"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="43dp"
                 android:layout_marginEnd="5dp"
-                android:text="@{}"
+                android:text="@{viewModel.diaryItem.diary.score}"
                 app:layout_constraintEnd_toStartOf="@id/tvDetailScoreJum"
-                app:layout_constraintHeight_default="wrap"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_default="wrap"
                 tools:text="70"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDetailScoreJum"
                 style="@style/P14PtPrimaryRegularLeft"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="점"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvDetailScore"
-                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
-                app:layout_constraintHeight_default="wrap"
-                app:layout_constraintWidth_default="wrap"/>
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDetailTags"
                 style="@style/Sm12PtGrayRegularLeft"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
-                app:layout_constraintHeight_default="wrap"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"
                 />
@@ -160,6 +152,7 @@
                 style="@style/P14PtDarkGrayRegularLeft"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{viewModel.diaryItem.diary.content}"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetailTags"
@@ -179,15 +172,13 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:src="@drawable/ic_restaurant"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHeight_default="wrap"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_default="wrap"
                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -196,6 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:text="@{viewModel.diaryItem.diary.restaurant.placeName}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivAddress"
                     app:layout_constraintTop_toTopOf="parent"
@@ -207,6 +199,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:text="@{viewModel.diaryItem.diary.restaurant.addressName}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvDetailRestaurant"
                     app:layout_constraintTop_toTopOf="parent"

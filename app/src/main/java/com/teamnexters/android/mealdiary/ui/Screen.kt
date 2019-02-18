@@ -12,4 +12,6 @@ internal sealed class Screen : Serializable {
         class Photo(writeParam: WriteParam) : Screen.Write(writeParam)
         class Score(writeParam: WriteParam) : Screen.Write(writeParam)
     }
+
+    class Detail(val diaryId:Long) : Screen()
 }

@@ -37,6 +37,9 @@
         <item>식후감을 작성하고 오랫동안 간직해 보세요.</item>
     </string-array>
 
+    <!--detail-->
+    <string name="detail_count">%1d/%2d</string>
+
     <!-- score -->
     <string-array name="array_score_text">
         <item>다시는 안갈꺼야!!</item>

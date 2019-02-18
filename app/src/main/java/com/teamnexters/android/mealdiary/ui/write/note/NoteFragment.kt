@@ -45,7 +45,7 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
         )
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.note_menu, menu)
 
         menu?.let {
@@ -53,7 +53,7 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId) {
             R.id.action_next -> {
                 viewModel.inputs.toClickNext()
