@@ -91,7 +91,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="5dp"
                         >
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -109,6 +111,7 @@
                             android:layout_height="46dp"
                             android:background="@drawable/bg_gradient_btn_corner"
                             android:onClick="@{() -> viewModel.inputs.toClickWrite()}"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="@id/tvTitle"
                             app:layout_constraintEnd_toEndOf="parent">
                             <androidx.appcompat.widget.AppCompatImageView
