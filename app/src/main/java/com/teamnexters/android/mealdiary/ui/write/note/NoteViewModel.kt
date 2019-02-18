@@ -1,12 +1,16 @@
 package com.teamnexters.android.mealdiary.ui.write.note
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
+import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseViewModel
+import com.teamnexters.android.mealdiary.data.local.entity.Restaurant
 import com.teamnexters.android.mealdiary.repository.RemoteRepository
 import com.teamnexters.android.mealdiary.ui.Screen
+import com.teamnexters.android.mealdiary.util.HashTagUtil
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import com.teamnexters.android.mealdiary.util.rx.SchedulerProvider
 import io.reactivex.Observable
@@ -18,6 +22,7 @@ internal interface NoteViewModel {
         fun toClickNext()
         fun toSearch(keyword: String)
         fun toClickRestaurantItem(restaurantItem: RestaurantItem)
+        fun toSelectedRestaurant(restaurant: Restaurant)
         fun toNavigate(screen: Screen)
     }
 
@@ -25,6 +30,7 @@ internal interface NoteViewModel {
         fun ofClickNext(): Observable<Unit>
         fun ofSearch(): Observable<String>
         fun ofRestaurantClickItem(): Observable<RestaurantItem>
+        fun ofSelectedRestaurant(): Observable<Restaurant>
         fun ofNavigate(): Observable<Screen>
     }
 
@@ -40,7 +46,9 @@ internal interface NoteViewModel {
         val title = MutableLiveData<String>().apply { postValue("") }
         val content = MutableLiveData<String>().apply { postValue("") }
 
-        val keyword = MutableLiveData<String>().apply { postValue("") }
+        val keyword = MutableLiveData<CharSequence>().apply { postValue("") }
+        val keywordTextColor = MutableLiveData<Int>().apply { postValue(R.color.black) }
+
         val restaurantItems = MutableLiveData<List<RestaurantItem>>()
         val restaurantItemsVisibility = MutableLiveData<Int>().apply { postValue(View.INVISIBLE) }
 
@@ -50,17 +58,20 @@ internal interface NoteViewModel {
         private val navigateRelay = PublishRelay.create<Screen>()
 
         private val searchRelay = PublishRelay.create<String>()
-        private val clickRestaurantItemRelay = BehaviorRelay.create<RestaurantItem>().apply { accept(RestaurantItem("", "", .0, .0)) }
+        private val clickRestaurantItemRelay = PublishRelay.create<RestaurantItem>()
+        private val selectedRestaurantRelay = BehaviorRelay.createDefault(Restaurant("", ""))
 
         init {
             disposables.addAll(
                     outputs.ofClickNext()
-                            .withLatestFrom(ofScreen<Screen.Write.Note>(), outputs.ofRestaurantClickItem())
-                            .map { (_, screen, restaurantItem) ->
+                            .withLatestFrom(ofScreen<Screen.Write.Note>(), outputs.ofSelectedRestaurant())
+                            .map { (_, screen, selectedRestaurant) ->
                                 screen.writeParam.apply {
                                     this.title = this@ViewModel.title.value
                                     this.content = this@ViewModel.content.value
-                                    this.restaurant = RestaurantItem.toRestaurant(restaurantItem)
+                                    this.restaurant = selectedRestaurant
+
+                                    hashTag.value?.let { this.hashTags = HashTagUtil.toHashTagList(it) }
                                 }
                             }
                             .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Photo(it)) }),
@@ -77,18 +88,47 @@ internal interface NoteViewModel {
                             .switchMapSingle { remoteRepository.search(it) }
                             .map {
                                 it.documents.map { document ->
-                                    RestaurantItem(
+                                    RestaurantItem.FoundedRestaurant(
                                             placeName = document.placeName,
                                             addressName = document.addressName,
                                             x = document.x.toDouble(),
                                             y = document.y.toDouble()
                                     )
+                                }.toMutableList<RestaurantItem>().apply {
+                                    add(RestaurantItem.NotFound)
                                 }
                             }
                             .subscribeOf(onNext = {
                                 restaurantItems.postValue(it)
                                 restaurantItemsVisibility.postValue(View.VISIBLE)
-                            }, onError = { })
+                            }, onError = { }),
+
+                    outputs.ofRestaurantClickItem()
+                            .subscribeOf(onNext = { restaurantItem ->
+                                val selectedRestaurant = when(restaurantItem) {
+                                    is RestaurantItem.FoundedRestaurant -> {
+                                        RestaurantItem.FoundedRestaurant.toRestaurant(restaurantItem)
+                                    }
+                                    is RestaurantItem.NotFound -> {
+                                        Restaurant(keyword.value.toString(), keyword.value.toString())
+                                    }
+                                }
+
+                                inputs.toSelectedRestaurant(selectedRestaurant)
+
+                                keyword.postValue(selectedRestaurant.placeName)
+
+                                keywordTextColor.postValue(R.color.primary_orange)
+                            }),
+
+                    outputs.ofSearch()
+                            .withLatestFrom(outputs.ofSelectedRestaurant())
+                            .filter { it.first != it.second.placeName }
+                            .subscribeOf(onNext = {
+                                inputs.toSelectedRestaurant(Restaurant("", ""))
+
+                                keywordTextColor.postValue(R.color.black)
+                            })
             )
         }
 
@@ -100,6 +140,9 @@ internal interface NoteViewModel {
 
         override fun toClickRestaurantItem(restaurantItem: RestaurantItem) = clickRestaurantItemRelay.accept(restaurantItem)
         override fun ofRestaurantClickItem(): Observable<RestaurantItem> = clickRestaurantItemRelay
+
+        override fun toSelectedRestaurant(restaurant: Restaurant) = selectedRestaurantRelay.accept(restaurant)
+        override fun ofSelectedRestaurant(): Observable<Restaurant> = selectedRestaurantRelay
 
         override fun toNavigate(screen: Screen) = navigateRelay.accept(screen)
         override fun ofNavigate(): Observable<Screen> = navigateRelay

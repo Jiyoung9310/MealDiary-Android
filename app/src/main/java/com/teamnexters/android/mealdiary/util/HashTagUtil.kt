@@ -6,7 +6,7 @@ internal class HashTagUtil {
     companion object {
         @JvmStatic
         fun toHashTagList(value: String): List<HashTag> {
-            return value.replace("\\s".toRegex(), "").split('#').filter { it.isNotBlank() }.map { HashTag(tagName = it) }
+            return value.replace("\\s".toRegex(), "#").split('#').filter { it.isNotBlank() }.map { HashTag(tagName = it) }
         }
 
         @JvmStatic
