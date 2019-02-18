@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
@@ -34,9 +35,10 @@ internal class NoteFragment : BaseFragment<FragmentNoteBinding, NoteViewModel.Vi
         initializeListener()
 
         observe(viewModel.title) { nextIcon?.isEnabled = it.isNotBlank() }
-        observe(viewModel.keyword) { viewModel.toSearch(it) }
         observe(viewModel.restaurantItems) { restaurantAdapter.submitList(it) }
         observe(viewModel.restaurantItemsVisibility) { binding.rvRestaurant.visibility = it }
+        observe(viewModel.keyword) { viewModel.toSearch(it.toString()) }
+        observe(viewModel.keywordTextColor) { binding.editRestaurant.setTextColor(ContextCompat.getColor(context!!, it)) }
 
         disposables.addAll(
                 viewModel.outputs.ofNavigate()
