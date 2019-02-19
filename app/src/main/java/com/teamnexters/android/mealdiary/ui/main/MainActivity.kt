@@ -71,17 +71,10 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                                 is Screen.Write.Note -> {
                                     Navigator.navigateToWrite(this, it)
                                 }
+                                is Screen.Detail -> {
+                                    Navigator.navigateToDetail(this, it)
+                                }
                             }
-                        }),
-
-                viewModel.outputs.ofShowDiaryDialog()
-                        .observeOn(schedulerProvider.ui())
-                        .subscribeOf(onNext = {
-                            AlertDialog.Builder(this)
-                                    .setMessage(it.message)
-                                    .setNegativeButton(it.negativeButtonText) { _, _ -> viewModel.inputs.toClickModify() }
-                                    .setPositiveButton(it.positiveButtonText) { _, _ -> viewModel.inputs.toClickDelete() }
-                                    .show()
                         })
         )
 

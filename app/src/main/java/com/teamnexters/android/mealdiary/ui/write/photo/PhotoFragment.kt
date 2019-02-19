@@ -56,8 +56,7 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
 
         binding.root.hideKeyboard()
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.photo_menu, menu)
 
         menu?.let {
@@ -65,7 +64,7 @@ internal class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId) {
             R.id.action_next -> {
                 viewModel.inputs.toClickNext()

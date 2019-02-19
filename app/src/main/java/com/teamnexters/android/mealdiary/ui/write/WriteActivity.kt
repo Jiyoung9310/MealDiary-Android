@@ -33,6 +33,7 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
         binding.viewModel = viewModel
 
         observe(viewModel.toolbarResources) { setToolbarResources(binding.toolbar, it) }
+        observe(viewModel.progress) { binding.progress.progress = it }
 
         initializeNavigation()
     }
@@ -70,6 +71,14 @@ internal class WriteActivity : BaseActivity<ActivityWriteBinding, WriteViewModel
                             putSerializable(MealDiaryConst.KEY_ARGS, Screen.Write.Note(WriteParam()))
                         }
                 )
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id) {
+                R.id.noteFragment -> viewModel.inputs.toProgress(33)
+                R.id.photoFragment -> viewModel.inputs.toProgress(66)
+                R.id.scoreFragment -> viewModel.inputs.toProgress(100)
+            }
+        }
 
         setupActionBarWithNavController(navController)
     }
