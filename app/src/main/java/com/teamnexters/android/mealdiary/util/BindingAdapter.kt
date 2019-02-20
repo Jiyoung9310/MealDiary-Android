@@ -76,7 +76,7 @@ internal fun setTextDate(textView: TextView, date: ZonedDateTime?) {
 }
 
 @BindingAdapter("listCount")
-internal fun setListCount(textView: TextView, size:Int, position: Int) {
+internal fun setListCount(textView: TextView, size: Int, position: Int) {
     textView.text = String.format(textView.context.resources.getString(R.string.detail_count), position, size)
 }
 
@@ -108,14 +108,6 @@ internal fun setSrcCompat(imageView: ImageView, url: String) {
             .into(imageView)
 }
 
-@BindingAdapter("srcCompatPhoto")
-internal fun setSrcCompatPhoto(imageView: ImageView, url: String) {
-    Glide.with(imageView)
-            .load(url)
-            .apply(RequestOptions().centerCrop())
-            .into(imageView)
-}
-
 @BindingAdapter("srcCompatCorner")
 internal fun setSrcCompatCorner(imageView: ImageView, url: String?) {
     Glide.with(imageView)
@@ -140,8 +132,10 @@ internal fun setSrcCompat(
 ) {
     var requestBuilder = Glide.with(imageView).load(url)
 
-    if(circle) {
-        requestBuilder = requestBuilder.apply(RequestOptions.bitmapTransform(CircleCrop()))
+    requestBuilder = if(circle) {
+        requestBuilder.apply(RequestOptions.bitmapTransform(CircleCrop()))
+    } else {
+        requestBuilder.apply(RequestOptions().centerCrop())
     }
 
     requestBuilder.into(imageView)
