@@ -45,7 +45,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar">
 
-            <androidx.viewpager2.widget.ViewPager2
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/vpDetailPhotoList"
                 android:layout_width="0dp"
                 android:layout_height="260dp"
@@ -54,9 +54,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.viewpager2.widget.ViewPager2>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPhotoCount"
                 style="@style/Sm12PtWhiteRegularLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,6 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
+                android:text="@{HashTagUtil.toString(viewModel.diary.hashTags)}"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="@id/guideLineStart"
                 app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"

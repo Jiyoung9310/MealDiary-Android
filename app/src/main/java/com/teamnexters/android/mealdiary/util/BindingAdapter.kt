@@ -75,6 +75,11 @@ internal fun setTextDate(textView: TextView, date: ZonedDateTime?) {
     }
 }
 
+@BindingAdapter("listCount")
+internal fun setListCount(textView: TextView, size:Int, position: Int) {
+    textView.text = String.format(textView.context.resources.getString(R.string.detail_count), position, size)
+}
+
 @BindingAdapter("android:background")
 internal fun setBackground(view: View, colorOrResId: Int) {
     if(view.context.hasResource(colorOrResId)) {
@@ -97,6 +102,14 @@ internal fun setSrcCompat(imageView: ImageView, colorOrResId: Int) {
 
 @BindingAdapter("srcCompat")
 internal fun setSrcCompat(imageView: ImageView, url: String) {
+    Glide.with(imageView)
+            .load(url)
+            .apply(RequestOptions().centerCrop())
+            .into(imageView)
+}
+
+@BindingAdapter("srcCompatPhoto")
+internal fun setSrcCompatPhoto(imageView: ImageView, url: String) {
     Glide.with(imageView)
             .load(url)
             .apply(RequestOptions().centerCrop())
