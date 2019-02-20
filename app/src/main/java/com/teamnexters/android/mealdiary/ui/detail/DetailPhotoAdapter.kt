@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.databinding.ViewDetailPhotoBinding
 
@@ -30,8 +31,8 @@ internal class DetailPhotoAdapter : ListAdapter<String, DetailPhotoHolder>(objec
     }
 
     override fun onBindViewHolder(holder: DetailPhotoHolder, position: Int) {
-        if(holder.adapterPosition != RecyclerView.NO_POSITION) {
+        //if(holder.adapterPosition != ViewPager2.) {
             holder.bind(getItem(position))
-        }
+        //}
     }
 }
