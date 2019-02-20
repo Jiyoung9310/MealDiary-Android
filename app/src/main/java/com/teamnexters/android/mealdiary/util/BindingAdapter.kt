@@ -75,9 +75,11 @@ internal fun setTextDate(textView: TextView, date: ZonedDateTime?) {
     }
 }
 
-@BindingAdapter("listCount")
-internal fun setListCount(textView: TextView, size: Int, position: Int) {
-    textView.text = String.format(textView.context.resources.getString(R.string.detail_count), position, size)
+@BindingAdapter(value = [
+    "listCount", "position"
+], requireAll = false)
+internal fun setListCount(textView: TextView, size: Int?, position: Int?) {
+    textView.text = String.format(textView.context.resources.getString(R.string.detail_count), position ?: 0, size ?: 0)
 }
 
 @BindingAdapter("android:background")

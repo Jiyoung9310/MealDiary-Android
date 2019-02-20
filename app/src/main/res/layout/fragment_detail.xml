@@ -37,9 +37,9 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpDetailPhotoList"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="260dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +53,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/bg_photo_count"
+            app:listCount="@{viewModel.detailPhotoList.size}"
+            app:position="@{viewModel.photoPosition}"
             app:layout_constraintEnd_toEndOf="@+id/vpDetailPhotoList"
             app:layout_constraintTop_toTopOf="@+id/vpDetailPhotoList"
             tools:text="1/4"/>

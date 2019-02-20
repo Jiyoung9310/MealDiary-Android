@@ -8,7 +8,9 @@ import com.teamnexters.android.mealdiary.ui.Screen
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 
 internal class DetailViewModel {
-    interface Inputs
+    interface Inputs {
+
+    }
 
     interface Outputs
 

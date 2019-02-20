@@ -2,8 +2,6 @@ package com.teamnexters.android.mealdiary.ui.detail.fragment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.teamnexters.android.mealdiary.MealDiaryConst
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
@@ -37,7 +35,7 @@ internal class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewMo
         binding.viewModel = viewModel
 
         binding.vpDetailPhotoList.run {
-            layoutManager = LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
+            //layoutManager = LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
             adapter = photoAdapter
         }
 
@@ -45,6 +43,8 @@ internal class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewMo
             photoAdapter.submitList(it)
             Log.d("GetDiaryItem", "내용 : $it")
         }
-        observe(viewModel.photoPosition) { binding.vpDetailPhotoList.smoothScrollToPosition(it) }
+        observe(viewModel.photoPosition) {
+            binding.vpDetailPhotoList.currentItem = it
+        }
     }
 }
