@@ -23,6 +23,7 @@ internal interface DetailViewModel {
         val outputs: Outputs = this
 
         val diary = MutableLiveData<Diary>()
+        val photoPosition = MutableLiveData<Int>()
 
         init {
             disposables.addAll(
@@ -31,7 +32,10 @@ internal interface DetailViewModel {
                             .switchMap {
                                 localRepository.diary(it).toObservable()
                             }
-                            .subscribeOf(onNext = { diary.postValue(it) })
+                            .subscribeOf(onNext = {
+                                diary.postValue(it)
+                                photoPosition.postValue(0)
+                            })
 
             )
         }

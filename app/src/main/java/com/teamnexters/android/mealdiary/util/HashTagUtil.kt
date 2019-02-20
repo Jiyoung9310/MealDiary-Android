@@ -10,11 +10,11 @@ internal class HashTagUtil {
         }
 
         @JvmStatic
-        fun toString(hashTags: List<HashTag>): String {
+        fun toString(hashTags: List<HashTag>?): String {
 
             val stringBuilder = StringBuilder()
 
-            hashTags.forEachIndexed { index, hashTag ->
+            hashTags?.forEachIndexed { index, hashTag ->
                 if(index != 0) {
                     stringBuilder.append(" ")
                 }
