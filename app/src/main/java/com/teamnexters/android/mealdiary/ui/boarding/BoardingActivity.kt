@@ -12,6 +12,7 @@ import com.teamnexters.android.mealdiary.ui.main.MainActivity
 import com.teamnexters.android.mealdiary.util.extension.observe
 import com.teamnexters.android.mealdiary.util.extension.subscribeOf
 import com.teamnexters.android.mealdiary.util.extension.throttleClick
+import kotlinx.android.synthetic.main.activity_boarding.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -68,7 +69,7 @@ internal class BoardingActivity : BaseActivity<ActivityBoardingBinding, Boarding
 //                true
 //            }
         }
-        binding.indicator.attachToRecyclerView(binding.rvBoarding, boardSnapHelper)
+        binding.indicator.attachToRecyclerView(rvBoarding, boardSnapHelper)
     }
 
 }

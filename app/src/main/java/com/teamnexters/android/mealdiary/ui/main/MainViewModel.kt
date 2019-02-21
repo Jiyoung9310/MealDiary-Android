@@ -20,6 +20,8 @@ internal interface MainViewModel {
     interface Inputs {
         fun toClickWrite()
         fun toClickDiaryItem(diary: Diary)
+        fun toClickSort()
+        fun toShowDialog()
         fun toNavigate(screen: Screen)
         fun toPermissionState(permissionState: PermissionState)
     }
@@ -27,6 +29,8 @@ internal interface MainViewModel {
     interface Outputs {
         fun ofClickWrite(): Observable<Unit>
         fun ofClickDiaryItem(): Observable<Diary>
+        fun ofClickSort(): Observable<Unit>
+        fun ofShowDialog(): Observable<Unit>
         fun ofNavigate(): Observable<Screen>
         fun ofPermissionState(): Observable<PermissionState>
     }
@@ -47,6 +51,8 @@ internal interface MainViewModel {
 
         private val clickDiaryItemRelay = PublishRelay.create<Diary>()
         private val clickWriteRelay = PublishRelay.create<Unit>()
+        private val clickSortRelay = PublishRelay.create<Unit>()
+        private val showDialogRelay = PublishRelay.create<Unit>()
         private val navigateToWriteRelay = PublishRelay.create<Screen>()
         private val permissionStateRelay = PublishRelay.create<PermissionState>()
 
@@ -60,17 +66,29 @@ internal interface MainViewModel {
 
                     outputs.ofPermissionState()
                             .ofType<PermissionState.Granted>()
-                            .subscribeOf(onNext = { inputs.toNavigate(Screen.Write.Note(WriteParam())) })
+                            .subscribeOf(onNext = {
+                                inputs.toNavigate(Screen.Write.Note(WriteParam()))
+                            }),
+
+                    outputs.ofClickSort()
+                            .throttleClick()
+                            .subscribeOf(onNext = {
+                                inputs.toShowDialog()
+                            })
             )
         }
 
         override fun toClickWrite() = clickWriteRelay.accept(Unit)
         override fun toClickDiaryItem(diary: Diary) = clickDiaryItemRelay.accept(diary)
+        override fun toClickSort() = clickSortRelay.accept(Unit)
+        override fun toShowDialog() = showDialogRelay.accept(Unit)
         override fun toNavigate(screen: Screen) = navigateToWriteRelay.accept(screen)
         override fun toPermissionState(permissionState: PermissionState) = permissionStateRelay.accept(permissionState)
 
         override fun ofClickWrite(): Observable<Unit> = clickWriteRelay
         override fun ofClickDiaryItem(): Observable<Diary> = clickDiaryItemRelay
+        override fun ofClickSort(): Observable<Unit> = clickSortRelay
+        override fun ofShowDialog(): Observable<Unit> = showDialogRelay
         override fun ofNavigate(): Observable<Screen> = navigateToWriteRelay
         override fun ofPermissionState(): Observable<PermissionState> = permissionStateRelay
     }

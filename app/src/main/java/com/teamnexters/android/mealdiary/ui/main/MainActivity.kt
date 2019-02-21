@@ -14,6 +14,7 @@ import com.teamnexters.android.mealdiary.base.BaseActivity
 import com.teamnexters.android.mealdiary.data.model.ListItem
 import com.teamnexters.android.mealdiary.databinding.ActivityMainBinding
 import com.teamnexters.android.mealdiary.ui.Screen
+import com.teamnexters.android.mealdiary.ui.dialog.DialogFactory
 import com.teamnexters.android.mealdiary.util.NavigationUtil
 import com.teamnexters.android.mealdiary.util.Navigator
 import com.teamnexters.android.mealdiary.util.extension.observe
@@ -75,6 +76,13 @@ internal class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel.Vi
                                     Navigator.navigateToDetail(this, it)
                                 }
                             }
+                        }),
+
+                viewModel.outputs.ofShowDialog()
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeOf(onNext = {
+                            val result = DialogFactory.diarySortDlg(this@MainActivity)
+                            result?.show()
                         })
         )
 

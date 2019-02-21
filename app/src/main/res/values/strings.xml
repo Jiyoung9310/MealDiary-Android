@@ -30,7 +30,6 @@
     <!--main-->
     <string name="main_title">먹고,\n적는게 남는거야.</string>
     <string name="main_add_contents">식후감</string>
-    <string name="main_sort_latest">최신순</string>
 
     <!--board-->
     <string-array name="array_board_title">
@@ -46,6 +45,19 @@
 
     <!--detail-->
     <string name="detail_count">%1d/%2d</string>
+
+    <!--sort-->
+    <string name="sort_title">정렬 순서</string>
+    <string name="sort_latest">최신순</string>
+    <string name="sort_score">점수순</string>
+    <string name="sort_distance">거리순</string>
+    <string-array name="array_sort">
+        <item>@string/sort_latest</item>
+        <item>@string/sort_score</item>
+        <item>@string/sort_distance</item>
+    </string-array>
+    <string name="dialog_ok">확인</string>
+    <string name="dialog_cancel">취소</string>
 
     <!-- score -->
     <string-array name="array_score_text">

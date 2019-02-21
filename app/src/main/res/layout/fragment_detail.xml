@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.teamnexters.android.mealdiary.util.HashTagUtil"/>
+
+        <variable
+            name="viewModel"
+            type="com.teamnexters.android.mealdiary.ui.detail.fragment.DetailViewModel.ViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.teamnexters.android.mealdiary.ui.detail.DetailActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                android:background="@color/white"
+                app:elevation="0dp">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpDetailPhotoList"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPhotoCount"
+            style="@style/Sm12PtWhiteRegularLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_photo_count"
+            app:listCount="@{viewModel.detailPhotoList.size}"
+            app:position="@{viewModel.photoPosition}"
+            app:layout_constraintEnd_toEndOf="@+id/vpDetailPhotoList"
+            app:layout_constraintTop_toTopOf="@+id/vpDetailPhotoList"
+            tools:text="1/4"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vpDetailPhotoList">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideLineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideLineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailDate"
+                style="@style/Sm12PtGrayRegularLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="@id/guideLineStart"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textDate="@{viewModel.diary.date}"
+                tools:text="2019.01.27"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailTitle"
+                style="@style/H324PtBlackBoldLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:maxLength="15"
+                android:maxLines="2"
+                android:text="@{viewModel.diary.title}"
+                app:layout_constraintEnd_toStartOf="@id/tvDetailScore"
+                app:layout_constraintStart_toStartOf="@id/guideLineStart"
+                app:layout_constraintTop_toBottomOf="@id/tvDetailDate"
+                tools:text="배네딕트 맛집"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailScore"
+                style="@style/H226PtPrimaryBoldRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="43dp"
+                android:layout_marginEnd="5dp"
+                android:text="@{String.valueOf(viewModel.diary.score)}"
+                app:layout_constraintEnd_toStartOf="@id/tvDetailScoreJum"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="70"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailScoreJum"
+                style="@style/P14PtPrimaryRegularLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="점"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvDetailScore"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailTags"
+                style="@style/Sm12PtGrayRegularLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:text="@{HashTagUtil.toString(viewModel.diary.hashTags)}"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="@id/guideLineStart"
+                app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailContent"
+                style="@style/P14PtDarkGrayRegularLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.diary.content}"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="@id/guideLineStart"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailTags"
+                tools:text="가볍게 먹기 좋았다. 근데 양은 약간 창렬..가격은 12000원인데 거즘 1인분이다. 가볍게 먹기 좋았다. 근데 양은 약간 창렬.."/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clDetailAddress"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="44dp"
+                android:background="@drawable/bg_restaurant_address"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="@id/guideLineStart"
+                app:layout_constraintTop_toBottomOf="@id/tvDetailContent"
+                >
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_restaurant"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDetailRestaurant"
+                    style="@style/H615PtDarkGrayBoldLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@{viewModel.diary.restaurant.placeName}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivAddress"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="샐러드 서울"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDetailAddress"
+                    style="@style/Sm12PtGrayRegularLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@{viewModel.diary.restaurant.addressName}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvDetailRestaurant"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="서울 동작구 상도로 49"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
