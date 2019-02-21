@@ -75,6 +75,13 @@ internal fun setTextDate(textView: TextView, date: ZonedDateTime?) {
     }
 }
 
+@BindingAdapter(value = [
+    "listCount", "position"
+], requireAll = false)
+internal fun setListCount(textView: TextView, size: Int?, position: Int?) {
+    textView.text = String.format(textView.context.resources.getString(R.string.detail_count), position ?: 0, size ?: 0)
+}
+
 @BindingAdapter("android:background")
 internal fun setBackground(view: View, colorOrResId: Int) {
     if(view.context.hasResource(colorOrResId)) {
@@ -127,8 +134,10 @@ internal fun setSrcCompat(
 ) {
     var requestBuilder = Glide.with(imageView).load(url)
 
-    if(circle) {
-        requestBuilder = requestBuilder.apply(RequestOptions.bitmapTransform(CircleCrop()))
+    requestBuilder = if(circle) {
+        requestBuilder.apply(RequestOptions.bitmapTransform(CircleCrop()))
+    } else {
+        requestBuilder.apply(RequestOptions().centerCrop())
     }
 
     requestBuilder.into(imageView)

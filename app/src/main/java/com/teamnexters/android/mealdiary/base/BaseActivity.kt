@@ -30,7 +30,7 @@ internal abstract class BaseActivity<VB : ViewDataBinding, VM: BaseViewModel> : 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
 
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
     }
 
     @CallSuper
