@@ -35,7 +35,7 @@ internal class DetailViewModel {
                             .subscribeOf(onNext = {
                                 diary.postValue(it)
                                 detailPhotoList.postValue(it.photoUrls.map { photoUrl -> DetailPhoto(photoUrl) })
-                                photoPosition.postValue(0)
+                                photoPosition.postValue(1)
                             })
 
             )

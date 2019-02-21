@@ -2,6 +2,8 @@ package com.teamnexters.android.mealdiary.ui.detail.fragment
 
 import android.os.Bundle
 import android.util.Log
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.teamnexters.android.mealdiary.MealDiaryConst
 import com.teamnexters.android.mealdiary.R
 import com.teamnexters.android.mealdiary.base.BaseFragment
@@ -37,14 +39,26 @@ internal class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewMo
         binding.vpDetailPhotoList.run {
             //layoutManager = LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
             adapter = photoAdapter
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    viewModel.photoPosition.postValue(position+1)
+                }
+
+                override fun onPageSelected(position: Int) {
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {
+                }
+            })
+
         }
 
         observe(viewModel.detailPhotoList) {
             photoAdapter.submitList(it)
             Log.d("GetDiaryItem", "내용 : $it")
         }
-        observe(viewModel.photoPosition) {
+        /*observe(viewModel.photoPosition) {
             binding.vpDetailPhotoList.currentItem = it
-        }
+        }*/
     }
 }
